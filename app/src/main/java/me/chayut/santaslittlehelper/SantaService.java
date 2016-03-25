@@ -6,9 +6,15 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import me.chayut.SantaHelperLogic.SantaHelperLogic;
+
 public class SantaService extends Service {
 
     private final static String TAG = "SantaService";
+
+    private SantaHelperLogic mSantaLogic;
+    private boolean mLogicInitialized = false;
+
 
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -47,6 +53,9 @@ public class SantaService extends Service {
         if (intent.hasExtra("Extra")){
             Log.i(TAG, "Has Extra");
         }
+
+        mSantaLogic  = new SantaHelperLogic();
+        mLogicInitialized = true;
 
         return 0;
     }
