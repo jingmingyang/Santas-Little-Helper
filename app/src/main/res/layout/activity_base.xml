@@ -7,14 +7,6 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="me.chayut.santaslittlehelper.MainActivity">
+    tools:context="me.chayut.santaslittlehelper.BaseActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Test 1"
-        android:id="@+id/btnTest1"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:onClick="onBtnClicked" />
 </RelativeLayout>

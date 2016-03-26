@@ -65,4 +65,11 @@ public class SantaService extends Service {
         return "Hello";
     }
 
+    public SantaHelperLogic getSantaLogic(){
+        if (!mLogicInitialized) {
+            mSantaLogic = new SantaHelperLogic();
+        }
+        return mSantaLogic;
+    }
+
 }

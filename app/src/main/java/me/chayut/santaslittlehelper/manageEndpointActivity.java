@@ -1,6 +1,5 @@
 package me.chayut.santaslittlehelper;
 
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -10,38 +9,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+
+import java.util.ArrayList;
 
 import me.chayut.SantaHelperLogic.EndPoint;
 import me.chayut.SantaHelperLogic.SantaHelperLogic;
 
-public class MainActivity extends AppCompatActivity {
+public class manageEndpointActivity extends AppCompatActivity {
 
 
-    private final static String TAG = "MainActivity";
+    private final static String TAG = "manageEndpointActivity";
 
     SantaService mService;
     SantaHelperLogic mLogic;
     boolean mBound = false;
 
-    Button button1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate()");
-
-        setContentView(R.layout.activity_main);
-
-
-        EndPoint mEndpoint = new EndPoint(EndPoint.TYPE_EMAIL, "HELLO", "HELLO@ITS.ME");
-
-        Intent intent = new Intent(MainActivity.this, SantaService.class);
-        intent.putExtra("Extra", mEndpoint);
-        startService(intent);
-
-        button1 = (Button) findViewById(R.id.btnTest1);
-
+        setContentView(R.layout.activity_manage_endpoint);
     }
 
     @Override
@@ -95,13 +82,20 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    /** */
+
+    /** Methods */
 
     public void onBtnClicked (View v){
         Log.d(TAG,"onBtnClicked");
 
-        Intent intent = new Intent(this, manageEndpointActivity.class);
-        startActivity(intent);
+        if(mBound){
+            mLogic = mService.getSantaLogic();
+            ArrayList<EndPoint> mLogicEndPoints = mLogic.getEndPoints();
+            Log.d(TAG, String.format("Endpoints = %d", mLogicEndPoints.size()) );
+            EndPoint mEndpoint = new EndPoint(EndPoint.TYPE_EMAIL, "HELLO", "HELLO@ITS.ME");
+            mLogic.addEndPoint(mEndpoint);
+
+        }
     }
 
 }

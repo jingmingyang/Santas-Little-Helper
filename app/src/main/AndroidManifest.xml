@@ -19,7 +19,10 @@
         <service
             android:name=".SantaService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".manageEndpointActivity"></activity>
     </application>
 
 </manifest>
