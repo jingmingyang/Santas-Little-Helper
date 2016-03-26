@@ -9,10 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
 import me.chayut.SantaHelperLogic.EndPoint;
+import me.chayut.SantaHelperLogic.EndPointAdapter;
 import me.chayut.SantaHelperLogic.SantaHelperLogic;
 
 public class manageEndpointActivity extends AppCompatActivity {
@@ -24,12 +26,28 @@ public class manageEndpointActivity extends AppCompatActivity {
     SantaHelperLogic mLogic;
     boolean mBound = false;
 
+    ListView lvEndpoints;
+    EndPointAdapter mAdapter;
+    ArrayList<EndPoint> list = new ArrayList<EndPoint>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_endpoint);
+
+
+        //Listview setup
+        lvEndpoints = (ListView) findViewById(R.id.listViewEndPoints);
+        mAdapter = new EndPointAdapter(this,R.layout.row_endpoint, list);
+
     }
+
+    private void ListUpdate(){
+        lvEndpoints.setAdapter(mAdapter);
+    }
+
 
     @Override
     public void onResume() {

@@ -14,6 +14,18 @@ public class EndPoint implements Parcelable {
     private  String Name = "";
     private int type =0;
 
+    public int getType() {
+        return type;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
     public static final int TYPE_EMAIL = 0;
     public static final int TYPE_PHONE = 1;
 
