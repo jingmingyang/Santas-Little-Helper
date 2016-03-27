@@ -1,7 +1,9 @@
 package me.chayut.santaslittlehelper;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
@@ -9,7 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
 
@@ -26,9 +30,9 @@ public class manageEndpointActivity extends AppCompatActivity {
     SantaHelperLogic mLogic;
     boolean mBound = false;
 
-    ListView lvEndpoints;
-    EndPointAdapter mAdapter;
-    ArrayList<EndPoint> list = new ArrayList<EndPoint>();
+    private ListView lvEndpoints;
+    private EndPointAdapter mAdapter;
+    private ArrayList<EndPoint> list = new ArrayList<EndPoint>();
 
 
 
@@ -37,14 +41,42 @@ public class manageEndpointActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_endpoint);
 
-
         //Listview setup
         lvEndpoints = (ListView) findViewById(R.id.listViewEndPoints);
-        mAdapter = new EndPointAdapter(this,R.layout.row_endpoint, list);
+
+        lvEndpoints.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
+
+                EndPoint item = mAdapter.getItem(position);
+
+                // 1. Instantiate an AlertDialog.Builder with its constructor
+                AlertDialog.Builder builder = new AlertDialog.Builder(manageEndpointActivity.this);
+
+                // 2. Chain together various setter methods to set the dialog characteristics
+                builder.setTitle("EndPoint: " + item.getName());
+
+                String[] array = {"Use", "Delete"};
+
+                builder.setItems(array, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // The 'which' argument contains the index position
+                        // of the selected item
+                    }
+                });
+                // 3. Get the AlertDialog from create()
+                AlertDialog dialog = builder.create();
+
+                dialog.show();
+            }
+
+            });
 
     }
 
     private void ListUpdate(){
+        Log.d(TAG, String.format("Endpoints = %d", list.size()));
+        mAdapter = new EndPointAdapter(this,R.layout.row_endpoint,list);
         lvEndpoints.setAdapter(mAdapter);
     }
 
@@ -107,13 +139,20 @@ public class manageEndpointActivity extends AppCompatActivity {
         Log.d(TAG,"onBtnClicked");
 
         if(mBound){
+
             mLogic = mService.getSantaLogic();
-            ArrayList<EndPoint> mLogicEndPoints = mLogic.getEndPoints();
-            Log.d(TAG, String.format("Endpoints = %d", mLogicEndPoints.size()) );
+
             EndPoint mEndpoint = new EndPoint(EndPoint.TYPE_EMAIL, "HELLO", "HELLO@ITS.ME");
             mLogic.addEndPoint(mEndpoint);
 
+            list = mLogic.getEndPoints();
+
+
+            ListUpdate();
+
         }
     }
+
+
 
 }

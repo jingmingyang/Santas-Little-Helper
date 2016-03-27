@@ -47,9 +47,22 @@ public class EndPointAdapter  extends ArrayAdapter<EndPoint> {
         tvName.setText(mResult.getName());
         tvValue.setText(mResult.getValue());
 
+        if (mResult.getType() == EndPoint.TYPE_EMAIL)
+        {
+            tvType.setText("Email");
+        }
+        else if(mResult.getType() == EndPoint.TYPE_PHONE){
+            tvType.setText("Phone");
+        }
+
         //TODO: setup User endpoint interaction
 
         return rowView;
+    }
+
+    public EndPoint getItem(int position){
+
+        return mList.get(position);
     }
 
 }
