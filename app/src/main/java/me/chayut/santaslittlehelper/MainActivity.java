@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     boolean mBound = false;
 
     Button button1;
+    Button btnSendEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,15 @@ public class MainActivity extends AppCompatActivity {
         startService(intent);
 
         button1 = (Button) findViewById(R.id.btnTest1);
+        btnSendEmail = (Button) findViewById(R.id.btnSendEmail);
+
+        btnSendEmail.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        mLogic.sendEmailTest("FOO@BAR.com","BAR");
+                    }
+                }
+        );
 
     }
 
@@ -98,10 +108,14 @@ public class MainActivity extends AppCompatActivity {
     /** */
 
     public void onBtnClicked (View v){
-        Log.d(TAG,"onBtnClicked");
+        Log.d(TAG, "onBtnClicked");
 
         Intent intent = new Intent(this, manageEndpointActivity.class);
         startActivity(intent);
+
+
     }
+
+
 
 }

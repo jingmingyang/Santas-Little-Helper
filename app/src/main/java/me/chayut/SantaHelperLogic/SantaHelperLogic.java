@@ -4,6 +4,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import me.zhenning.EmailSender;
+
 /**
  * Created by chayut on 25/03/16.
  */
@@ -49,6 +51,21 @@ public class SantaHelperLogic {
         mLocationTasks.add(mLT);
         return true;
     }
+
+    public void sendEmailTest(String email,String password)
+    {
+        try {
+            EmailSender sender = new EmailSender(email, password);
+            sender.sendMail("Test 2 ",
+                    "Test 2",
+                    "nonesecure@gmail.com",
+                    "chayut_o@hotmail.com");
+        } catch (Exception e) {
+            Log.e("SendMail", e.getMessage(), e);
+        }
+    }
+
+
 
 
 
