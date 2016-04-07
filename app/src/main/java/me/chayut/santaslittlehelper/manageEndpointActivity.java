@@ -46,7 +46,7 @@ public class manageEndpointActivity extends AppCompatActivity {
 
         lvEndpoints.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
+            public void onItemClick(AdapterView<?> adapter, View v, final int position, long id) {
 
                 EndPoint item = mAdapter.getItem(position);
 
@@ -56,12 +56,21 @@ public class manageEndpointActivity extends AppCompatActivity {
                 // 2. Chain together various setter methods to set the dialog characteristics
                 builder.setTitle("EndPoint: " + item.getName());
 
-                String[] array = {"Use", "Delete"};
+                final String[] array = {"Use", "Delete"};
 
                 builder.setItems(array, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // The 'which' argument contains the index position
-                        // of the selected item
+                        Log.d(TAG, String.format("Choose: %d", which));
+                        switch (which) {
+                            case 0:
+
+                                break;
+                            case 1:
+                                list.remove(position);
+                                UIRefresh();
+                                break;
+                        }
+
                     }
                 });
                 // 3. Get the AlertDialog from create()
@@ -122,6 +131,8 @@ public class manageEndpointActivity extends AppCompatActivity {
             mLogic = mService.getSantaLogic();
             mBound = true;
 
+            UIRefresh();
+
 
             Log.d(TAG,mService.getHello());
         }
@@ -145,12 +156,14 @@ public class manageEndpointActivity extends AppCompatActivity {
             EndPoint mEndpoint = new EndPoint(EndPoint.TYPE_EMAIL, "HELLO", "HELLO@ITS.ME");
             mLogic.addEndPoint(mEndpoint);
 
-            list = mLogic.getEndPoints();
-
-
-            ListUpdate();
+            UIRefresh();
 
         }
+    }
+
+    private void UIRefresh(){
+        list = mLogic.getEndPoints();
+        ListUpdate();
     }
 
 

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by chayut on 25/03/16.
  */
-public class SantaAppointTask implements Parcelable {
+public class SantaAppointTask implements Parcelable, SantaTask {
 
     public EndPoint getmEndpoint() {
         return mEndpoint;
