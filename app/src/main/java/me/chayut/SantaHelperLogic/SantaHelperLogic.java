@@ -14,13 +14,33 @@ public class SantaHelperLogic {
     private static final String TAG = "SantaHelperLogic";
 
     private ArrayList<EndPoint> endPoints;
-    private ArrayList<SantaAppointTask> mAppointTasks;
-    private ArrayList<SantaLocationTask> mLocationTasks;
+    private ArrayList<SantaTaskAppoint> mAppointTasks;
+    private ArrayList<SantaTaskLocation> mLocationTasks;
+
+    private ArrayList<SantaTask> testList;
+
 
     public SantaHelperLogic() {
+        Log.d(TAG,"Santa Logic con");
         endPoints = new ArrayList<>();
         mAppointTasks = new ArrayList<>();
         mLocationTasks = new ArrayList<>();
+
+        //Test interface
+
+        testList = new ArrayList<>();
+        SantaTaskAppoint mTask = new SantaTaskAppoint();
+        testList.add(mTask);
+
+        SantaTask gotTask =  testList.get(0);
+
+        if (gotTask instanceof SantaTaskAppoint) {
+            Log.d(TAG,"SantaTaskAppoint");
+        }
+        else if (gotTask instanceof SantaTaskLocation){
+            Log.d(TAG,"SantaTaskLocation");
+        }
+
     }
 
     public boolean addEndPoint (EndPoint mEP){
@@ -33,21 +53,21 @@ public class SantaHelperLogic {
         return endPoints;
     }
 
-    public ArrayList<SantaAppointTask> getmAppointTasks() {
+    public ArrayList<SantaTaskAppoint> getmAppointTasks() {
         return mAppointTasks;
     }
 
-    public ArrayList<SantaLocationTask> getmLocationTasks() {
+    public ArrayList<SantaTaskLocation> getmLocationTasks() {
         return mLocationTasks;
     }
 
-    public boolean addAppointTask (SantaAppointTask mAT){
+    public boolean addAppointTask (SantaTaskAppoint mAT){
         Log.d(TAG, "addAppointTask");
         mAppointTasks.add(mAT);
         return true;
     }
 
-    public boolean addLocationTask (SantaLocationTask mLT){
+    public boolean addLocationTask (SantaTaskLocation mLT){
         mLocationTasks.add(mLT);
         return true;
     }
@@ -63,6 +83,18 @@ public class SantaHelperLogic {
         } catch (Exception e) {
             Log.e("SendMail", e.getMessage(), e);
         }
+    }
+
+    public void onLocationUpdateReceived(){
+
+    }
+
+    public void onBatteryPercentageReceived(){
+
+    }
+
+    public void onTimeUpDateReceived(){
+
     }
 
 

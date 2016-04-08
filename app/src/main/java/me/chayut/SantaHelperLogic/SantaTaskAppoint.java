@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by chayut on 25/03/16.
  */
-public class SantaAppointTask implements Parcelable, SantaTask {
+public class SantaTaskAppoint implements Parcelable, SantaTask {
 
     public EndPoint getmEndpoint() {
         return mEndpoint;
@@ -18,7 +18,7 @@ public class SantaAppointTask implements Parcelable, SantaTask {
 
     private EndPoint mEndpoint ;
 
-    public SantaAppointTask() {
+    public SantaTaskAppoint() {
     }
 
 
@@ -32,19 +32,19 @@ public class SantaAppointTask implements Parcelable, SantaTask {
         dest.writeParcelable(this.mEndpoint, flags);
     }
 
-    protected SantaAppointTask(Parcel in) {
+    protected SantaTaskAppoint(Parcel in) {
         this.mEndpoint = in.readParcelable(EndPoint.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<SantaAppointTask> CREATOR = new Parcelable.Creator<SantaAppointTask>() {
+    public static final Parcelable.Creator<SantaTaskAppoint> CREATOR = new Parcelable.Creator<SantaTaskAppoint>() {
         @Override
-        public SantaAppointTask createFromParcel(Parcel source) {
-            return new SantaAppointTask(source);
+        public SantaTaskAppoint createFromParcel(Parcel source) {
+            return new SantaTaskAppoint(source);
         }
 
         @Override
-        public SantaAppointTask[] newArray(int size) {
-            return new SantaAppointTask[size];
+        public SantaTaskAppoint[] newArray(int size) {
+            return new SantaTaskAppoint[size];
         }
     };
 }
