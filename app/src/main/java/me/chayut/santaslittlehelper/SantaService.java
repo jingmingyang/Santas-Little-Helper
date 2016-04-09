@@ -54,8 +54,10 @@ public class SantaService extends Service {
             Log.i(TAG, "Has Extra");
         }
 
-        mSantaLogic  = new SantaHelperLogic();
-        mLogicInitialized = true;
+        if(!mLogicInitialized) {
+            mSantaLogic = new SantaHelperLogic();
+            mLogicInitialized = true;
+        }
 
         return 0;
     }
@@ -72,4 +74,5 @@ public class SantaService extends Service {
         return mSantaLogic;
     }
 
+    
 }

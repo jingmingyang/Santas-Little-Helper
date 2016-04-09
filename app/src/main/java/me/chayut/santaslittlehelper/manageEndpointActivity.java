@@ -151,18 +151,15 @@ public class manageEndpointActivity extends AppCompatActivity {
 
         if(mBound){
 
-            mLogic = mService.getSantaLogic();
-
             EndPoint mEndpoint = new EndPoint(EndPoint.TYPE_EMAIL, "HELLO", "HELLO@ITS.ME");
-            mLogic.addEndPoint(mEndpoint);
-
+            mService.getSantaLogic().addEndPoint(mEndpoint);
             UIRefresh();
 
         }
     }
 
     private void UIRefresh(){
-        list = mLogic.getEndPoints();
+        list = mService.getSantaLogic().getEndPoints();
         ListUpdate();
     }
 

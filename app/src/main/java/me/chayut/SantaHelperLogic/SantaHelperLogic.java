@@ -14,25 +14,21 @@ public class SantaHelperLogic {
     private static final String TAG = "SantaHelperLogic";
 
     private ArrayList<EndPoint> endPoints;
-    private ArrayList<SantaTaskAppoint> mAppointTasks;
-    private ArrayList<SantaTaskLocation> mLocationTasks;
 
-    private ArrayList<SantaTask> testList;
+    private ArrayList<SantaTask> taskList;
 
 
     public SantaHelperLogic() {
+
         Log.d(TAG,"Santa Logic con");
         endPoints = new ArrayList<>();
-        mAppointTasks = new ArrayList<>();
-        mLocationTasks = new ArrayList<>();
+        taskList = new ArrayList<>();
 
         //Test interface
-
-        testList = new ArrayList<>();
         SantaTaskAppoint mTask = new SantaTaskAppoint();
-        testList.add(mTask);
+        taskList.add(mTask);
 
-        SantaTask gotTask =  testList.get(0);
+        SantaTask gotTask =  taskList.get(0);
 
         if (gotTask instanceof SantaTaskAppoint) {
             Log.d(TAG,"SantaTaskAppoint");
@@ -53,24 +49,23 @@ public class SantaHelperLogic {
         return endPoints;
     }
 
-    public ArrayList<SantaTaskAppoint> getmAppointTasks() {
-        return mAppointTasks;
+    public ArrayList<SantaTask> getTaskList() {
+        return taskList;
     }
 
-    public ArrayList<SantaTaskLocation> getmLocationTasks() {
-        return mLocationTasks;
-    }
 
     public boolean addAppointTask (SantaTaskAppoint mAT){
         Log.d(TAG, "addAppointTask");
-        mAppointTasks.add(mAT);
+        taskList.add(mAT);
         return true;
     }
 
     public boolean addLocationTask (SantaTaskLocation mLT){
-        mLocationTasks.add(mLT);
+        taskList.add(mLT);
         return true;
     }
+
+    /** Test  Section */
 
     public void sendEmailTest(String email,String password)
     {
@@ -84,6 +79,8 @@ public class SantaHelperLogic {
             Log.e("SendMail", e.getMessage(), e);
         }
     }
+
+    /** on received update  Section */
 
     public void onLocationUpdateReceived(){
 
