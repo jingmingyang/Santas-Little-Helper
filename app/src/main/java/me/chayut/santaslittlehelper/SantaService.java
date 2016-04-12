@@ -6,6 +6,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import me.chayut.SantaHelperLogic.SantaFunction;
 import me.chayut.SantaHelperLogic.SantaHelperLogic;
 
 public class SantaService extends Service {
@@ -73,6 +74,11 @@ public class SantaService extends Service {
         }
         return mSantaLogic;
     }
+
+    public void sendSMS (String phoneNumber,String message){
+        SantaFunction.sendSMS(this,  phoneNumber,message);
+    }
+
 
     
 }
