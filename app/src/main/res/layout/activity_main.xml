@@ -27,4 +27,12 @@
         android:layout_toEndOf="@+id/btnTest1"
         android:layout_marginStart="33dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get File"
+        android:id="@+id/btnGetFile"
+        android:layout_below="@+id/btnSendEmail"
+        android:layout_alignStart="@+id/btnSendEmail" />
+
 </RelativeLayout>

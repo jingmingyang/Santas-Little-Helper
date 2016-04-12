@@ -74,7 +74,8 @@ public class SantaHelperLogic {
             sender.sendMail("Test 2 ",
                     "Test 2",
                     "nonesecure@gmail.com",
-                    "chayut_o@hotmail.com");
+                    "jiang.zhenning@hotmail.com");
+
         } catch (Exception e) {
             Log.e("SendMail", e.getMessage(), e);
         }

@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button button1;
     Button btnSendEmail;
+    Button btnGetFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +44,12 @@ public class MainActivity extends AppCompatActivity {
 
         button1 = (Button) findViewById(R.id.btnTest1);
         btnSendEmail = (Button) findViewById(R.id.btnSendEmail);
+        btnGetFile = (Button) findViewById(R.id.btnGetFile);
 
         btnSendEmail.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        mLogic.sendEmailTest("FOO@BAR.com","BAR");
+                        mLogic.sendEmailTest("FOO@gBAR.com","BAR");
                     }
                 }
         );
