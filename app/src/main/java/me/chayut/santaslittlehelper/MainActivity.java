@@ -25,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
     boolean mBound = false;
 
     Button button1;
-    Button btnSendEmail;
+    Button btnSendEmail,btnSendSMS;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,21 @@ public class MainActivity extends AppCompatActivity {
         btnSendEmail.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        mLogic.sendEmailTest("FOO@BAR.com","BAR");
+                        if(mLogic!=null) {
+                            mLogic.sendEmailTest("FOO@BAR.com", "BAR");
+                        }
+                    }
+                }
+        );
+
+
+        btnSendSMS= (Button) findViewById(R.id.buttonSendSMS);
+        btnSendEmail.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        if(mLogic!=null) {
+                            mLogic.sendSMS("+498167509", "This is Santa's Message");
+                        }
                     }
                 }
         );

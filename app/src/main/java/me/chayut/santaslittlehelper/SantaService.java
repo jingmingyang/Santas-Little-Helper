@@ -56,7 +56,7 @@ public class SantaService extends Service {
         }
 
         if(!mLogicInitialized) {
-            mSantaLogic = new SantaHelperLogic();
+            mSantaLogic = new SantaHelperLogic(this);
             mLogicInitialized = true;
         }
 
@@ -70,14 +70,12 @@ public class SantaService extends Service {
 
     public SantaHelperLogic getSantaLogic(){
         if (!mLogicInitialized) {
-            mSantaLogic = new SantaHelperLogic();
+            mSantaLogic = new SantaHelperLogic(this);
         }
         return mSantaLogic;
     }
 
-    public void sendSMS (String phoneNumber,String message){
-        SantaFunction.sendSMS(this,  phoneNumber,message);
-    }
+
 
 
     

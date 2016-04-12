@@ -41,8 +41,6 @@ public class EndPoint implements Parcelable {
         type = inType;
     }
 
-
-
     /**
      * Methods
      */

@@ -1,5 +1,6 @@
 package me.chayut.SantaHelperLogic;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -17,10 +18,15 @@ public class SantaHelperLogic {
 
     private ArrayList<SantaTask> taskList;
 
+    Context mContext;
 
-    public SantaHelperLogic() {
+
+    public SantaHelperLogic(Context context) {
 
         Log.d(TAG,"Santa Logic con");
+
+        mContext = context;
+
         endPoints = new ArrayList<>();
         taskList = new ArrayList<>();
 
@@ -78,6 +84,10 @@ public class SantaHelperLogic {
         } catch (Exception e) {
             Log.e("SendMail", e.getMessage(), e);
         }
+    }
+
+    public void sendSMS (String phoneNumber,String message){
+        SantaFunction.sendSMS(mContext, phoneNumber,message);
     }
 
     /** on received update  Section */
