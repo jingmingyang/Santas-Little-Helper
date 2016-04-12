@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     boolean mBound = false;
 
     Button button1;
-    Button btnSendEmail,btnSendSMS;
+    Button btnSendEmail,btnSendSMS,btnManageTask;
 
 
     @Override
@@ -57,12 +57,22 @@ public class MainActivity extends AppCompatActivity {
 
 
         btnSendSMS= (Button) findViewById(R.id.buttonSendSMS);
-        btnSendEmail.setOnClickListener(
+        btnSendSMS.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         if(mLogic!=null) {
                             mLogic.sendSMS("+498167509", "This is Santa's Message");
                         }
+                    }
+                }
+        );
+
+        btnManageTask= (Button) findViewById(R.id.btnManageTask);
+        btnManageTask.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, TaskActivity.class);
+                        startActivity(intent);
                     }
                 }
         );
