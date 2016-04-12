@@ -6,19 +6,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.telephony.SmsManager;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * Created by chayut on 12/04/16.
  */
- public class SantaFunction {
+
 
 
   public class SMS extends Activity {
     Button btnSendSMS;
-    EditText txtPhoneNo;
-    EditText txtMessage;
+  
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +29,13 @@ import android.util.Log;
         setContentView(R.layout.activity_sms);
 
         btnSendSMS = (Button) findViewById(R.id.btnSendSMS);
-        txtPhoneNo = (EditText) findViewById(R.id.txtPhoneNo);
-        txtMessage = (EditText) findViewById(R.id.txtMessage);
+       
 
         btnSendSMS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String phoneNo = txtPhoneNo.getText().toString();// you can set the specific telephone number,such as 911
-                String message = txtMessage.getText().toString();// you can set the specific message text,such as "Hello World"
+                String phoneNo = "911";// you can set the specific telephone number,such as 911
+                String message = "Hello World";// you can set the specific message text,such as "Hello World"
                 if (phoneNo.length() > 0 && message.length() > 0)
                     sendSMS(phoneNo, message);
                 else
@@ -103,4 +105,4 @@ registerReceiver(new BroadcastReceiver() {
 
 }
 
-}
+
