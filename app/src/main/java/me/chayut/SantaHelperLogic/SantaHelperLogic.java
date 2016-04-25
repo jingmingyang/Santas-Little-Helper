@@ -71,6 +71,13 @@ public class SantaHelperLogic {
         return true;
     }
 
+    public boolean addTask (SantaTask task){
+        taskList.add(task);
+        return true;
+    }
+
+
+
     /** Test  Section */
 
     public void sendEmailTest(String email,String password)
@@ -88,6 +95,10 @@ public class SantaHelperLogic {
 
     public void sendSMS (String phoneNumber,String message){
         SantaFunction.sendSMS(mContext, phoneNumber,message);
+    }
+
+    public void onWifi (){
+        SantaFunction.toggleWiFi(mContext,true);
     }
 
     /** on received update  Section */

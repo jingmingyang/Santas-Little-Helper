@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 
 import me.chayut.SantaHelperLogic.EndPoint;
+import me.chayut.SantaHelperLogic.SantaAction;
+import me.chayut.SantaHelperLogic.SantaFunction;
 import me.chayut.SantaHelperLogic.SantaHelperLogic;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     boolean mBound = false;
 
     Button button1;
-    Button btnSendEmail,btnSendSMS,btnManageTask;
+    Button btnSendEmail,btnSendSMS,btnManageTask,btnWifiOn;
 
 
     @Override
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         if(mLogic!=null) {
-                            mLogic.sendEmailTest("FOO@BAR.com", "BAR");
+                            mLogic.sendEmailTest("FOO@BAR.com", "BAR"); //test function
                         }
                     }
                 }
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         if(mLogic!=null) {
-                            mLogic.sendSMS("+498167509", "This is Santa's Message");
+                            mLogic.sendSMS("+498167509", "This is Santa's Message"); //test function
                         }
                     }
                 }
@@ -76,6 +78,17 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        btnWifiOn = (Button) findViewById(R.id.btnWifiOn);
+        btnWifiOn.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        mLogic.onWifi(); //test function
+                    }
+                }
+        );
+
+
 
     }
 

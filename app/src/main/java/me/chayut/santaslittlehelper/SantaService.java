@@ -1,7 +1,11 @@
 package me.chayut.santaslittlehelper;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
@@ -42,8 +46,8 @@ public class SantaService extends Service {
 
 
     public void onCreate() {
-        Log.i(TAG, "Service onCreate");
-
+        Log.i(TAG, "Service onCreate()");
+        getBatteryPercentage();
     }
 
     @Override
@@ -71,8 +75,29 @@ public class SantaService extends Service {
     public SantaHelperLogic getSantaLogic(){
         if (!mLogicInitialized) {
             mSantaLogic = new SantaHelperLogic(this);
+
         }
         return mSantaLogic;
+    }
+
+
+    /** untested */
+    private void getBatteryPercentage(){
+
+        BroadcastReceiver batteryLevel = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                context.unregisterReceiver(this);
+                int currentLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL,-1);
+
+                Log.d(TAG,"Batt: " + currentLevel + "%");
+            }
+        };
+
+        IntentFilter batteryLevelFilter = new IntentFilter(
+                Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(batteryLevel, batteryLevelFilter);
+
     }
 
 

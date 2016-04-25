@@ -8,17 +8,11 @@ import android.os.Parcelable;
  */
 public class SantaTaskLocation implements Parcelable,SantaTask {
 
-    public EndPoint getmEndPoint() {
-        return mEndPoint;
-    }
+    private SantaAction mAction;
 
-    public void setmEndPoint(EndPoint mEndPoint) {
-        this.mEndPoint = mEndPoint;
-    }
+    public SantaTaskLocation(SantaAction action) {
 
-    private EndPoint mEndPoint;
-
-    public SantaTaskLocation() {
+        mAction =action;
     }
 
 
@@ -29,11 +23,9 @@ public class SantaTaskLocation implements Parcelable,SantaTask {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(this.mEndPoint, flags);
     }
 
     protected SantaTaskLocation(Parcel in) {
-        this.mEndPoint = in.readParcelable(EndPoint.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<SantaTaskLocation> CREATOR = new Parcelable.Creator<SantaTaskLocation>() {

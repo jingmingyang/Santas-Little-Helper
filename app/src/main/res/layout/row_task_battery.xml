@@ -7,22 +7,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LocationTask"
+        android:text="BatteryTask"
         android:id="@+id/textView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Time:"
-        android:id="@+id/textView8" />
+        android:text="Trigger Batt % : "
+        android:id="@+id/textView2" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Action:"
-        android:id="@+id/textView4" />
-
+        android:id="@+id/textView3" />
 
 </LinearLayout>

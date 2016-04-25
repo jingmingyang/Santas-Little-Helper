@@ -15,11 +15,14 @@ import java.util.ArrayList;
 
 import me.chayut.SantaHelperLogic.EndPoint;
 import me.chayut.SantaHelperLogic.EndPointAdapter;
+import me.chayut.SantaHelperLogic.SantaActionSendSMS;
 import me.chayut.SantaHelperLogic.SantaHelperLogic;
 import me.chayut.SantaHelperLogic.SantaTask;
 import me.chayut.SantaHelperLogic.SantaTaskAdapter;
 import me.chayut.SantaHelperLogic.SantaTaskAppoint;
+import me.chayut.SantaHelperLogic.SantaTaskBattery;
 import me.chayut.SantaHelperLogic.SantaTaskLocation;
+
 
 public class TaskActivity extends AppCompatActivity {
 
@@ -78,7 +81,6 @@ public class TaskActivity extends AppCompatActivity {
     }
 
 
-
     /** Defines callbacks for service binding, passed to bindService() */
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -111,8 +113,11 @@ public class TaskActivity extends AppCompatActivity {
 
     public void btnAddTaskOnClick(View view){
         Log.d(TAG,"btnAddTaskOnClick()");
-        mLogic.addAppointTask(new SantaTaskAppoint());
-        mLogic.addLocationTask(new SantaTaskLocation());
+
+        mLogic.addTask(new SantaTaskAppoint(new SantaActionSendSMS()));
+        mLogic.addTask(new SantaTaskLocation(new SantaActionSendSMS()));
+        mLogic.addTask(new SantaTaskBattery(40,new SantaActionSendSMS()));
+
         UIRefresh();
     }
 

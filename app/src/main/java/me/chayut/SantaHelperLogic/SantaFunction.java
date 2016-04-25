@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.wifi.WifiManager;
 import android.telephony.SmsManager;
 import android.util.Log;
 
@@ -80,4 +81,18 @@ import android.util.Log;
         },new IntentFilter(DELIVERED));
         sms.sendTextMessage(phoneNumber,null,message,sentPI,deliveredPI);
     }
+
+
+    static public  void toggleWiFi(Context context, boolean status){
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        if (status == true && !wifiManager.isWifiEnabled()){
+            wifiManager.setWifiEnabled(true);
+        }else if (status == false && wifiManager.isWifiEnabled()){
+            wifiManager.setWifiEnabled(false);
+        }
+
+    }
+
+
+
 }
