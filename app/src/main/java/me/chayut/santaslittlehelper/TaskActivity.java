@@ -1,7 +1,9 @@
 package me.chayut.santaslittlehelper;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
@@ -114,9 +116,41 @@ public class TaskActivity extends AppCompatActivity {
     public void btnAddTaskOnClick(View view){
         Log.d(TAG,"btnAddTaskOnClick()");
 
-        mLogic.addTask(new SantaTaskAppoint(new SantaActionSendSMS()));
-        mLogic.addTask(new SantaTaskLocation(new SantaActionSendSMS()));
-        mLogic.addTask(new SantaTaskBattery(40,new SantaActionSendSMS()));
+        // 1. Instantiate an AlertDialog.Builder with its constructor
+        AlertDialog.Builder builder = new AlertDialog.Builder(TaskActivity.this);
+
+        // 2. Chain together various setter methods to set the dialog characteristics
+        builder.setTitle("Select Type:");
+
+        final String[] array = {"Alarm Task", "Location Task","Battery Task"};
+
+        builder.setItems(array, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d(TAG, String.format("Choose: %d", which));
+                switch (which) {
+                    case 0:
+                        //TODO: Launch new Activity UI to set task parameters
+                        mLogic.addTask(new SantaTaskAppoint(new SantaActionSendSMS()));
+                        UIRefresh();
+                        break;
+                    case 1:
+                        //TODO: Launch new  Activity UI to set task parameters
+                        mLogic.addTask(new SantaTaskLocation(new SantaActionSendSMS()));
+                        UIRefresh();
+                        break;
+                    case 2:
+                        //TODO: Launch new Activity UI to set task parameters
+                        mLogic.addTask(new SantaTaskBattery(40,new SantaActionSendSMS()));
+                        UIRefresh();
+                        break;
+                }
+
+            }
+        });
+        // 3. Get the AlertDialog from create()
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
 
         UIRefresh();
     }
