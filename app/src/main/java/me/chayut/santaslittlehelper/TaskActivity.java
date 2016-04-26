@@ -38,6 +38,11 @@ public class TaskActivity extends AppCompatActivity {
     private SantaTaskAdapter mAdapter;
     private ArrayList<SantaTask> list = new ArrayList<SantaTask>();
 
+    //request Code
+    static final int REQUEST_TASK_ALARM =1;
+    static final int REQUEST_TASK_LOCATION= 2;
+    static final int REQUEST_TASK_BATTERY =3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,19 +134,22 @@ public class TaskActivity extends AppCompatActivity {
                 Log.d(TAG, String.format("Choose: %d", which));
                 switch (which) {
                     case 0:
-                        //TODO: Launch new Activity UI to set task parameters
-                        mLogic.addTask(new SantaTaskAppoint(new SantaActionSendSMS()));
-                        UIRefresh();
+                        Intent startAct = new Intent(TaskActivity.this, SetupTaskAlarmActivity.class);
+                        startActivityForResult(startAct,REQUEST_TASK_ALARM);
+
+
                         break;
                     case 1:
-                        //TODO: Launch new  Activity UI to set task parameters
-                        mLogic.addTask(new SantaTaskLocation(new SantaActionSendSMS()));
-                        UIRefresh();
+                        Intent startAct2 = new Intent(TaskActivity.this, SetupTaskLocationActivity.class);
+                        startActivityForResult(startAct2,REQUEST_TASK_LOCATION);
+
+
                         break;
                     case 2:
-                        //TODO: Launch new Activity UI to set task parameters
-                        mLogic.addTask(new SantaTaskBattery(40,new SantaActionSendSMS()));
-                        UIRefresh();
+                        Intent startAct3 = new Intent(TaskActivity.this, SetupTaskBatteryActivity.class);
+                        startActivityForResult(startAct3,REQUEST_TASK_BATTERY);
+
+
                         break;
                 }
 
@@ -153,6 +161,32 @@ public class TaskActivity extends AppCompatActivity {
         dialog.show();
 
         UIRefresh();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG,String.format("onActivityResult(): %d", requestCode));
+
+
+        if(resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_TASK_ALARM:
+                    mLogic.addTask(new SantaTaskAppoint(new SantaActionSendSMS()));
+                    UIRefresh();
+                    break;
+                case REQUEST_TASK_LOCATION:
+                    mLogic.addTask(new SantaTaskLocation(new SantaActionSendSMS()));
+                    UIRefresh();
+                    break;
+                case REQUEST_TASK_BATTERY:
+                    mLogic.addTask(new SantaTaskBattery(40, new SantaActionSendSMS()));
+                    UIRefresh();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
 
