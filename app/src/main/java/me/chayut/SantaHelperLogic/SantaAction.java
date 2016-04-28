@@ -8,6 +8,21 @@ import android.os.Parcelable;
  */
 public class SantaAction  implements Parcelable{
 
+    public static final int ACTION_NULL = 0;
+    public static final int ACTION_SMS =1;
+    public static final int ACTION_EMAIL =2;
+    public static final int ACTION_WIFI = 3;
+
+    private int taskType = 0 ;
+    private String email = "";
+    private String phoneNumber = "";
+    private Boolean wifiState = true;
+    private String message = "";
+    private Boolean hasAttachment = false;
+
+
+    public SantaAction() {
+    }
 
     @Override
     public int describeContents() {
@@ -16,12 +31,21 @@ public class SantaAction  implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-    }
-
-    public SantaAction() {
+        dest.writeInt(this.taskType);
+        dest.writeString(this.email);
+        dest.writeString(this.phoneNumber);
+        dest.writeValue(this.wifiState);
+        dest.writeString(this.message);
+        dest.writeValue(this.hasAttachment);
     }
 
     protected SantaAction(Parcel in) {
+        this.taskType = in.readInt();
+        this.email = in.readString();
+        this.phoneNumber = in.readString();
+        this.wifiState = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.message = in.readString();
+        this.hasAttachment = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }
 
     public static final Creator<SantaAction> CREATOR = new Creator<SantaAction>() {

@@ -14,8 +14,9 @@ import me.chayut.SantaHelperLogic.SantaTaskLocation;
 
 public class SetupTaskLocationActivity extends AppCompatActivity {
 
+    static final int REQUEST_ACTION =1;
 
-    Button btnOK, btnCancel;
+    Button btnOK, btnCancel,btnSetAction;
     SantaTask mTask;
     SantaAction mAction;
 
@@ -46,6 +47,15 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        btnSetAction = (Button) findViewById(R.id.btnSetAction);
+        btnSetAction.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(SetupTaskLocationActivity.this,SelectActionActivity.class);
+                        startActivityForResult(intent,REQUEST_ACTION);
+                    }
+                });
 
 
 

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 
 import me.chayut.SantaHelperLogic.SantaAction;
 import me.chayut.SantaHelperLogic.SantaHelperLogic;
@@ -13,6 +14,8 @@ public class SelectActionActivity extends AppCompatActivity {
 
 
     Button btnOK, btnCancel;
+    SantaAction mAction;
+    RadioButton rbSMS,rbEmail,rbWifi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,39 @@ public class SelectActionActivity extends AppCompatActivity {
                         finish();
                     }
                 }
+        );
+
+
+        //radio button setup
+        rbSMS = (RadioButton) findViewById(R.id.rbSMS);
+        rbEmail = (RadioButton) findViewById(R.id.rbEmail);
+        rbWifi = (RadioButton) findViewById(R.id.rbWifi);
+
+        rbSMS.setOnClickListener(new View.OnClickListener() {
+                                     public void onClick(View v) {
+                                         rbSMS.setChecked(true);
+                                         rbEmail.setChecked(false);
+                                         rbWifi.setChecked(false);
+                                     }
+                                 }
+        );
+
+        rbEmail.setOnClickListener(new View.OnClickListener() {
+                                     public void onClick(View v) {
+                                         rbSMS.setChecked(false);
+                                         rbEmail.setChecked(true);
+                                         rbWifi.setChecked(false);
+                                     }
+                                 }
+        );
+
+        rbWifi.setOnClickListener(new View.OnClickListener() {
+                                     public void onClick(View v) {
+                                         rbSMS.setChecked(false);
+                                         rbEmail.setChecked(false);
+                                         rbWifi.setChecked(true);
+                                     }
+                                 }
         );
 
 

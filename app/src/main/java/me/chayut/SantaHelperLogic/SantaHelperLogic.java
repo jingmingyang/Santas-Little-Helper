@@ -37,19 +37,6 @@ public class SantaHelperLogic {
         endPoints = new ArrayList<>();
         taskList = new ArrayList<>();
 
-        //Test interface
-        SantaTaskAppoint mTask = new SantaTaskAppoint();
-        taskList.add(mTask);
-
-        SantaTask gotTask =  taskList.get(0);
-
-        if (gotTask instanceof SantaTaskAppoint) {
-            Log.d(TAG,"SantaTaskAppoint");
-        }
-        else if (gotTask instanceof SantaTaskLocation){
-            Log.d(TAG,"SantaTaskLocation");
-        }
-
     }
 
     public boolean addEndPoint (EndPoint mEP){

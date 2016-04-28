@@ -68,10 +68,11 @@ public class SetupTaskAlarmActivity extends AppCompatActivity {
 
         if(resultCode == RESULT_OK) {
 
-            SantaAction returnAction;
-
             switch (requestCode) {
                 case REQUEST_ACTION:
+
+                    SantaAction returnAction = (SantaAction) data.getParcelableExtra(SantaHelperLogic.EXTRA_SANTA_ACTION);
+                    Log.d(TAG,SantaHelperLogic.EXTRA_SANTA_ACTION);
                     break;
                 default:
                     break;

@@ -41,4 +41,31 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Action"
+        android:id="@+id/btnSetAction"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/linearLayout" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Action:"
+        android:id="@+id/textView7"
+        android:layout_below="@+id/btnSetAction"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="&lt;action details>"
+        android:id="@+id/tvActionDetails"
+        android:layout_below="@+id/textView7"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
