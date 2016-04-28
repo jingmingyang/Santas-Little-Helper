@@ -68,10 +68,15 @@ public class SantaService extends Service {
     }
 
     /** method for clients */
+
     public String getHello(){
         return "Hello";
     }
 
+    /**
+     * return app logic to any binding activity
+     * @return SantaHelperLogic
+     */
     public SantaHelperLogic getSantaLogic(){
         if (!mLogicInitialized) {
             mSantaLogic = new SantaHelperLogic(this);
@@ -91,16 +96,16 @@ public class SantaService extends Service {
                 int currentLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL,-1);
 
                 Log.d(TAG,"Batt: " + currentLevel + "%");
+
+                //report battery level to app logic
+                mSantaLogic.onBatteryPercentageReceived(currentLevel);
             }
         };
 
         IntentFilter batteryLevelFilter = new IntentFilter(
                 Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryLevel, batteryLevelFilter);
-
     }
-
-
 
 
     

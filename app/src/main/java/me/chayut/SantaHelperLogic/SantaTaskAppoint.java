@@ -6,13 +6,15 @@ import android.os.Parcelable;
 /**
  * Created by chayut on 25/03/16.
  */
-public class SantaTaskAppoint implements Parcelable, SantaTask {
+public class SantaTaskAppoint extends SantaTask implements Parcelable {
 
 
     private SantaAction mAction;
 
+
     public SantaTaskAppoint() {
     }
+
 
     public SantaTaskAppoint(SantaAction action) {
         mAction = action;
@@ -44,4 +46,6 @@ public class SantaTaskAppoint implements Parcelable, SantaTask {
             return new SantaTaskAppoint[size];
         }
     };
+
+
 }

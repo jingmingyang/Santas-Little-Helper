@@ -48,14 +48,17 @@ public class SantaTaskAdapter extends ArrayAdapter<SantaTask>  {
         if (mTask instanceof SantaTaskAppoint) {
             Log.d(TAG,"SantaTaskAppoint");
             rowView = inflater.inflate(R.layout.row_task_appoint, parent, false);
+            SantaTaskAppoint task = (SantaTaskAppoint) mTask;
         }
         else if  (mTask instanceof SantaTaskLocation){
             Log.d(TAG,"SantaTaskLocation");
             rowView = inflater.inflate(R.layout.row_task_location, parent, false);
+            SantaTaskLocation task = (SantaTaskLocation) mTask;
         }
         else if  (mTask instanceof SantaTaskBattery){
             Log.d(TAG,"SantaTaskBattery");
             rowView = inflater.inflate(R.layout.row_task_battery, parent, false);
+            SantaTaskBattery task = (SantaTaskBattery) mTask;
         }
         else
         {

@@ -30,10 +30,11 @@
 
         <activity android:name=".BaseActivity" />
         <activity android:name=".manageEndpointActivity" />
-        <activity android:name=".TaskActivity" />
+        <activity android:name=".TaskListActivity" />
         <activity android:name=".SetupTaskLocationActivity" />
         <activity android:name=".SetupTaskAlarmActivity" />
-        <activity android:name=".SetupTaskBatteryActivity"></activity>
+        <activity android:name=".SetupTaskBatteryActivity" />
+        <activity android:name=".SelectActionActivity"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package me.chayut.SantaHelperLogic;
 
 import android.content.Context;
+import android.location.Location;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -13,6 +14,12 @@ import me.zhenning.EmailSender;
 public class SantaHelperLogic {
 
     private static final String TAG = "SantaHelperLogic";
+
+    public static final String EXTRA_SANTA_TASK = "EXTRA_SANTA_TASK";
+    public static final String EXTRA_SANTA_TASK_APPOINT = "EXTRA_SANTA_TASK_APPOINT";
+    public static final String EXTRA_SANTA_TASK_BATT = "EXTRA_SANTA_TASK_BATT";
+    public static final String EXTRA_SANTA_TASK_LOC = "EXTRA_SANTA_TASK_LOC";
+    public static final String EXTRA_SANTA_ACTION = "EXTRA_SANTA_ACTION";
 
     private ArrayList<EndPoint> endPoints;
 
@@ -103,11 +110,11 @@ public class SantaHelperLogic {
 
     /** on received update  Section */
 
-    public void onLocationUpdateReceived(){
+    public void onLocationUpdateReceived(Location location){
 
     }
 
-    public void onBatteryPercentageReceived(){
+    public void onBatteryPercentageReceived(int percentage){
 
     }
 

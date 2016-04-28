@@ -15,20 +15,14 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import me.chayut.SantaHelperLogic.EndPoint;
-import me.chayut.SantaHelperLogic.EndPointAdapter;
-import me.chayut.SantaHelperLogic.SantaActionSendSMS;
 import me.chayut.SantaHelperLogic.SantaHelperLogic;
 import me.chayut.SantaHelperLogic.SantaTask;
 import me.chayut.SantaHelperLogic.SantaTaskAdapter;
-import me.chayut.SantaHelperLogic.SantaTaskAppoint;
-import me.chayut.SantaHelperLogic.SantaTaskBattery;
-import me.chayut.SantaHelperLogic.SantaTaskLocation;
 
 
-public class TaskActivity extends AppCompatActivity {
+public class TaskListActivity extends AppCompatActivity {
 
-    private final static String TAG = "TaskActivity";
+    private final static String TAG = "TaskListActivity";
 
     SantaService mService;
     SantaHelperLogic mLogic;
@@ -122,7 +116,7 @@ public class TaskActivity extends AppCompatActivity {
         Log.d(TAG,"btnAddTaskOnClick()");
 
         // 1. Instantiate an AlertDialog.Builder with its constructor
-        AlertDialog.Builder builder = new AlertDialog.Builder(TaskActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(TaskListActivity.this);
 
         // 2. Chain together various setter methods to set the dialog characteristics
         builder.setTitle("Select Type:");
@@ -134,21 +128,18 @@ public class TaskActivity extends AppCompatActivity {
                 Log.d(TAG, String.format("Choose: %d", which));
                 switch (which) {
                     case 0:
-                        Intent startAct = new Intent(TaskActivity.this, SetupTaskAlarmActivity.class);
+                        Intent startAct = new Intent(TaskListActivity.this, SetupTaskAlarmActivity.class);
                         startActivityForResult(startAct,REQUEST_TASK_ALARM);
-
 
                         break;
                     case 1:
-                        Intent startAct2 = new Intent(TaskActivity.this, SetupTaskLocationActivity.class);
+                        Intent startAct2 = new Intent(TaskListActivity.this, SetupTaskLocationActivity.class);
                         startActivityForResult(startAct2,REQUEST_TASK_LOCATION);
-
 
                         break;
                     case 2:
-                        Intent startAct3 = new Intent(TaskActivity.this, SetupTaskBatteryActivity.class);
+                        Intent startAct3 = new Intent(TaskListActivity.this, SetupTaskBatteryActivity.class);
                         startActivityForResult(startAct3,REQUEST_TASK_BATTERY);
-
 
                         break;
                 }
@@ -170,17 +161,23 @@ public class TaskActivity extends AppCompatActivity {
 
 
         if(resultCode == RESULT_OK) {
+
+            SantaTask mTask;
+
             switch (requestCode) {
                 case REQUEST_TASK_ALARM:
-                    mLogic.addTask(new SantaTaskAppoint(new SantaActionSendSMS()));
+                    mTask =  data.getParcelableExtra(SantaHelperLogic.EXTRA_SANTA_TASK_APPOINT);
+                    mLogic.addTask(mTask);
                     UIRefresh();
                     break;
                 case REQUEST_TASK_LOCATION:
-                    mLogic.addTask(new SantaTaskLocation(new SantaActionSendSMS()));
+                     mTask =  data.getParcelableExtra(SantaHelperLogic.EXTRA_SANTA_TASK_LOC);
+                    mLogic.addTask(mTask);
                     UIRefresh();
                     break;
                 case REQUEST_TASK_BATTERY:
-                    mLogic.addTask(new SantaTaskBattery(40, new SantaActionSendSMS()));
+                    mTask =  data.getParcelableExtra(SantaHelperLogic.EXTRA_SANTA_TASK_BATT);
+                    mLogic.addTask(mTask);
                     UIRefresh();
                     break;
                 default:

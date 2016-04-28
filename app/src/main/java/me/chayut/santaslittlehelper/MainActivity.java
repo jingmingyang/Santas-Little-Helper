@@ -13,8 +13,6 @@ import android.view.View;
 import android.widget.Button;
 
 import me.chayut.SantaHelperLogic.EndPoint;
-import me.chayut.SantaHelperLogic.SantaAction;
-import me.chayut.SantaHelperLogic.SantaFunction;
 import me.chayut.SantaHelperLogic.SantaHelperLogic;
 
 public class MainActivity extends AppCompatActivity {
@@ -73,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         btnManageTask.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this, TaskActivity.class);
+                        Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
                         startActivity(intent);
                     }
                 }

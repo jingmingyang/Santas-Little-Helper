@@ -7,30 +7,24 @@ import android.view.View;
 import android.widget.Button;
 
 import me.chayut.SantaHelperLogic.SantaAction;
-import me.chayut.SantaHelperLogic.SantaActionSendSMS;
 import me.chayut.SantaHelperLogic.SantaHelperLogic;
-import me.chayut.SantaHelperLogic.SantaTask;
-import me.chayut.SantaHelperLogic.SantaTaskAppoint;
-import me.chayut.SantaHelperLogic.SantaTaskBattery;
 
-public class SetupTaskBatteryActivity extends AppCompatActivity {
+public class SelectActionActivity extends AppCompatActivity {
+
 
     Button btnOK, btnCancel;
-    SantaTask mTask;
-    SantaAction mAction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setup_task_battery);
-
+        setContentView(R.layout.activity_select_action);
 
         btnOK = (Button) findViewById(R.id.btnOK);
         btnOK.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                        intent.putExtra(SantaHelperLogic.EXTRA_SANTA_TASK_BATT,new SantaTaskBattery(40,new SantaActionSendSMS()));
+                        intent.putExtra(SantaHelperLogic.EXTRA_SANTA_ACTION,new SantaAction());
                         setResult(RESULT_OK, intent);
                         finish();
                     }
@@ -46,5 +40,11 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
                     }
                 }
         );
+
+
     }
+
+
+
+
 }
