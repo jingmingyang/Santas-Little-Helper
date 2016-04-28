@@ -2,6 +2,7 @@ package me.zhenning;
 
 import android.util.Log;
 
+import javax.activation.FileDataSource;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +19,9 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.BodyPart;
 
 /**
  * Created by Zhenning Jiang on 2016/3/27.
@@ -87,6 +91,49 @@ public class EmailSender extends javax.mail.Authenticator {
 
     }
 
+    public synchronized void sendMailWithAttachment(
+            String subject, String body,
+            String sender, String recipients, String filename) throws Exception {
+        try{
+            final MimeMessage message = new MimeMessage(session);
+            DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));
+            message.setFrom(new InternetAddress(sender));
+            message.setSubject(subject);
+            message.setDataHandler(handler);
+            if (recipients.indexOf(',') > 0)
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
+            else
+                message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
+
+            if (!"".equals(filename)) {
+                Multipart _multipart = new MimeMultipart();
+                BodyPart messageBodyPart = new MimeBodyPart();
+                DataSource source = new FileDataSource(filename);
+
+                messageBodyPart.setDataHandler(new DataHandler(source));
+                messageBodyPart.setFileName(filename);
+
+                _multipart.addBodyPart(messageBodyPart);
+                message.setContent(_multipart);
+            }
+
+            Thread EmailThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try{
+                        Transport.send(message);
+                    }catch (Exception e){
+                        Log.e("Transport Error", e.getMessage(), e);
+                    }
+                }
+            });
+            EmailThread.start();
+
+        }catch(Exception e){
+            Log.e("SendMail", e.getMessage(), e);
+        }
+
+    }
     public class ByteArrayDataSource implements DataSource {
         private byte[] data;
         private String type;

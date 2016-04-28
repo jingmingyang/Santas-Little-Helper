@@ -99,6 +99,7 @@ public class SantaService extends Service {
 
                 //report battery level to app logic
                 mSantaLogic.onBatteryPercentageReceived(currentLevel);
+
             }
         };
 
