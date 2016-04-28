@@ -64,7 +64,7 @@ public class SetupTaskAlarmActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG,String.format("onActivityResult(): %d", requestCode));
+        Log.d(TAG,String.format("onActivityResult(): %d: %d", requestCode,resultCode));
 
         if(resultCode == RESULT_OK) {
 
