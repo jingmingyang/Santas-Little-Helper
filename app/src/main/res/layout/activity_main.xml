@@ -9,45 +9,49 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="me.chayut.santaslittlehelper.MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Manage End Point"
-        android:id="@+id/btnTest1"
-        android:onClick="onBtnClicked"
-        android:layout_below="@+id/btnManageTask"
-        android:layout_alignParentStart="true" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="send Test Email"
-        android:id="@+id/btnSendEmail"
-        android:layout_below="@+id/btnTest1"
-        android:layout_alignParentStart="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage Tasks"
+            android:id="@+id/btnManageTask"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="send Test SMS"
-        android:id="@+id/buttonSendSMS"
-        android:layout_below="@+id/btnSendEmail"
-        android:layout_alignParentStart="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage Location List"
+            android:id="@+id/btnManageLocation"
+            android:onClick="onBtnClicked"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Manage Tasks"
-        android:id="@+id/btnManageTask"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage End Points"
+            android:id="@+id/btnManageEndpoints"
+            android:onClick="onBtnClicked"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="wifi On test"
-        android:id="@+id/btnWifiOn"
-        android:layout_below="@+id/buttonSendSMS"
-        android:layout_alignParentStart="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="send Test Email"
+            android:id="@+id/btnSendEmail" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="send Test SMS"
+            android:id="@+id/buttonSendSMS"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="wifi On test"
+            android:id="@+id/btnWifiOn"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

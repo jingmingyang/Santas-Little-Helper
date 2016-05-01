@@ -40,14 +40,15 @@
             </intent-filter>
         </receiver>
 
-
         <activity android:name=".BaseActivity" />
-        <activity android:name=".manageEndpointActivity" />
+        <activity android:name=".ManageEndpointActivity" />
         <activity android:name=".TaskListActivity" />
         <activity android:name=".SetupTaskLocationActivity" />
         <activity android:name=".SetupTaskAlarmActivity" />
         <activity android:name=".SetupTaskBatteryActivity" />
-        <activity android:name=".SelectActionActivity"></activity>
+        <activity android:name=".SelectActionActivity" />
+        <activity android:name=".ManageLocationActivity" />
+        <activity android:name=".SetupLocationActivity"></activity>
     </application>
 
 </manifest>

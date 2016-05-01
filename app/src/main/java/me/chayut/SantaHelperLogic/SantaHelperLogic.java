@@ -20,9 +20,13 @@ public class SantaHelperLogic {
     public static final String EXTRA_SANTA_TASK_BATT = "EXTRA_SANTA_TASK_BATT";
     public static final String EXTRA_SANTA_TASK_LOC = "EXTRA_SANTA_TASK_LOC";
     public static final String EXTRA_SANTA_ACTION = "EXTRA_SANTA_ACTION";
+    public static final String EXTRA_SANTA_LOCATION= "EXTRA_SANTA_LOCATION";
 
     private ArrayList<EndPoint> endPoints;
 
+
+
+    private ArrayList<SantaLocation> locationList;
     private ArrayList<SantaTask> taskList;
 
     Context mContext;
@@ -36,6 +40,7 @@ public class SantaHelperLogic {
 
         endPoints = new ArrayList<>();
         taskList = new ArrayList<>();
+        locationList = new ArrayList<>();
 
     }
 
@@ -53,16 +58,8 @@ public class SantaHelperLogic {
         return taskList;
     }
 
-
-    public boolean addAppointTask (SantaTaskAppoint mAT){
-        Log.d(TAG, "addAppointTask");
-        taskList.add(mAT);
-        return true;
-    }
-
-    public boolean addLocationTask (SantaTaskLocation mLT){
-        taskList.add(mLT);
-        return true;
+    public ArrayList<SantaLocation> getLocationList() {
+        return locationList;
     }
 
     public boolean addTask (SantaTask task){
@@ -70,7 +67,10 @@ public class SantaHelperLogic {
         return true;
     }
 
-
+    public boolean addLocation (SantaLocation location){
+        locationList.add(location);
+        return true;
+    }
 
     /** Test  Section */
 

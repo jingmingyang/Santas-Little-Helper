@@ -13,28 +13,27 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
 
 import me.chayut.SantaHelperLogic.EndPoint;
 import me.chayut.SantaHelperLogic.EndPointAdapter;
 import me.chayut.SantaHelperLogic.SantaHelperLogic;
+import me.chayut.SantaHelperLogic.SantaLocation;
+import me.chayut.SantaHelperLogic.SantaLocationAdapter;
 
-public class ManageEndpointActivity extends AppCompatActivity {
+public class ManageLocationActivity extends AppCompatActivity {
 
-
-    private final static String TAG = "ManageEndpointActivity";
+    private final static String TAG = "ManageLocationActivity";
+    private final static int REQUEST_LOCATION = 1;
 
     SantaService mService;
     SantaHelperLogic mLogic;
     boolean mBound = false;
 
     private ListView lvEndpoints;
-    private EndPointAdapter mAdapter;
-    private ArrayList<EndPoint> list = new ArrayList<EndPoint>();
-
-
+    private SantaLocationAdapter mAdapter;
+    private ArrayList<SantaLocation> list = new ArrayList<SantaLocation>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,26 +43,26 @@ public class ManageEndpointActivity extends AppCompatActivity {
         //Listview setup
         lvEndpoints = (ListView) findViewById(R.id.listViewEndPoints);
 
-        lvEndpoints.setOnItemClickListener(new OnItemClickListener() {
+        lvEndpoints.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v, final int position, long id) {
 
-                EndPoint item = mAdapter.getItem(position);
+                SantaLocation item = mAdapter.getItem(position);
 
                 // 1. Instantiate an AlertDialog.Builder with its constructor
-                AlertDialog.Builder builder = new AlertDialog.Builder(ManageEndpointActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ManageLocationActivity.this);
 
                 // 2. Chain together various setter methods to set the dialog characteristics
-                builder.setTitle("EndPoint: " + item.getName());
+                builder.setTitle("Location: " + item.getName());
 
-                final String[] array = {"Use", "Delete"};
+                final String[] array = {"TODO", "Delete"};
 
                 builder.setItems(array, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d(TAG, String.format("Choose: %d", which));
                         switch (which) {
                             case 0:
-
+                                //TODO: add edit
                                 break;
                             case 1:
                                 list.remove(position);
@@ -79,13 +78,13 @@ public class ManageEndpointActivity extends AppCompatActivity {
                 dialog.show();
             }
 
-            });
+        });
 
     }
 
     private void ListUpdate(){
-        Log.d(TAG, String.format("Locations = %d", list.size()));
-        mAdapter = new EndPointAdapter(this,R.layout.row_endpoint,list);
+        Log.d(TAG, String.format("Endpoints = %d", list.size()));
+        mAdapter = new SantaLocationAdapter(this,R.layout.row_location,list);
         lvEndpoints.setAdapter(mAdapter);
     }
 
@@ -151,18 +150,34 @@ public class ManageEndpointActivity extends AppCompatActivity {
 
         if(mBound){
 
-            EndPoint mEndpoint = new EndPoint(EndPoint.TYPE_EMAIL, "HELLO", "HELLO@ITS.ME");
-            mService.getSantaLogic().addEndPoint(mEndpoint);
+            //TODO: setup UI before add
+            Intent startAct2 = new Intent(ManageLocationActivity.this, SetupLocationActivity.class);
+            startActivityForResult(startAct2,REQUEST_LOCATION);
             UIRefresh();
 
         }
     }
 
-    private void UIRefresh(){
-        list = mService.getSantaLogic().getEndPoints();
-        ListUpdate();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG,String.format("onActivityResult(): %d", requestCode));
+
+        if(resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_LOCATION  :
+                    SantaLocation mLoc =  data.getParcelableExtra(SantaHelperLogic.EXTRA_SANTA_LOCATION);
+                    mLogic.addLocation(mLoc);
+                    UIRefresh();
+
+                default:
+                    break;
+            }
+        }
     }
 
+    private void UIRefresh(){
 
-
+        list = mService.getSantaLogic().getLocationList();
+        ListUpdate();
+    }
 }

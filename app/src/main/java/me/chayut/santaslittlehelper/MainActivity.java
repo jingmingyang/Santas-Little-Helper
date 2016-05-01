@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     SantaHelperLogic mLogic;
     boolean mBound = false;
 
-    Button button1;
+    Button button1,btnManageLocation;
     Button btnSendEmail,btnSendSMS,btnManageTask,btnWifiOn;
 
 
@@ -35,16 +35,21 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-
-        EndPoint mEndpoint = new EndPoint(EndPoint.TYPE_EMAIL, "HELLO", "HELLO@ITS.ME");
-
+        //start service
         Intent intent = new Intent(MainActivity.this, SantaService.class);
-        intent.putExtra("Extra", mEndpoint);
         startService(intent);
 
-        button1 = (Button) findViewById(R.id.btnTest1);
-        btnSendEmail = (Button) findViewById(R.id.btnSendEmail);
+        button1 = (Button) findViewById(R.id.btnManageEndpoints);
+        button1.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, ManageEndpointActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
 
+        btnSendEmail = (Button) findViewById(R.id.btnSendEmail);
         btnSendEmail.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
@@ -72,6 +77,16 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+
+        btnManageLocation = (Button) findViewById(R.id.btnManageLocation);
+        btnManageLocation.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, ManageLocationActivity.class);
                         startActivity(intent);
                     }
                 }
@@ -109,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -140,18 +156,6 @@ public class MainActivity extends AppCompatActivity {
             mBound = false;
         }
     };
-
-    /** */
-
-    public void onBtnClicked (View v){
-        Log.d(TAG, "onBtnClicked");
-
-        Intent intent = new Intent(this, manageEndpointActivity.class);
-        startActivity(intent);
-
-
-    }
-
 
 
 }

@@ -7,27 +7,28 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".ManageEndpointActivity">
+    tools:context="me.chayut.santaslittlehelper.ManageLocationActivity">
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:id="@+id/listViewEndPoints"
+        android:id="@+id/listViewLocations"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_above="@+id/btnAddNewEndPoint" />
+        android:layout_above="@+id/btnAddNewLocation" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Add New Endpoint"
-        android:id="@+id/btnAddNewEndPoint"
+        android:text="Add New Location"
+        android:id="@+id/btnAddNewLocation"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="false"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="false"
         android:layout_alignParentLeft="true"
         android:onClick="onBtnClicked" />
+
 
 </RelativeLayout>

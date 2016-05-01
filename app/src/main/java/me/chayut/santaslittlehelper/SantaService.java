@@ -70,7 +70,7 @@ public class SantaService extends Service {
     /** method for clients */
 
     public String getHello(){
-        return "Hello";
+        return "Santa Service Hello";
     }
 
     /**
