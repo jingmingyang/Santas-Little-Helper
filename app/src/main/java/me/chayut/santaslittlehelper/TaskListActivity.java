@@ -122,6 +122,7 @@ public class TaskListActivity extends AppCompatActivity {
         builder.setTitle("Select Type:");
 
         final String[] array = {"Alarm Task", "Location Task","Battery Task"};
+        builder.setIcon(R.mipmap.ic_launcher);
 
         builder.setItems(array, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
