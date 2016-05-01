@@ -3,7 +3,6 @@ package me.chayut.SantaHelperLogic;
 import android.content.Context;
 import android.location.Location;
 import android.util.Log;
-
 import java.util.ArrayList;
 
 import me.zhenning.EmailSender;
@@ -11,9 +10,9 @@ import me.zhenning.EmailSender;
 /**
  * Created by chayut on 25/03/16.
  */
-public class SantaHelperLogic {
+public class SantaLogic {
 
-    private static final String TAG = "SantaHelperLogic";
+    private static final String TAG = "SantaLogic";
 
     public static final String EXTRA_SANTA_TASK = "EXTRA_SANTA_TASK";
     public static final String EXTRA_SANTA_TASK_APPOINT = "EXTRA_SANTA_TASK_APPOINT";
@@ -32,7 +31,7 @@ public class SantaHelperLogic {
     Context mContext;
 
 
-    public SantaHelperLogic(Context context) {
+    public SantaLogic(Context context) {
 
         Log.d(TAG,"Santa Logic con");
 
@@ -107,10 +106,8 @@ public class SantaHelperLogic {
 
     public void onTimeUpDateReceived(){
 
+
     }
-
-
-
 
 
 

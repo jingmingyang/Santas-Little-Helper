@@ -12,8 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import me.chayut.SantaHelperLogic.EndPoint;
-import me.chayut.SantaHelperLogic.SantaHelperLogic;
+import me.chayut.SantaHelperLogic.SantaLogic;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
 
     SantaService mService;
-    SantaHelperLogic mLogic;
+    SantaLogic mLogic;
     boolean mBound = false;
 
     Button button1,btnManageLocation;

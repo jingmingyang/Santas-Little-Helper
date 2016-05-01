@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 
 import me.chayut.SantaHelperLogic.SantaAction;
-import me.chayut.SantaHelperLogic.SantaHelperLogic;
+import me.chayut.SantaHelperLogic.SantaLogic;
 
 public class SelectActionActivity extends AppCompatActivity {
 
@@ -27,7 +27,7 @@ public class SelectActionActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                        intent.putExtra(SantaHelperLogic.EXTRA_SANTA_ACTION,new SantaAction());
+                        intent.putExtra(SantaLogic.EXTRA_SANTA_ACTION,new SantaAction());
                         setResult(RESULT_OK, intent);
                         finish();
                     }

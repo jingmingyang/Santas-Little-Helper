@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import me.chayut.SantaHelperLogic.SantaAction;
-import me.chayut.SantaHelperLogic.SantaHelperLogic;
+import me.chayut.SantaHelperLogic.SantaLogic;
 import me.chayut.SantaHelperLogic.SantaTask;
 import me.chayut.SantaHelperLogic.SantaTaskAppoint;
 
@@ -18,7 +18,7 @@ public class SetupTaskAlarmActivity extends AppCompatActivity {
     private final static String TAG = "SetupTaskAlarmActivity";
     static final int REQUEST_ACTION =1;
 
-    Button btnOK, btnCancel,btnSetAction;
+    Button btnOK, btnCancel,btnSetAction,btnSetAlarm;
     SantaTask mTask;
     SantaAction mAction;
 
@@ -32,7 +32,7 @@ public class SetupTaskAlarmActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                        intent.putExtra(SantaHelperLogic.EXTRA_SANTA_TASK_APPOINT,new SantaTaskAppoint());
+                        intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT,new SantaTaskAppoint());
                         setResult(RESULT_OK, intent);
                         finish();
                     }
@@ -58,6 +58,11 @@ public class SetupTaskAlarmActivity extends AppCompatActivity {
                     }
                 });
 
+
+        btnSetAlarm = (Button) findViewById(R.id.btnSetTime);
+
+
+
     }
 
 
@@ -71,8 +76,8 @@ public class SetupTaskAlarmActivity extends AppCompatActivity {
             switch (requestCode) {
                 case REQUEST_ACTION:
 
-                    SantaAction returnAction = (SantaAction) data.getParcelableExtra(SantaHelperLogic.EXTRA_SANTA_ACTION);
-                    Log.d(TAG,SantaHelperLogic.EXTRA_SANTA_ACTION);
+                    SantaAction returnAction = (SantaAction) data.getParcelableExtra(SantaLogic.EXTRA_SANTA_ACTION);
+                    Log.d(TAG, SantaLogic.EXTRA_SANTA_ACTION);
                     break;
                 default:
                     break;

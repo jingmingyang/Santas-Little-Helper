@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.Button;
 
 import me.chayut.SantaHelperLogic.SantaAction;
-import me.chayut.SantaHelperLogic.SantaHelperLogic;
+import me.chayut.SantaHelperLogic.SantaLogic;
 import me.chayut.SantaHelperLogic.SantaTask;
-import me.chayut.SantaHelperLogic.SantaTaskAppoint;
 import me.chayut.SantaHelperLogic.SantaTaskLocation;
 
 public class SetupTaskLocationActivity extends AppCompatActivity {
@@ -31,7 +30,7 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                        intent.putExtra(SantaHelperLogic.EXTRA_SANTA_TASK_LOC,new SantaTaskLocation(new SantaAction()));
+                        intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_LOC,new SantaTaskLocation(new SantaAction()));
                         setResult(RESULT_OK, intent);
                         finish();
                     }

@@ -10,14 +10,13 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import me.chayut.SantaHelperLogic.SantaFunction;
-import me.chayut.SantaHelperLogic.SantaHelperLogic;
+import me.chayut.SantaHelperLogic.SantaLogic;
 
 public class SantaService extends Service {
 
     private final static String TAG = "SantaService";
 
-    private SantaHelperLogic mSantaLogic;
+    private SantaLogic mSantaLogic;
     private boolean mLogicInitialized = false;
 
 
@@ -60,7 +59,7 @@ public class SantaService extends Service {
         }
 
         if(!mLogicInitialized) {
-            mSantaLogic = new SantaHelperLogic(this);
+            mSantaLogic = new SantaLogic(this);
             mLogicInitialized = true;
         }
 
@@ -75,11 +74,11 @@ public class SantaService extends Service {
 
     /**
      * return app logic to any binding activity
-     * @return SantaHelperLogic
+     * @return SantaLogic
      */
-    public SantaHelperLogic getSantaLogic(){
+    public SantaLogic getSantaLogic(){
         if (!mLogicInitialized) {
-            mSantaLogic = new SantaHelperLogic(this);
+            mSantaLogic = new SantaLogic(this);
 
         }
         return mSantaLogic;

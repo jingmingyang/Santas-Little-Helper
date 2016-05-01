@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import me.chayut.SantaHelperLogic.SantaAction;
-import me.chayut.SantaHelperLogic.SantaHelperLogic;
+import me.chayut.SantaHelperLogic.SantaLogic;
 import me.chayut.SantaHelperLogic.SantaTask;
 import me.chayut.SantaHelperLogic.SantaTaskBattery;
 
@@ -30,7 +30,7 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                        intent.putExtra(SantaHelperLogic.EXTRA_SANTA_TASK_BATT,new SantaTaskBattery(40,new SantaAction()));
+                        intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_BATT,new SantaTaskBattery(40,new SantaAction()));
                         setResult(RESULT_OK, intent);
                         finish();
                     }

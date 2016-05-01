@@ -16,9 +16,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import me.chayut.SantaHelperLogic.EndPoint;
-import me.chayut.SantaHelperLogic.EndPointAdapter;
-import me.chayut.SantaHelperLogic.SantaHelperLogic;
+import me.chayut.SantaHelperLogic.SantaLogic;
 import me.chayut.SantaHelperLogic.SantaLocation;
 import me.chayut.SantaHelperLogic.SantaLocationAdapter;
 
@@ -28,7 +26,7 @@ public class ManageLocationActivity extends AppCompatActivity {
     private final static int REQUEST_LOCATION = 1;
 
     SantaService mService;
-    SantaHelperLogic mLogic;
+    SantaLogic mLogic;
     boolean mBound = false;
 
     private ListView lvEndpoints;
@@ -165,7 +163,7 @@ public class ManageLocationActivity extends AppCompatActivity {
         if(resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_LOCATION  :
-                    SantaLocation mLoc =  data.getParcelableExtra(SantaHelperLogic.EXTRA_SANTA_LOCATION);
+                    SantaLocation mLoc =  data.getParcelableExtra(SantaLogic.EXTRA_SANTA_LOCATION);
                     mLogic.addLocation(mLoc);
                     UIRefresh();
 

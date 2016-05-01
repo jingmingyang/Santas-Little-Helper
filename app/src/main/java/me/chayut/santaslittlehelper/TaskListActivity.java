@@ -15,7 +15,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import me.chayut.SantaHelperLogic.SantaHelperLogic;
+import me.chayut.SantaHelperLogic.SantaLogic;
 import me.chayut.SantaHelperLogic.SantaTask;
 import me.chayut.SantaHelperLogic.SantaTaskAdapter;
 
@@ -25,7 +25,7 @@ public class TaskListActivity extends AppCompatActivity {
     private final static String TAG = "TaskListActivity";
 
     SantaService mService;
-    SantaHelperLogic mLogic;
+    SantaLogic mLogic;
     boolean mBound = false;
 
     private ListView lvTasks;
@@ -167,17 +167,17 @@ public class TaskListActivity extends AppCompatActivity {
 
             switch (requestCode) {
                 case REQUEST_TASK_ALARM:
-                    mTask =  data.getParcelableExtra(SantaHelperLogic.EXTRA_SANTA_TASK_APPOINT);
+                    mTask =  data.getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT);
                     mLogic.addTask(mTask);
                     UIRefresh();
                     break;
                 case REQUEST_TASK_LOCATION:
-                     mTask =  data.getParcelableExtra(SantaHelperLogic.EXTRA_SANTA_TASK_LOC);
+                     mTask =  data.getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_LOC);
                     mLogic.addTask(mTask);
                     UIRefresh();
                     break;
                 case REQUEST_TASK_BATTERY:
-                    mTask =  data.getParcelableExtra(SantaHelperLogic.EXTRA_SANTA_TASK_BATT);
+                    mTask =  data.getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_BATT);
                     mLogic.addTask(mTask);
                     UIRefresh();
                     break;
