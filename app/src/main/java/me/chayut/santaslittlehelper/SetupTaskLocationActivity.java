@@ -1,6 +1,7 @@
 package me.chayut.santaslittlehelper;
 
 import android.content.Intent;
+import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,7 +32,8 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                        intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_LOC,new SantaTaskLocation(new SantaAction()));
+                        mTask = new SantaTaskLocation(new SantaAction(),43.0f,43.0f,20.2f);
+                        intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_LOC,mTask);
                         setResult(RESULT_OK, intent);
                         finish();
                     }

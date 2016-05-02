@@ -49,10 +49,6 @@ public class SantaService extends Service {
 
     public void onCreate() {
         Log.i(TAG, "Service onCreate()");
-
-        //init monitoring service
-        initBattMon();
-        initLocMon();
     }
 
     @Override
@@ -91,52 +87,6 @@ public class SantaService extends Service {
     }
 
 
-    /** untested */
-    private void initBattMon(){
-
-        BroadcastReceiver batteryLevel = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                context.unregisterReceiver(this);
-                int currentLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL,-1);
-
-                //Log.d(TAG,"Batt: " + currentLevel + "%");
-
-                //report battery level to app logic
-                mSantaLogic.onBatteryPercentageReceived(currentLevel);
-            }
-        };
-
-        IntentFilter batteryLevelFilter = new IntentFilter(
-                Intent.ACTION_BATTERY_CHANGED);
-        registerReceiver(batteryLevel, batteryLevelFilter);
-    }
-
-
-    private void initLocMon(){
-
-        final LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        /* ********************************************************************************************************************************************************* */
-        // Register the listener LocationManager
-        try
-        {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        }
-        catch (SecurityException e) {
-            e.printStackTrace();
-        }
-    }
-
-    final LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-
-            mSantaLogic.onLocationUpdateReceived(location);
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
-        public void onProviderEnabled(String provider) {}
-        public void onProviderDisabled(String provider) {}
-    };
 
     
 }

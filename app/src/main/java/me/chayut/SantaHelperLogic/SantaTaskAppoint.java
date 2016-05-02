@@ -18,6 +18,8 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
 
     private SantaAction mAction;
 
+    private String timeString  = "" ;
+
 
     public SantaTaskAppoint() {
     }
@@ -29,41 +31,15 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
 
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
-
-    protected SantaTaskAppoint(Parcel in) {
-
-    }
-
-    public static final Parcelable.Creator<SantaTaskAppoint> CREATOR = new Parcelable.Creator<SantaTaskAppoint>() {
-        @Override
-        public SantaTaskAppoint createFromParcel(Parcel source) {
-            return new SantaTaskAppoint(source);
-        }
-
-        @Override
-        public SantaTaskAppoint[] newArray(int size) {
-            return new SantaTaskAppoint[size];
-        }
-    };
-
-    @Override
     public JSONObject toJSONObject (){
 
         JSONObject mObject = new JSONObject();
 
         try{
             mObject.put(SantaLogic.JTAG_SANTA_TASK_TYPE,SantaLogic.JTAG_SANTA_TASK_APPOINT);
-
+            mObject.put(SantaLogic.JTAG_SANTA_DATETIME,timeString);
             Gson gson = new Gson();
-            mObject.put("Task",new JSONObject( gson.toJson(mAction)));
+            mObject.put(SantaLogic.JTAG_SANTA_ACTION,new JSONObject( gson.toJson(mAction)));
             Log.d(TAG,gson.toJson(mAction) );
         }
         catch (JSONException e) {
@@ -81,6 +57,52 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
 
     public void setAction(SantaAction mAction) {
         this.mAction = mAction;
+    }
+
+    public boolean isConditionMet(String time){
+        return false;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.mAction, flags);
+        dest.writeString(this.timeString);
+    }
+
+    protected SantaTaskAppoint(Parcel in) {
+        this.mAction = in.readParcelable(SantaAction.class.getClassLoader());
+        this.timeString = in.readString();
+    }
+
+    public static final Creator<SantaTaskAppoint> CREATOR = new Creator<SantaTaskAppoint>() {
+        @Override
+        public SantaTaskAppoint createFromParcel(Parcel source) {
+            return new SantaTaskAppoint(source);
+        }
+
+        @Override
+        public SantaTaskAppoint[] newArray(int size) {
+            return new SantaTaskAppoint[size];
+        }
+    };
+
+    public SantaTaskAppoint(String timeString, SantaAction mAction) {
+        this.timeString = timeString;
+        this.mAction = mAction;
+    }
+
+    public String getTimeString() {
+        return timeString;
+    }
+
+    public void setTimeString(String timeString) {
+        this.timeString = timeString;
     }
 
 }

@@ -14,6 +14,8 @@ public class SantaAction  implements Parcelable{
     public static final int ACTION_NULL = 0;
     public static final int ACTION_SMS =1;
     public static final int ACTION_EMAIL =2;
+
+
     public static final int ACTION_WIFI = 3;
 
     private int taskType = 0 ;
@@ -62,6 +64,47 @@ public class SantaAction  implements Parcelable{
             return new SantaAction[size];
         }
     };
+
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public int getTaskType() {
+        return taskType;
+    }
+
+    public void setTaskType(int taskType) {
+        this.taskType = taskType;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Boolean getWifiState() {
+        return wifiState;
+    }
+
+    public void setWifiState(Boolean wifiState) {
+        this.wifiState = wifiState;
+    }
 
 
 }

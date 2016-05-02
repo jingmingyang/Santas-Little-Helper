@@ -15,9 +15,8 @@ import org.json.JSONObject;
 public class SantaTaskBattery extends SantaTask implements Parcelable {
 
     private static final String TAG = "SantaTaskBattery";
-    public static final String jTagBatt = "batteryLevel";
 
-    private int mBattPercentage;
+    private int mBattPercentage = 0;
 
     public SantaAction getAction() {
         return mAction;
@@ -71,10 +70,13 @@ public class SantaTaskBattery extends SantaTask implements Parcelable {
 
         try{
             mObject.put(SantaLogic.JTAG_SANTA_TASK_TYPE,SantaLogic.JTAG_SANTA_TASK_BATT);
-            mObject.put(jTagBatt,mBattPercentage);
-
+            mObject.put(SantaLogic.JTAG_SANTA_BATT_LEVEL,mBattPercentage);
             Gson gson = new Gson();
-            mObject.put("Task",new JSONObject( gson.toJson(mAction)));
+            mObject.put(SantaLogic.JTAG_SANTA_ACTION,new JSONObject( gson.toJson(mAction)));
+
+            //test
+            SantaAction test = gson.fromJson(gson.toJson(mAction),SantaAction.class);
+
             Log.d(TAG,gson.toJson(mAction) );
         }
         catch (JSONException e) {
@@ -82,6 +84,16 @@ public class SantaTaskBattery extends SantaTask implements Parcelable {
         }
 
         return  mObject;
+    }
+
+    public boolean isConditionMet(int battLevel){
+
+        if(battLevel < mBattPercentage){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 }

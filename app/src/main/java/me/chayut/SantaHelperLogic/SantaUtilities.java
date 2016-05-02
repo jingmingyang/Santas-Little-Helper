@@ -98,7 +98,7 @@ public class SantaUtilities {
 
         return mObj;
     }
-    
+
     public static double getDistance(double longitude1, double latitude1, double longitude2, double latitude2)
     {
         double Lat1 = rad(latitude1);

@@ -71,7 +71,6 @@ public class SantaTaskAdapter extends ArrayAdapter<SantaTask>  {
     }
 
     public SantaTask getItem(int position){
-
         return mList.get(position);
     }
 }
