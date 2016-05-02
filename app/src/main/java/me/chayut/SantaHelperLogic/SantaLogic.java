@@ -6,6 +6,7 @@ import android.util.Log;
 
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class SantaLogic {
     public static final String JTAG_SANTA_TASK_APPOINT = "SANTA_TASK_APPOINT";
     public static final String JTAG_SANTA_TASK_BATT = "SANTA_TASK_BATT";
     public static final String JTAG_SANTA_TASK_LOC = "SANTA_TASK_LOC";
+    public static final String JTAG_SANTA_TASK_LIST = "TaskList";
+
 
 
     private ArrayList<EndPoint> endPoints;
@@ -124,7 +127,7 @@ public class SantaLogic {
 
     /** JSON Section   */
 
-    public void getTaskListJSON(){
+    public JSONArray getTaskListJSON(){
 
         JSONArray jArray = new JSONArray();
         for (SantaTask mTask : taskList)
@@ -147,10 +150,40 @@ public class SantaLogic {
             jArray.put(mTask.toJSONObject());
         }
 
-        Log.d(TAG,jArray.toString());
+        return jArray;
+    }
 
+    public void writeSantaConfig(){
+
+        JSONObject mObject = new JSONObject();
+
+        try {
+            mObject.put(JTAG_SANTA_TASK_LIST, getTaskListJSON());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d(TAG,"writeSantaConfig()");
+        Log.d(TAG,mObject.toString());
+        SantaUtilities.saveConfigToFile(mObject);
 
     }
+
+    public String readSantaConfig(){
+
+        JSONObject mObject = SantaUtilities.readConfigFromFile();
+
+        try {
+            JSONArray taskArray = mObject.getJSONArray(JTAG_SANTA_TASK_LIST);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return mObject.toString();
+    }
+
 
 
 }

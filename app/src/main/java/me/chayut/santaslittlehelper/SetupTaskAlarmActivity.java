@@ -28,6 +28,7 @@ public class SetupTaskAlarmActivity extends AppCompatActivity {
 
         //if no intent parcellable, create new
         mTask = new SantaTaskAppoint();
+        mTask.setAction(new SantaAction());
 
         btnOK = (Button) findViewById(R.id.btnOK);
         btnOK.setOnClickListener(

@@ -16,8 +16,6 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
 
     private static final String TAG = "SantaTaskAppoint";
 
-
-
     private SantaAction mAction;
 
 

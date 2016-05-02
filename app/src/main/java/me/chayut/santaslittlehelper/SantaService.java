@@ -107,6 +107,5 @@ public class SantaService extends Service {
         registerReceiver(batteryLevel, batteryLevelFilter);
     }
 
-
     
 }

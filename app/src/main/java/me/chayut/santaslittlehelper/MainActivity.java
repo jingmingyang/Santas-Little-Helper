@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import me.chayut.SantaHelperLogic.SantaLogic;
 
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     SantaLogic mLogic;
     boolean mBound = false;
 
-    Button button1,btnManageLocation,btnTestJSON;
+    Button button1,btnManageLocation,btnTestJSON,btnReadConf;
     Button btnSendEmail,btnSendSMS,btnManageTask,btnWifiOn;
 
 
@@ -104,7 +105,19 @@ public class MainActivity extends AppCompatActivity {
         btnTestJSON.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        mLogic.getTaskListJSON();
+                        mLogic.writeSantaConfig();
+                    }
+                }
+        );
+
+        btnReadConf = (Button) findViewById(R.id.btnConfRead);
+        btnReadConf.setOnClickListener(
+
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        String json =  mLogic.readSantaConfig();
+                        Toast.makeText(getBaseContext(),json,
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
         );

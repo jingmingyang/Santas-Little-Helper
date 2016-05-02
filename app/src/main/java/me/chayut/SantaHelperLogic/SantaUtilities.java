@@ -44,7 +44,7 @@ public class SantaUtilities {
         if (SantaUtilities.isExternalStorageWritable()){
             try {
 
-                String filename = "santaFile";
+                String filename = "santaFile.conf";
 
                 File file = new File(Environment.getExternalStorageDirectory(), filename);
 
@@ -70,7 +70,7 @@ public class SantaUtilities {
 
         if(SantaUtilities.isExternalStorageReadable()){
 
-            String filename = "myfile";
+            String filename = "santaFile.conf";
             File file = new File(Environment.getExternalStorageDirectory(), filename);
 
             try {
