@@ -5,8 +5,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.BatteryManager;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -18,7 +22,6 @@ public class SantaService extends Service {
 
     private SantaLogic mSantaLogic;
     private boolean mLogicInitialized = false;
-
 
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
@@ -46,7 +49,10 @@ public class SantaService extends Service {
 
     public void onCreate() {
         Log.i(TAG, "Service onCreate()");
-        getBatteryPercentage();
+
+        //init monitoring service
+        initBattMon();
+        initLocMon();
     }
 
     @Override
@@ -86,7 +92,7 @@ public class SantaService extends Service {
 
 
     /** untested */
-    private void getBatteryPercentage(){
+    private void initBattMon(){
 
         BroadcastReceiver batteryLevel = new BroadcastReceiver() {
             @Override
@@ -94,11 +100,10 @@ public class SantaService extends Service {
                 context.unregisterReceiver(this);
                 int currentLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL,-1);
 
-                Log.d(TAG,"Batt: " + currentLevel + "%");
+                //Log.d(TAG,"Batt: " + currentLevel + "%");
 
                 //report battery level to app logic
                 mSantaLogic.onBatteryPercentageReceived(currentLevel);
-
             }
         };
 
@@ -106,6 +111,32 @@ public class SantaService extends Service {
                 Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryLevel, batteryLevelFilter);
     }
+
+
+    private void initLocMon(){
+
+        final LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        /* ********************************************************************************************************************************************************* */
+        // Register the listener LocationManager
+        try
+        {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        }
+        catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+    final LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+
+            mSantaLogic.onLocationUpdateReceived(location);
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        public void onProviderEnabled(String provider) {}
+        public void onProviderDisabled(String provider) {}
+    };
 
     
 }

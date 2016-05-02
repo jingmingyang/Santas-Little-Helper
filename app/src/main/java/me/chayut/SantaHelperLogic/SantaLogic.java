@@ -11,7 +11,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import me.chayut.santaslittlehelper.R;
 import me.zhenning.EmailSender;
 
 /**
@@ -48,7 +47,7 @@ public class SantaLogic {
 
     public SantaLogic(Context context) {
 
-        Log.d(TAG,"Santa Logic con");
+        Log.d(TAG,"Santa Logic initiated");
 
         mContext = context;
 
@@ -112,15 +111,14 @@ public class SantaLogic {
     /** on received update  Section */
 
     public void onLocationUpdateReceived(Location location){
-
+        Log.d(TAG,String.format("Location: %s",location.toString()));
     }
 
     public void onBatteryPercentageReceived(int percentage){
-
+        Log.d(TAG,String.format("Batt: %d",percentage));
     }
 
     public void onTimeUpDateReceived(){
-
 
     }
 
