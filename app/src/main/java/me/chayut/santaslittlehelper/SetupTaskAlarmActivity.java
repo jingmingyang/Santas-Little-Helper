@@ -19,20 +19,22 @@ public class SetupTaskAlarmActivity extends AppCompatActivity {
     static final int REQUEST_ACTION =1;
 
     Button btnOK, btnCancel,btnSetAction,btnSetAlarm;
-    SantaTask mTask;
-    SantaAction mAction;
+    SantaTaskAppoint mTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_task_alarm);
 
+        //if no intent parcellable, create new
+        mTask = new SantaTaskAppoint();
+
         btnOK = (Button) findViewById(R.id.btnOK);
         btnOK.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                        intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT,new SantaTaskAppoint());
+                        intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT,mTask);
                         setResult(RESULT_OK, intent);
                         finish();
                     }
@@ -77,6 +79,9 @@ public class SetupTaskAlarmActivity extends AppCompatActivity {
                 case REQUEST_ACTION:
 
                     SantaAction returnAction = (SantaAction) data.getParcelableExtra(SantaLogic.EXTRA_SANTA_ACTION);
+                    mTask.setAction(returnAction);
+
+                    //TODO: update UI according to returned action
                     Log.d(TAG, SantaLogic.EXTRA_SANTA_ACTION);
                     break;
                 default:

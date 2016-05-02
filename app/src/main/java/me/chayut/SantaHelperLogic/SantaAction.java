@@ -3,6 +3,9 @@ package me.chayut.SantaHelperLogic;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by chayut on 14/04/16.
  */
@@ -59,5 +62,7 @@ public class SantaAction  implements Parcelable{
             return new SantaAction[size];
         }
     };
+
+
 }
 

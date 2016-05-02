@@ -51,6 +51,11 @@
             android:layout_height="wrap_content"
             android:text="wifi On test"
             android:id="@+id/btnWifiOn"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="JSON Test"
+            android:id="@+id/btnJSON"/>
 
     </LinearLayout>
 

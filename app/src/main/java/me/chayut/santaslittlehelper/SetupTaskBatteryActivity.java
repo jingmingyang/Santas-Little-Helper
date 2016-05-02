@@ -3,6 +3,7 @@ package me.chayut.santaslittlehelper;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -14,10 +15,10 @@ import me.chayut.SantaHelperLogic.SantaTaskBattery;
 public class SetupTaskBatteryActivity extends AppCompatActivity {
 
     static final int REQUEST_ACTION =1;
+    private final static String TAG = "SetupTaskBatteryAct";
 
     Button btnOK, btnCancel,btnSetAction;
-    SantaTask mTask;
-    SantaAction mAction;
+    SantaTaskBattery mTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,4 +57,28 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG,String.format("onActivityResult(): %d: %d", requestCode,resultCode));
+
+        if(resultCode == RESULT_OK) {
+
+            switch (requestCode) {
+                case REQUEST_ACTION:
+
+                    SantaAction returnAction = (SantaAction) data.getParcelableExtra(SantaLogic.EXTRA_SANTA_ACTION);
+                    mTask.setAction(returnAction);
+
+                    //TODO: update UI according to returned action
+                    Log.d(TAG, SantaLogic.EXTRA_SANTA_ACTION);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
 }

@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     SantaLogic mLogic;
     boolean mBound = false;
 
-    Button button1,btnManageLocation;
+    Button button1,btnManageLocation,btnTestJSON;
     Button btnSendEmail,btnSendSMS,btnManageTask,btnWifiOn;
 
 
@@ -96,6 +96,15 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         mLogic.onWifi(); //test function
+                    }
+                }
+        );
+
+        btnTestJSON = (Button) findViewById(R.id.btnJSON);
+        btnTestJSON.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        mLogic.getTaskListJSON();
                     }
                 }
         );

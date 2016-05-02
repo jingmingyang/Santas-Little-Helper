@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import me.chayut.SantaHelperLogic.EndPoint;
 import me.chayut.SantaHelperLogic.EndPointAdapter;
-import me.chayut.SantaHelperLogic.SantaHelperLogic;
+import me.chayut.SantaHelperLogic.SantaLogic;
 
 public class ManageEndpointActivity extends AppCompatActivity {
 
@@ -27,7 +27,7 @@ public class ManageEndpointActivity extends AppCompatActivity {
     private final static String TAG = "ManageEndpointActivity";
 
     SantaService mService;
-    SantaHelperLogic mLogic;
+    SantaLogic mLogic;
     boolean mBound = false;
 
     private ListView lvEndpoints;

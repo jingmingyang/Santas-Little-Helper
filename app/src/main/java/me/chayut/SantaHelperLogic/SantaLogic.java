@@ -3,8 +3,14 @@ package me.chayut.SantaHelperLogic;
 import android.content.Context;
 import android.location.Location;
 import android.util.Log;
+
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
+import me.chayut.santaslittlehelper.R;
 import me.zhenning.EmailSender;
 
 /**
@@ -20,6 +26,12 @@ public class SantaLogic {
     public static final String EXTRA_SANTA_TASK_LOC = "EXTRA_SANTA_TASK_LOC";
     public static final String EXTRA_SANTA_ACTION = "EXTRA_SANTA_ACTION";
     public static final String EXTRA_SANTA_LOCATION= "EXTRA_SANTA_LOCATION";
+
+    public static final String JTAG_SANTA_TASK_TYPE = "SantaTaskType";
+    public static final String JTAG_SANTA_TASK_APPOINT = "SANTA_TASK_APPOINT";
+    public static final String JTAG_SANTA_TASK_BATT = "SANTA_TASK_BATT";
+    public static final String JTAG_SANTA_TASK_LOC = "SANTA_TASK_LOC";
+
 
     private ArrayList<EndPoint> endPoints;
 
@@ -110,7 +122,35 @@ public class SantaLogic {
     }
 
 
+    /** JSON Section   */
 
+    public void getTaskListJSON(){
+
+        JSONArray jArray = new JSONArray();
+        for (SantaTask mTask : taskList)
+        {
+            /*
+            if (mTask instanceof SantaTaskAppoint) {
+
+                SantaTaskAppoint task = (SantaTaskAppoint) mTask;
+                jArray.put(task.toJSONObject());
+            }
+            else if  (mTask instanceof SantaTaskLocation){
+                SantaTaskLocation task = (SantaTaskLocation) mTask;
+                jArray.put(task.toJSONObject());
+            }
+            else if  (mTask instanceof SantaTaskBattery){
+                SantaTaskBattery task = (SantaTaskBattery) mTask;
+                jArray.put(task.toJSONObject());
+            }
+            */
+            jArray.put(mTask.toJSONObject());
+        }
+
+        Log.d(TAG,jArray.toString());
+
+
+    }
 
 
 }
