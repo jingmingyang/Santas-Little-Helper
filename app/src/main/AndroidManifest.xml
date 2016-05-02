@@ -48,7 +48,8 @@
         <activity android:name=".SetupTaskBatteryActivity" />
         <activity android:name=".SelectActionActivity" />
         <activity android:name=".ManageLocationActivity" />
-        <activity android:name=".SetupLocationActivity"></activity>
+        <activity android:name=".SetupLocationActivity" />
+        <activity android:name=".AlarmActivity"></activity>
     </application>
 
 </manifest>

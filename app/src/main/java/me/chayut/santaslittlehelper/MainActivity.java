@@ -1,6 +1,9 @@
 package me.chayut.santaslittlehelper;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +14,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 import me.chayut.SantaHelperLogic.SantaLogic;
 
@@ -24,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     SantaLogic mLogic;
     boolean mBound = false;
 
-    Button button1,btnManageLocation,btnTestJSON,btnReadConf;
+    Button button1,btnManageLocation,btnTestJSON,btnReadConf,btnTestAlarm;
     Button btnSendEmail,btnSendSMS,btnManageTask,btnWifiOn;
 
 
@@ -122,7 +128,48 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
+        btnTestAlarm = (Button) findViewById(R.id.btnTestAlarm);
+        btnTestAlarm.setOnClickListener(
 
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+
+                        Calendar currentTime = Calendar.getInstance();
+
+                        new TimePickerDialog(MainActivity.this, 0,
+                                new TimePickerDialog.OnTimeSetListener() {
+                                    @Override
+                                    public void onTimeSet(TimePicker view,
+                                                          int hourOfDay, int minute) {
+
+                                        AlarmManager alarmManager;
+                                        PendingIntent pi;
+
+                                        Calendar currentTime = Calendar.getInstance();
+
+                                        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+                                        Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
+                                        pi = PendingIntent.getActivity(MainActivity.this, 0, intent, 0);
+
+                                        Calendar c = Calendar.getInstance();
+                                        c.setTimeInMillis(System.currentTimeMillis());
+
+                                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                        c.set(Calendar.MINUTE, minute);
+                                        c.set(Calendar.SECOND, 0);
+                                        c.set(Calendar.MILLISECOND, 0);
+
+                                        alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pi);
+                                        Log.e("HEHE",c.getTimeInMillis()+"");
+                                        Toast.makeText(MainActivity.this, "the alarm has been set:\n"+ c.getTime(),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }, currentTime.get(Calendar.HOUR_OF_DAY), currentTime
+                                .get(Calendar.MINUTE), false).show();
+                    }
+                }
+        );
 
     }
 
