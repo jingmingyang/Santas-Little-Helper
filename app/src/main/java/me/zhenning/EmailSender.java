@@ -1,6 +1,10 @@
 package me.zhenning;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.Context;
 import android.util.Log;
+import android.util.Patterns;
 
 import javax.activation.FileDataSource;
 import java.io.ByteArrayInputStream;
@@ -9,6 +13,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Security;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -39,8 +44,13 @@ public class EmailSender extends javax.mail.Authenticator {
     }
 
     public EmailSender(String user, String password) {
+        // use accountManager.getAccountsByType("com.Santa");
+        // to get all the account related to the Santa little helper
+        // and then use Accounts.name and AccountManager.get(mContext).getAccounts();
+        // to get the usrename and password to pass into this function.
         this.user = user;
         this.password = password;
+        Log.d(Tag, this.user);
         Log.d(Tag, "EmailSender");
 
         Properties props = new Properties();
