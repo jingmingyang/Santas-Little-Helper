@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import me.chayut.santaslittlehelper.R;
 
 /**
@@ -20,7 +21,6 @@ import me.chayut.santaslittlehelper.R;
 public class AccountSelectActivity extends AppCompatActivity {
 
     private static final String STATE_DIALOG = "state_dialog";
-    private static final String STATE_INVALIDATE = "state_invalidate";
 
     private String TAG = this.getClass().getSimpleName();
     private AccountManager mAccountManager;
@@ -36,6 +36,7 @@ public class AccountSelectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_account);
         Button btnGetAccountList = (Button) findViewById(R.id.btnGetAccountList);
         Button btnSelectComplete = (Button) findViewById(R.id.btnSelectComplete);
+        Button btnAddNewAccount = (Button) findViewById(R.id.btnAddNewAccount);
         mSelected = false;
         AccountSelectZone = (TextView) findViewById(R.id.account_select_zone);
         mAccountManager = AccountManager.get(this);
@@ -53,15 +54,11 @@ public class AccountSelectActivity extends AppCompatActivity {
                 nextActivity();
             }
         });
-
     }
-    private void nextActivity(){
-        if (!mSelected){
+
+    private void nextActivity() {
+        if (!mSelected) {
             Toast.makeText(this, "Not yet selected!", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            // Intent to another activity
-            ;
         }
     }
 
@@ -74,7 +71,7 @@ public class AccountSelectActivity extends AppCompatActivity {
     }
 
     private void showAccountPicker() {
-        final Account availableAccounts[] = mAccountManager.getAccountsByType("com.Santa");
+        final Account availableAccounts[] = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
 
         if (availableAccounts.length == 0) {
             Toast.makeText(this, "No accounts", Toast.LENGTH_SHORT).show();
@@ -97,11 +94,12 @@ public class AccountSelectActivity extends AppCompatActivity {
         }
     }
 
-    public Account getSelectedAccount(){
+    public Account getSelectedAccount() {
         if (mSelected)
             return mAccountSelected;
-        else{
+        else {
             return null;
         }
     }
+
 }

@@ -24,6 +24,14 @@
         android:text="Get Account List"
         android:layout_gravity="center_vertical"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnAddNewAccount"
+        android:layout_gravity="center_vertical"
+        android:padding="10dp"
+        android:text="Add new Account"/>
+
     <Button android:id="@+id/btnSelectComplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
