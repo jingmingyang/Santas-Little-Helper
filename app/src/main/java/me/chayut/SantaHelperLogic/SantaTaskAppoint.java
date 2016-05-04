@@ -39,7 +39,7 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
             mObject.put(SantaLogic.JTAG_SANTA_TASK_TYPE,SantaLogic.JTAG_SANTA_TASK_APPOINT);
             mObject.put(SantaLogic.JTAG_SANTA_DATETIME,timeString);
             Gson gson = new Gson();
-            mObject.put(SantaLogic.JTAG_SANTA_ACTION,new JSONObject( gson.toJson(mAction)));
+            mObject.put(SantaLogic.JTAG_SANTA_ACTION,gson.toJson(mAction));
             Log.d(TAG,gson.toJson(mAction) );
         }
         catch (JSONException e) {

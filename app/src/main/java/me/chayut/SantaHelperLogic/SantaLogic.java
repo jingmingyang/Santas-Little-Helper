@@ -56,6 +56,8 @@ public class SantaLogic {
 
     Context mContext;
 
+    private LocationManager locationManager;
+
 
     public SantaLogic(Context context) {
 
@@ -68,6 +70,9 @@ public class SantaLogic {
         locationList = new ArrayList<>();
 
         //init monitoring service
+
+        locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+
         initBattMon();
         initLocMon();
 
@@ -129,6 +134,7 @@ public class SantaLogic {
     public void onLocationUpdateReceived(Location location){
         Log.d(TAG,String.format("Location: %s",location.toString()));
 
+        //checking the tasks list
         for (SantaTask mTask : taskList)
         {
             if (mTask instanceof SantaTaskLocation) {
@@ -159,6 +165,8 @@ public class SantaLogic {
             }
 
         }
+
+
     }
 
     public void onTimeUpDateReceived(){
@@ -216,7 +224,57 @@ public class SantaLogic {
         JSONObject mObject = SantaUtilities.readConfigFromFile();
 
         try {
+
+            //TODO:load json into object list
             JSONArray taskArray = mObject.getJSONArray(JTAG_SANTA_TASK_LIST);
+
+            taskList.clear();
+
+            for(int n = 0; n < taskArray.length(); n++)
+            {
+                JSONObject object = taskArray.getJSONObject(n);
+
+                String taskType = object.getString(JTAG_SANTA_TASK_TYPE);
+
+
+                if(taskType == JTAG_SANTA_TASK_APPOINT){
+                    String timeString = object.getString(JTAG_SANTA_DATETIME);
+
+
+                    String actionString = object.getString(JTAG_SANTA_ACTION);
+                    Gson gson = new Gson();
+                    SantaAction action = gson.fromJson(actionString,SantaAction.class);
+
+                    SantaTaskAppoint newTask = new SantaTaskAppoint(timeString,action);
+                    addTask(newTask);
+                }
+                else if (taskType ==JTAG_SANTA_TASK_BATT){
+
+                    int battPercent = object.getInt(JTAG_SANTA_BATT_LEVEL);
+
+                    String actionString = object.getString(JTAG_SANTA_ACTION);
+                    Gson gson = new Gson();
+                    SantaAction action = gson.fromJson(actionString,SantaAction.class);
+                    SantaTaskBattery newTask = new SantaTaskBattery(battPercent,action);
+                    addTask(newTask);
+
+                }
+                else if(taskType ==JTAG_SANTA_TASK_LOC){
+
+                    float lat = object.getLong(JTAG_SANTA_LAT);
+                    float longitude = object.getLong(JTAG_SANTA_LONG);
+                    float range = object.getLong(JTAG_SANTA_Range);
+
+                    String actionString = object.getString(JTAG_SANTA_ACTION);
+                    Gson gson = new Gson();
+                    SantaAction action = gson.fromJson(actionString,SantaAction.class);
+
+                    SantaTaskLocation newTask = new SantaTaskLocation(action,lat,longitude,range);
+                    addTask(newTask);
+                }
+
+
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -225,7 +283,7 @@ public class SantaLogic {
         return mObject.toString();
     }
 
-    //region start
+    //region updater
     private void initBattMon(){
 
         BroadcastReceiver batteryLevel = new BroadcastReceiver() {
@@ -249,7 +307,7 @@ public class SantaLogic {
 
     private void initLocMon(){
 
-        final LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+
         /* ********************************************************************************************************************************************************* */
         // Register the listener LocationManager
         try
@@ -264,7 +322,6 @@ public class SantaLogic {
 
     final LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
-
             SantaLogic.this.onLocationUpdateReceived(location);
         }
         public void onStatusChanged(String provider, int status, Bundle extras) {}
@@ -272,7 +329,7 @@ public class SantaLogic {
         public void onProviderDisabled(String provider) {}
     };
 
-    //end
+    //endregion
 
 
 
