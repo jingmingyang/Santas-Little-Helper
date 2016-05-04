@@ -67,6 +67,10 @@
         <activity android:name=".ManageLocationActivity" />
         <activity android:name=".SetupLocationActivity" />
         <activity android:name=".AlarmActivity"></activity>
+        <activity android:name="me.zhenning.AccountSelectActivity"/>
+        <activity android:name="me.zhenning.AuthenticatorActivity"/>
+        <activity android:name="me.zhenning.AccountInfoTestActivity"/>
+        
     </application>
 
 </manifest>

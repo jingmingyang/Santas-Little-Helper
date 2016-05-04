@@ -7,29 +7,26 @@
     android:paddingRight="17dp"
     >
 
-    <EditText android:id="@+id/accountName"
+    <TextView android:id="@+id/displayAccountName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="Email address"
-        android:inputType="textEmailAddress"
+        android:text="Account Name"
         android:padding="10dp"
         />
 
-    <EditText android:id="@+id/accountPassword"
+    <TextView android:id="@+id/displayPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:inputType="textPassword"
-        android:hint="Password"
         android:padding="10dp"
         />
 
-    <Button android:id="@+id/Account_Sign_in"
+    <Button android:id="@+id/showAccountInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Sign in"
+        android:text="Get Account Info"
         android:padding="10dp"/>
 
 

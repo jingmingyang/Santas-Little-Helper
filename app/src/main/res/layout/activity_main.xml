@@ -69,6 +69,18 @@
             android:text="Test Alarm"
             android:id="@+id/btnTestAlarm"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/account_test"
+            android:text="AccountManage"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AccountInfoTesting"
+            android:id="@+id/AccountInfoTest"/>
+
     </LinearLayout>
 
 </RelativeLayout>

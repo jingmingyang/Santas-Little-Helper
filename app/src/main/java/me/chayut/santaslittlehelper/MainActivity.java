@@ -20,6 +20,8 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 import me.chayut.SantaHelperLogic.SantaLogic;
+import me.zhenning.AccountInfoTestActivity;
+import me.zhenning.AccountSelectActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button button1,btnManageLocation,btnTestJSON,btnReadConf,btnTestAlarm;
     Button btnSendEmail,btnSendSMS,btnManageTask,btnWifiOn;
+
 
 
     @Override
@@ -170,6 +173,21 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        findViewById(R.id.account_test).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(MainActivity.this, AccountSelectActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.AccountInfoTest).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(MainActivity.this, AccountInfoTestActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

@@ -26,13 +26,11 @@ public class AuthenticatorActivity extends AppCompatActivity {
 
     private AccountManager mAccountManager;
 
-    final EditText AddEmailAccount = (EditText) findViewById(R.id.add_account_email);
+    EditText AddEmailAccount;
 
-    final EditText AddAccountPassword = (EditText) findViewById(R.id.add_account_password);
+    EditText AddAccountPassword;
 
-    final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
-    private boolean mValid = false;
+    private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
     /**
      * Called when the activity is first created.
@@ -43,38 +41,17 @@ public class AuthenticatorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_register);
 
+        AddAccountPassword = (EditText) findViewById(R.id.add_account_password);
+        AddEmailAccount = (EditText) findViewById(R.id.add_account_email);
+
         mAccountManager = AccountManager.get(this);
-
-        final String currentEmail = AddEmailAccount.getText().toString().trim();
-
-        AddEmailAccount.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (currentEmail.matches(emailPattern) && (s.length() > 0)){
-                    Toast.makeText(getApplicationContext(),"valid email address",Toast.LENGTH_SHORT).show();
-                    mValid = true;
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Invalid email address", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         findViewById(R.id.Account_Create).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (mValid)
+                String currentEmail = AddEmailAccount.getText().toString().trim();
+                if (currentEmail.matches(emailPattern))
                     addAccountToAccountManager();
                 else
                     Toast.makeText(getApplicationContext(),
@@ -94,6 +71,9 @@ public class AuthenticatorActivity extends AppCompatActivity {
         mAccountManager.setAuthToken(newAccount,
                 AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS,
                 AccountGeneral.Santa_AuthToken);
+        Toast.makeText(getApplicationContext(),
+                "Account Added!",
+                Toast.LENGTH_SHORT).show();
     }
 
 }

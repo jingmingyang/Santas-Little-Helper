@@ -1,9 +1,11 @@
 package me.zhenning;
 
 import android.accounts.Account;
+import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -18,7 +20,7 @@ import me.chayut.santaslittlehelper.R;
 /**
  * Created by jiang on 2016/05/02.
  */
-public class AccountSelectActivity extends AppCompatActivity {
+public class AccountSelectActivity extends AccountAuthenticatorActivity {
 
     private static final String STATE_DIALOG = "state_dialog";
 
@@ -54,11 +56,30 @@ public class AccountSelectActivity extends AppCompatActivity {
                 nextActivity();
             }
         });
+
+        btnAddNewAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performAddAccount();
+            }
+        });
+    }
+
+    private void performAddAccount(){
+        Intent intent = new Intent(this, AuthenticatorActivity.class);
+        startActivity(intent);
     }
 
     private void nextActivity() {
         if (!mSelected) {
             Toast.makeText(this, "Not yet selected!", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            /*
+
+            Intent to another activity
+
+            */
         }
     }
 
@@ -74,7 +95,7 @@ public class AccountSelectActivity extends AppCompatActivity {
         final Account availableAccounts[] = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
 
         if (availableAccounts.length == 0) {
-            Toast.makeText(this, "No accounts", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No account added", Toast.LENGTH_SHORT).show();
         } else {
             String name[] = new String[availableAccounts.length];
             for (int i = 0; i < availableAccounts.length; i++) {
@@ -97,9 +118,8 @@ public class AccountSelectActivity extends AppCompatActivity {
     public Account getSelectedAccount() {
         if (mSelected)
             return mAccountSelected;
-        else {
+        else
             return null;
-        }
     }
 
 }
