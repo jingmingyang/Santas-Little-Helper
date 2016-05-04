@@ -11,6 +11,7 @@ import android.widget.Button;
 import me.chayut.SantaHelperLogic.SantaAction;
 import me.chayut.SantaHelperLogic.SantaLogic;
 import me.chayut.SantaHelperLogic.SantaTask;
+import me.chayut.SantaHelperLogic.SantaTaskAppoint;
 import me.chayut.SantaHelperLogic.SantaTaskLocation;
 
 public class SetupTaskLocationActivity extends AppCompatActivity {
@@ -27,12 +28,28 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_task_location);
 
+
+        //TODO: Setup up
+
+        //TODO: Get parcellable
+
+        //if no intent parcellable, create new
+        mTask = new SantaTaskLocation(new SantaAction(),43.0f,43.0f,20.2f);
+
+
+        //TODO: if there is parcellable, load value to UI
+
+
         btnOK = (Button) findViewById(R.id.btnOK);
         btnOK.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                        mTask = new SantaTaskLocation(new SantaAction(),43.0f,43.0f,20.2f);
+
+                        //TODO: read value from UI before return
+
+                        //TODO: verify the the user input is valid
+
                         intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_LOC,mTask);
                         setResult(RESULT_OK, intent);
                         finish();

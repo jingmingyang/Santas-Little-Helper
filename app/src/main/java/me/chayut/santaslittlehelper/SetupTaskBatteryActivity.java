@@ -25,12 +25,21 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_task_battery);
 
+        //TODO: Setup up
+
+        //TODO: Get parcellable
+
 
         btnOK = (Button) findViewById(R.id.btnOK);
         btnOK.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent();
+
+                        //TODO: read value from UI before return
+
+                        //TODO: verify the the user input is valid
+
                         intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_BATT,new SantaTaskBattery(40,new SantaAction()));
                         setResult(RESULT_OK, intent);
                         finish();

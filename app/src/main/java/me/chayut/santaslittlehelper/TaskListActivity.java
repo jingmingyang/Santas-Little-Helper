@@ -11,10 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import me.chayut.SantaHelperLogic.SantaAction;
+import me.chayut.SantaHelperLogic.SantaLocation;
 import me.chayut.SantaHelperLogic.SantaLogic;
 import me.chayut.SantaHelperLogic.SantaTask;
 import me.chayut.SantaHelperLogic.SantaTaskAdapter;
@@ -44,6 +47,45 @@ public class TaskListActivity extends AppCompatActivity {
 
         //Listview setup
         lvTasks = (ListView) findViewById(R.id.listViewTasks);
+
+        lvTasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View v, final int position, long id) {
+
+                SantaTask item = mAdapter.getItem(position);
+
+                // 1. Instantiate an AlertDialog.Builder with its constructor
+                AlertDialog.Builder builder = new AlertDialog.Builder(TaskListActivity.this);
+
+                // 2. Chain together various setter methods to set the dialog characteristics
+                builder.setTitle("Task selected");
+
+                final String[] array = {"Edit", "Delete"};
+
+                builder.setItems(array, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, String.format("Choose: %d", which));
+                        switch (which) {
+                            case 0:
+                                //TODO: add edit
+                                //TODO: Pass object to respective activity with parcelable
+
+                                break;
+                            case 1:
+                                list.remove(position);
+                                UIRefresh();
+                                break;
+                        }
+
+                    }
+                });
+                // 3. Get the AlertDialog from create()
+                AlertDialog dialog = builder.create();
+
+                dialog.show();
+            }
+
+        });
     }
 
     private void ListUpdate(){
@@ -172,7 +214,7 @@ public class TaskListActivity extends AppCompatActivity {
                     UIRefresh();
                     break;
                 case REQUEST_TASK_LOCATION:
-                     mTask =  data.getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_LOC);
+                    mTask =  data.getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_LOC);
                     mLogic.addTask(mTask);
                     UIRefresh();
                     break;

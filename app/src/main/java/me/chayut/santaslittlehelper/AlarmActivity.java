@@ -23,7 +23,7 @@ public class AlarmActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         mediaPlayer.stop();
                         AlarmActivity.this.finish();
-                        //TODO: feed back to the logic
+                        //TODO: feed back to the logic if the user press the button
                     }
                 }).show();
     }

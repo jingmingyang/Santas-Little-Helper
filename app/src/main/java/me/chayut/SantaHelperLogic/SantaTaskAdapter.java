@@ -65,8 +65,6 @@ public class SantaTaskAdapter extends ArrayAdapter<SantaTask>  {
             rowView = inflater.inflate(R.layout.row_task_appoint, parent, false);
         }
 
-        //TODO: setup User endpoint interaction
-
         return rowView;
     }
 

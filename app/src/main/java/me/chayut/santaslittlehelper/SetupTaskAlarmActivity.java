@@ -26,15 +26,25 @@ public class SetupTaskAlarmActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_task_alarm);
 
+        //TODO: Setup up
+
+        //TODO: Get parcellable
+
         //if no intent parcellable, create new
         mTask = new SantaTaskAppoint();
         mTask.setAction(new SantaAction());
+
+        //TODO: if there is parcellable, load value to UI
+
 
         btnOK = (Button) findViewById(R.id.btnOK);
         btnOK.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent();
+                        //TODO: read value from UI before return
+
+                        //TODO: varify the the user input is valid
                         intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT,mTask);
                         setResult(RESULT_OK, intent);
                         finish();
