@@ -58,6 +58,8 @@ public class SantaUtilities {
                 myOutWriter.close();
                 outputStream.close();
 
+                //TODO: encrypt the file after stored
+
                 Log.d(TAG, "Done writing File: " + filename);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -68,6 +70,8 @@ public class SantaUtilities {
 
     public static JSONObject readConfigFromFile() {
 
+
+        //TODO: decrypt the file
         JSONObject mObj = null;
 
         if(SantaUtilities.isExternalStorageReadable()){

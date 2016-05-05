@@ -33,6 +33,13 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
         mAction =action;
     }
 
+    public SantaTaskLocation() {
+        mAction = new SantaAction();
+        latitude = 0.0f;
+        longitude = 0.0f;
+        mRange = 0.0f;
+    }
+
 
     @Override
     public JSONObject toJSONObject (){

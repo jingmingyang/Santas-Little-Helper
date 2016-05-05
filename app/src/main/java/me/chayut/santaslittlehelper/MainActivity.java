@@ -74,8 +74,10 @@ public class MainActivity extends AppCompatActivity {
         btnSendSMS.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
+
+                        Log.d(TAG,"SMS Test pressed ");
                         if(mLogic!=null) {
-                            mLogic.sendSMS("+498167509", "This is Santa's Message"); //test function
+                            mLogic.sendSMS("0478167509", "This is Santa's Message"); //test function
                         }
                     }
                 }

@@ -75,7 +75,7 @@ public class SantaTaskBattery extends SantaTask implements Parcelable {
             mObject.put(SantaLogic.JTAG_SANTA_ACTION,new JSONObject( gson.toJson(mAction)));
 
             //test
-            SantaAction test = gson.fromJson(gson.toJson(mAction),SantaAction.class);
+            //SantaAction test = gson.fromJson(gson.toJson(mAction),SantaAction.class);
 
             Log.d(TAG,gson.toJson(mAction) );
         }
