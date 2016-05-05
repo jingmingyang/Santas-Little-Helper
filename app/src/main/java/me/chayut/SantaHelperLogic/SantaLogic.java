@@ -223,10 +223,13 @@ public class SantaLogic {
 
         JSONObject mObject = SantaUtilities.readConfigFromFile();
 
+
         try {
 
             //TODO:load json into object list
             JSONArray taskArray = mObject.getJSONArray(JTAG_SANTA_TASK_LIST);
+
+            Log.d(TAG,taskArray.toString());
 
             taskList.clear();
 
@@ -236,8 +239,12 @@ public class SantaLogic {
 
                 String taskType = object.getString(JTAG_SANTA_TASK_TYPE);
 
+                Log.d(TAG,taskType);
 
-                if(taskType == JTAG_SANTA_TASK_APPOINT){
+
+
+                if(taskType.equals(JTAG_SANTA_TASK_APPOINT)){
+
                     String timeString = object.getString(JTAG_SANTA_DATETIME);
 
 
@@ -247,8 +254,9 @@ public class SantaLogic {
 
                     SantaTaskAppoint newTask = new SantaTaskAppoint(timeString,action);
                     addTask(newTask);
+                    Log.d(TAG,taskType + " Added");
                 }
-                else if (taskType ==JTAG_SANTA_TASK_BATT){
+                else if (taskType.equals(JTAG_SANTA_TASK_BATT)){
 
                     int battPercent = object.getInt(JTAG_SANTA_BATT_LEVEL);
 
@@ -257,9 +265,9 @@ public class SantaLogic {
                     SantaAction action = gson.fromJson(actionString,SantaAction.class);
                     SantaTaskBattery newTask = new SantaTaskBattery(battPercent,action);
                     addTask(newTask);
-
+                    Log.d(TAG,taskType + " Added");
                 }
-                else if(taskType ==JTAG_SANTA_TASK_LOC){
+                else if(taskType.equals(JTAG_SANTA_TASK_LOC)){
 
                     float lat = object.getLong(JTAG_SANTA_LAT);
                     float longitude = object.getLong(JTAG_SANTA_LONG);
@@ -271,8 +279,8 @@ public class SantaLogic {
 
                     SantaTaskLocation newTask = new SantaTaskLocation(action,lat,longitude,range);
                     addTask(newTask);
+                    Log.d(TAG,taskType + " Added");
                 }
-
 
             }
 
