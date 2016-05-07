@@ -129,6 +129,8 @@ public class SantaLogic {
         SantaFunction.toggleWiFi(mContext,true);
     }
 
+
+    //region on receive update
     /** on received update  Section */
 
     public void onLocationUpdateReceived(Location location){
@@ -143,6 +145,7 @@ public class SantaLogic {
                 if(task.isConditionMet(location)){
                     //execute action
                     SantaAction action = task.getAction();
+                    executeAction(action);
                 }
             }
 
@@ -160,19 +163,54 @@ public class SantaLogic {
                 if(task.isConditionMet(percentage)){
                     //execute action
                     SantaAction action = task.getAction();
+                    executeAction(action);
                 }
 
             }
 
         }
 
+    }
+
+    public void onTimeUpDateReceived(String time){
+
+        for (SantaTask mTask : taskList)
+        {
+            if (mTask instanceof SantaTaskBattery) {
+                SantaTaskAppoint task = (SantaTaskAppoint) mTask;
+
+                if(task.isConditionMet(time)){
+                    //execute action
+                    SantaAction action = task.getAction();
+                    executeAction(action);
+                }
+
+            }
+
+        }
+    }
+    //endregion
+
+    //region execute action
+    /** Execute Action Section */
+    public void executeAction(SantaAction action){
+
+        switch (action.getTaskType()){
+            case SantaAction.ACTION_EMAIL:
+                //TODO get info and send email
+            case SantaAction.ACTION_SMS:
+                //TODO: get info send sms
+            case SantaAction.ACTION_WIFI:
+                //TODO: turn on/off wifi
+                break;
+            default:
+        }
 
     }
 
-    public void onTimeUpDateReceived(){
+    //endregion
 
-    }
-
+    //region JSON config
     /** JSON Section   */
 
     public JSONArray getTaskListJSON(){
@@ -226,7 +264,7 @@ public class SantaLogic {
 
         try {
 
-            //TODO:load json into object list
+            //load json into object list
             JSONArray taskArray = mObject.getJSONArray(JTAG_SANTA_TASK_LIST);
 
             Log.d(TAG,taskArray.toString());
@@ -290,6 +328,8 @@ public class SantaLogic {
 
         return mObject.toString();
     }
+
+    //endregion
 
     //region updater
     private void initBattMon(){

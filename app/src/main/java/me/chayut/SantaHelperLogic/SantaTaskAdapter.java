@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -49,16 +50,26 @@ public class SantaTaskAdapter extends ArrayAdapter<SantaTask>  {
             Log.d(TAG,"SantaTaskAppoint");
             rowView = inflater.inflate(R.layout.row_task_appoint, parent, false);
             SantaTaskAppoint task = (SantaTaskAppoint) mTask;
+
+            TextView tvActionSummary = (TextView) rowView.findViewById(R.id.tvTaskSummary);
+            tvActionSummary.setText("Action: " + task.getAction().getTaskTypeString() );
+
         }
         else if  (mTask instanceof SantaTaskLocation){
             Log.d(TAG,"SantaTaskLocation");
             rowView = inflater.inflate(R.layout.row_task_location, parent, false);
             SantaTaskLocation task = (SantaTaskLocation) mTask;
+
+            TextView tvActionSummary = (TextView) rowView.findViewById(R.id.tvTaskSummary);
+            tvActionSummary.setText("Action: " + task.getAction().getTaskTypeString() );
         }
         else if  (mTask instanceof SantaTaskBattery){
             Log.d(TAG,"SantaTaskBattery");
             rowView = inflater.inflate(R.layout.row_task_battery, parent, false);
             SantaTaskBattery task = (SantaTaskBattery) mTask;
+
+            TextView tvActionSummary = (TextView) rowView.findViewById(R.id.tvTaskSummary);
+            tvActionSummary.setText("Action: " + task.getAction().getTaskTypeString() );
         }
         else
         {

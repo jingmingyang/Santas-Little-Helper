@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
+import android.provider.Settings;
 import android.telephony.SmsManager;
 import android.util.Log;
 
@@ -90,7 +91,32 @@ import android.util.Log;
         }else if (status == false && wifiManager.isWifiEnabled()){
             wifiManager.setWifiEnabled(false);
         }
+    }
 
+    static public void setBrightness (Context context,int brightness) {
+        Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);  //this will set the manual mode (set the automatic mode off)
+
+
+
+        Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightness);  //brightness is an integer variable (0-255), but dont use 0
+
+
+        try {
+            int brightness1 = Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);  //returns integer value 0-255
+        } catch (Exception e) {
+        }
+
+
+        try {
+            int br = Settings.System.getInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);  //this will get the information you have just set...
+
+
+        } catch (Exception e) {
+        }
+    }
+
+    static public void SetAutoBrightness(Context context){
+        Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);  //this will set the automatic mode on
     }
 
 

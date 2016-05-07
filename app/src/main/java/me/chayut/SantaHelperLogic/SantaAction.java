@@ -106,6 +106,19 @@ public class SantaAction  implements Parcelable{
         this.wifiState = wifiState;
     }
 
+    public String getTaskTypeString(){
 
+        //TODO set action string summary
+        switch (getTaskType()){
+            case SantaAction.ACTION_EMAIL:
+                return "Email Action";
+            case SantaAction.ACTION_SMS:
+                return "SMS Action";
+            case SantaAction.ACTION_WIFI:
+                return "Wifi Action";
+            default:
+                return "Not set";
+        }
+    }
 }
 
