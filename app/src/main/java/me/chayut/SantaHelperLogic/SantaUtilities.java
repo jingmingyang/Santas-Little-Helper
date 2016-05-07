@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.UUID;
 
 /**
  * Created by chayut on 1/05/16.
@@ -116,10 +117,15 @@ public class SantaUtilities {
         s = Math.round(s * 10000) / 10000;
         return s;
     }
+
     private static double rad(double d)
     {
         return d * Math.PI / 180.0;
     }
 
-
+    public static String getNewUUID ()
+    {
+        String uuid = UUID.randomUUID().toString();
+        return uuid;
+    }
 }

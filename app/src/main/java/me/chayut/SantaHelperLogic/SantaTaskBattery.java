@@ -17,6 +17,33 @@ public class SantaTaskBattery extends SantaTask implements Parcelable {
     private static final String TAG = "SantaTaskBattery";
 
     private int mBattPercentage = 0;
+    private String uuid;
+
+    private SantaAction mAction;
+
+
+
+    public SantaTaskBattery(int thresholdPercentage,SantaAction action){
+        mAction = action;
+        mBattPercentage = thresholdPercentage;
+        uuid = SantaUtilities.getNewUUID();
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public int getmBattPercentage() {
+        return mBattPercentage;
+    }
+
+    public void setmBattPercentage(int mBattPercentage) {
+        this.mBattPercentage = mBattPercentage;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     public SantaAction getAction() {
         return mAction;
@@ -26,42 +53,6 @@ public class SantaTaskBattery extends SantaTask implements Parcelable {
         this.mAction = mAction;
     }
 
-    private SantaAction mAction;
-
-    public SantaTaskBattery(int thresholdPercentage,SantaAction action){
-        mAction = action;
-        mBattPercentage = thresholdPercentage;
-
-    }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.mBattPercentage);
-        dest.writeParcelable(this.mAction, flags);
-    }
-
-    protected SantaTaskBattery(Parcel in) {
-        this.mBattPercentage = in.readInt();
-        this.mAction = in.readParcelable(SantaAction.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<SantaTaskBattery> CREATOR = new Parcelable.Creator<SantaTaskBattery>() {
-        @Override
-        public SantaTaskBattery createFromParcel(Parcel source) {
-            return new SantaTaskBattery(source);
-        }
-
-        @Override
-        public SantaTaskBattery[] newArray(int size) {
-            return new SantaTaskBattery[size];
-        }
-    };
 
     @Override
     public JSONObject toJSONObject (){
@@ -71,6 +62,7 @@ public class SantaTaskBattery extends SantaTask implements Parcelable {
         try{
             mObject.put(SantaLogic.JTAG_SANTA_TASK_TYPE,SantaLogic.JTAG_SANTA_TASK_BATT);
             mObject.put(SantaLogic.JTAG_SANTA_BATT_LEVEL,mBattPercentage);
+            mObject.put(SantaLogic.JTAG_UUID,uuid);
             Gson gson = new Gson();
             mObject.put(SantaLogic.JTAG_SANTA_ACTION,new JSONObject( gson.toJson(mAction)));
 
@@ -96,4 +88,33 @@ public class SantaTaskBattery extends SantaTask implements Parcelable {
         }
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.mBattPercentage);
+        dest.writeString(this.uuid);
+        dest.writeParcelable(this.mAction, flags);
+    }
+
+    protected SantaTaskBattery(Parcel in) {
+        this.mBattPercentage = in.readInt();
+        this.uuid = in.readString();
+        this.mAction = in.readParcelable(SantaAction.class.getClassLoader());
+    }
+
+    public static final Creator<SantaTaskBattery> CREATOR = new Creator<SantaTaskBattery>() {
+        @Override
+        public SantaTaskBattery createFromParcel(Parcel source) {
+            return new SantaTaskBattery(source);
+        }
+
+        @Override
+        public SantaTaskBattery[] newArray(int size) {
+            return new SantaTaskBattery[size];
+        }
+    };
 }

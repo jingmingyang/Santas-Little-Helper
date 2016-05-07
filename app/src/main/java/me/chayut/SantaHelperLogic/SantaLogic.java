@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import me.chayut.santaslittlehelper.R;
 import me.zhenning.EmailSender;
@@ -48,6 +49,7 @@ public class SantaLogic {
     public static final String JTAG_SANTA_LONG = "Long";
     public static final String JTAG_SANTA_Range = "Range";
     public static final String JTAG_SANTA_TASK_LIST = "TaskList";
+    public static final String JTAG_UUID = "uuid";
 
     private ArrayList<EndPoint> endPoints;
 
@@ -69,8 +71,10 @@ public class SantaLogic {
         taskList = new ArrayList<>();
         locationList = new ArrayList<>();
 
-        //init monitoring service
+        //read config on start
+        readSantaConfig();
 
+        //init monitoring service
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
         initBattMon();
@@ -284,24 +288,27 @@ public class SantaLogic {
                 if(taskType.equals(JTAG_SANTA_TASK_APPOINT)){
 
                     String timeString = object.getString(JTAG_SANTA_DATETIME);
-
-
+                    String uuid = object.getString(JTAG_UUID);
                     String actionString = object.getString(JTAG_SANTA_ACTION);
+
                     Gson gson = new Gson();
                     SantaAction action = gson.fromJson(actionString,SantaAction.class);
 
                     SantaTaskAppoint newTask = new SantaTaskAppoint(timeString,action);
+                    newTask.setUuid(uuid);
                     addTask(newTask);
                     Log.d(TAG,taskType + " Added");
                 }
                 else if (taskType.equals(JTAG_SANTA_TASK_BATT)){
 
                     int battPercent = object.getInt(JTAG_SANTA_BATT_LEVEL);
+                    String uuid = object.getString(JTAG_UUID);
 
                     String actionString = object.getString(JTAG_SANTA_ACTION);
                     Gson gson = new Gson();
                     SantaAction action = gson.fromJson(actionString,SantaAction.class);
                     SantaTaskBattery newTask = new SantaTaskBattery(battPercent,action);
+                    newTask.setUuid(uuid);
                     addTask(newTask);
                     Log.d(TAG,taskType + " Added");
                 }
@@ -310,12 +317,14 @@ public class SantaLogic {
                     float lat = object.getLong(JTAG_SANTA_LAT);
                     float longitude = object.getLong(JTAG_SANTA_LONG);
                     float range = object.getLong(JTAG_SANTA_Range);
+                    String uuid = object.getString(JTAG_UUID);
 
                     String actionString = object.getString(JTAG_SANTA_ACTION);
                     Gson gson = new Gson();
                     SantaAction action = gson.fromJson(actionString,SantaAction.class);
 
                     SantaTaskLocation newTask = new SantaTaskLocation(action,lat,longitude,range);
+                    newTask.setUuid(uuid);
                     addTask(newTask);
                     Log.d(TAG,taskType + " Added");
                 }

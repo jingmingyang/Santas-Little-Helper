@@ -17,20 +17,18 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
 
     private static final String TAG = "SantaTaskLocation";
 
+    private SantaAction mAction;
+    private float latitude = 0.0f;
+    private float longitude =0.0f ;
+    private float mRange = 0.0f;
+    private String uuid;
+
     public SantaTaskLocation(SantaAction mAction, float latitude, float longitude, float mRange) {
         this.mAction = mAction;
         this.latitude = latitude;
         this.longitude = longitude;
         this.mRange = mRange;
-    }
-
-    private SantaAction mAction;
-    private float latitude = 0.0f;
-    private float longitude =0.0f ;
-    private float mRange = 0.0f;
-
-    public SantaTaskLocation(SantaAction action) {
-        mAction =action;
+        uuid = SantaUtilities.getNewUUID();
     }
 
     public SantaTaskLocation() {
@@ -38,8 +36,18 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
         latitude = 0.0f;
         longitude = 0.0f;
         mRange = 0.0f;
+        uuid = SantaUtilities.getNewUUID();
     }
 
+    /**setter and getter */
+    
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     @Override
     public JSONObject toJSONObject (){
@@ -51,6 +59,7 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
             mObject.put(SantaLogic.JTAG_SANTA_LAT,latitude);
             mObject.put(SantaLogic.JTAG_SANTA_LONG,longitude);
             mObject.put(SantaLogic.JTAG_SANTA_Range,mRange);
+            mObject.put(SantaLogic.JTAG_UUID,uuid);
             Gson gson = new Gson();
             mObject.put(SantaLogic.JTAG_SANTA_ACTION,new JSONObject(gson.toJson(mAction)));
             Log.d(TAG,gson.toJson(mAction));
@@ -93,6 +102,7 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
         dest.writeFloat(this.latitude);
         dest.writeFloat(this.longitude);
         dest.writeFloat(this.mRange);
+        dest.writeString(this.uuid);
     }
 
     protected SantaTaskLocation(Parcel in) {
@@ -100,6 +110,7 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
         this.latitude = in.readFloat();
         this.longitude = in.readFloat();
         this.mRange = in.readFloat();
+        this.uuid = in.readString();
     }
 
     public static final Creator<SantaTaskLocation> CREATOR = new Creator<SantaTaskLocation>() {
