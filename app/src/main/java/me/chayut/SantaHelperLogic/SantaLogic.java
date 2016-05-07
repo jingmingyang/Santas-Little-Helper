@@ -29,15 +29,12 @@ import me.zhenning.EmailSender;
  */
 public class SantaLogic {
 
-    private static final String TAG = "SantaLogic";
-
     public static final String EXTRA_SANTA_TASK = "EXTRA_SANTA_TASK";
     public static final String EXTRA_SANTA_TASK_APPOINT = "EXTRA_SANTA_TASK_APPOINT";
     public static final String EXTRA_SANTA_TASK_BATT = "EXTRA_SANTA_TASK_BATT";
     public static final String EXTRA_SANTA_TASK_LOC = "EXTRA_SANTA_TASK_LOC";
     public static final String EXTRA_SANTA_ACTION = "EXTRA_SANTA_ACTION";
     public static final String EXTRA_SANTA_LOCATION= "EXTRA_SANTA_LOCATION";
-
     public static final String JTAG_SANTA_TASK_TYPE = "SantaTaskType";
     public static final String JTAG_SANTA_ACTION= "Action";
     public static final String JTAG_SANTA_TASK_APPOINT = "SANTA_TASK_APPOINT";
@@ -50,16 +47,20 @@ public class SantaLogic {
     public static final String JTAG_SANTA_Range = "Range";
     public static final String JTAG_SANTA_TASK_LIST = "TaskList";
     public static final String JTAG_UUID = "uuid";
-
+    private static final String TAG = "SantaLogic";
+    Context mContext;
     private ArrayList<EndPoint> endPoints;
-
     private ArrayList<SantaLocation> locationList;
     private ArrayList<SantaTask> taskList;
-
-    Context mContext;
-
+    final LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            SantaLogic.this.onLocationUpdateReceived(location);
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        public void onProviderEnabled(String provider) {}
+        public void onProviderDisabled(String provider) {}
+    };
     private LocationManager locationManager;
-
 
     public SantaLogic(Context context) {
 
@@ -101,7 +102,11 @@ public class SantaLogic {
     }
 
     public boolean addTask (SantaTask task){
+
         taskList.add(task);
+        //update config file
+        writeSantaConfig();
+
         return true;
     }
 
@@ -129,12 +134,13 @@ public class SantaLogic {
         SantaFunction.sendSMS(mContext, phoneNumber,message);
     }
 
+
+    //region on receive update
+
     public void onWifi (){
         SantaFunction.toggleWiFi(mContext,true);
     }
 
-
-    //region on receive update
     /** on received update  Section */
 
     public void onLocationUpdateReceived(Location location){
@@ -175,6 +181,9 @@ public class SantaLogic {
         }
 
     }
+    //endregion
+
+    //region execute action
 
     public void onTimeUpDateReceived(String time){
 
@@ -193,9 +202,11 @@ public class SantaLogic {
 
         }
     }
+
     //endregion
 
-    //region execute action
+    //region JSON config
+
     /** Execute Action Section */
     public void executeAction(SantaAction action){
 
@@ -212,9 +223,6 @@ public class SantaLogic {
 
     }
 
-    //endregion
-
-    //region JSON config
     /** JSON Section   */
 
     public JSONArray getTaskListJSON(){
@@ -260,6 +268,8 @@ public class SantaLogic {
         SantaUtilities.saveConfigToFile(mObject);
 
     }
+
+    //endregion
 
     public String readSantaConfig(){
 
@@ -338,8 +348,6 @@ public class SantaLogic {
         return mObject.toString();
     }
 
-    //endregion
-
     //region updater
     private void initBattMon(){
 
@@ -361,7 +369,6 @@ public class SantaLogic {
         mContext.registerReceiver(batteryLevel, batteryLevelFilter);
     }
 
-
     private void initLocMon(){
 
 
@@ -376,15 +383,6 @@ public class SantaLogic {
             e.printStackTrace();
         }
     }
-
-    final LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            SantaLogic.this.onLocationUpdateReceived(location);
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
-        public void onProviderEnabled(String provider) {}
-        public void onProviderDisabled(String provider) {}
-    };
 
     //endregion
 

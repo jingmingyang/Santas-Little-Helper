@@ -9,24 +9,37 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * Created by chayut on 25/03/16.
  */
 public class SantaTaskAppoint extends SantaTask implements Parcelable {
 
-    private static final String TAG = "SantaTaskAppoint";
+    public static final Creator<SantaTaskAppoint> CREATOR = new Creator<SantaTaskAppoint>() {
+        @Override
+        public SantaTaskAppoint createFromParcel(Parcel source) {
+            return new SantaTaskAppoint(source);
+        }
 
+        @Override
+        public SantaTaskAppoint[] newArray(int size) {
+            return new SantaTaskAppoint[size];
+        }
+    };
+    private static final String TAG = "SantaTaskAppoint";
     private SantaAction mAction;
     private String uuid;
-
     private String timeString  = "" ;
-
 
     public SantaTaskAppoint(SantaAction mAction, String uuid, String timeString) {
         this.mAction = mAction;
         this.uuid = uuid;
         this.timeString = timeString;
     }
+
 
     public SantaTaskAppoint() {
         mAction = new SantaAction();
@@ -35,13 +48,24 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
     }
 
 
+
+
     public SantaTaskAppoint(SantaAction action) {
         mAction = action;
         uuid = SantaUtilities.getNewUUID();
     }
 
 
+    public SantaTaskAppoint(String timeString, SantaAction mAction) {
+        this.timeString = timeString;
+        this.mAction = mAction;
+    }
 
+    protected SantaTaskAppoint(Parcel in) {
+        this.mAction = in.readParcelable(SantaAction.class.getClassLoader());
+        this.uuid = in.readString();
+        this.timeString = in.readString();
+    }
 
     @Override
     public JSONObject toJSONObject (){
@@ -64,15 +88,14 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
         return  mObject;
     }
 
+    public String getUuid() {
+        return uuid;
+    }
 
     /** getter setter */
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
-    }
-
-    public String getUuid() {
-        return uuid;
     }
 
     public SantaAction getAction() {
@@ -84,13 +107,25 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
     }
 
     public boolean isConditionMet(String time){
+
+        Calendar tNow = Calendar.getInstance();
+        Calendar tSet = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+
+        try {
+            tNow.setTime(sdf.parse(time));
+            tSet.setTime(sdf.parse(timeString));
+
+            if(tNow.compareTo(tSet) > 0){
+                //if the time has passed
+                return true;
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         return false;
-    }
-
-
-    public SantaTaskAppoint(String timeString, SantaAction mAction) {
-        this.timeString = timeString;
-        this.mAction = mAction;
     }
 
     public String getTimeString() {
@@ -112,22 +147,4 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
         dest.writeString(this.uuid);
         dest.writeString(this.timeString);
     }
-
-    protected SantaTaskAppoint(Parcel in) {
-        this.mAction = in.readParcelable(SantaAction.class.getClassLoader());
-        this.uuid = in.readString();
-        this.timeString = in.readString();
-    }
-
-    public static final Creator<SantaTaskAppoint> CREATOR = new Creator<SantaTaskAppoint>() {
-        @Override
-        public SantaTaskAppoint createFromParcel(Parcel source) {
-            return new SantaTaskAppoint(source);
-        }
-
-        @Override
-        public SantaTaskAppoint[] newArray(int size) {
-            return new SantaTaskAppoint[size];
-        }
-    };
 }
