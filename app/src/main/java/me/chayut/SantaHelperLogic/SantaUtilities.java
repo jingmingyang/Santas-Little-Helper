@@ -13,6 +13,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.UUID;
 
+import me.zhenning.DataEncryption;
+
 /**
  * Created by chayut on 1/05/16.
  */
@@ -60,6 +62,17 @@ public class SantaUtilities {
                 outputStream.close();
 
                 //TODO: encrypt the file after stored
+                String filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+
+                filePath = filePath + filename;
+                int pos = filePath.lastIndexOf('.');
+                String fileNameEnc = filePath.substring(0, pos) + "-enc." + filename;
+
+                DataEncryption mEncrypter = new DataEncryption();
+                mEncrypter.setBlocksize(128);
+                mEncrypter.encryptFile(fileNameEnc, filePath);
+
+                //TODO: delete the source config file
 
                 Log.d(TAG, "Done writing File: " + filename);
             } catch (Exception e) {
@@ -78,7 +91,17 @@ public class SantaUtilities {
         if(SantaUtilities.isExternalStorageReadable()){
 
             String filename = "santaFile.conf";
-            File file = new File(Environment.getExternalStorageDirectory(), filename);
+            String filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+            filePath = filePath + filename;
+            int pos = filePath.lastIndexOf('.');
+            String filenameEnc = filePath.substring(0, pos) + "-enc." + filename;
+            String filenameDec = filename.substring(0,pos) + "-dec." + filename.substring(pos+1);
+
+            DataEncryption mEncrypter = new DataEncryption();
+            mEncrypter.setBlocksize(128);
+            mEncrypter.decryptFile(filenameDec, filenameEnc);
+
+            File file = new File(Environment.getExternalStorageDirectory(), filenameDec);
 
             try {
 
