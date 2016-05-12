@@ -21,6 +21,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import me.chayut.santaslittlehelper.AlarmActivity;
 import me.chayut.santaslittlehelper.R;
 import me.zhenning.EmailSender;
 
@@ -48,6 +49,8 @@ public class SantaLogic {
     public static final String JTAG_SANTA_TASK_LIST = "TaskList";
     public static final String JTAG_UUID = "uuid";
     private static final String TAG = "SantaLogic";
+
+    
     Context mContext;
     private ArrayList<EndPoint> endPoints;
     private ArrayList<SantaLocation> locationList;
@@ -181,9 +184,7 @@ public class SantaLogic {
         }
 
     }
-    //endregion
 
-    //region execute action
 
     public void onTimeUpDateReceived(String time){
 
@@ -193,9 +194,14 @@ public class SantaLogic {
                 SantaTaskAppoint task = (SantaTaskAppoint) mTask;
 
                 if(task.isConditionMet(time)){
-                    //execute action
-                    SantaAction action = task.getAction();
-                    executeAction(action);
+
+                    //issue alarm before take action
+                    Intent i = new Intent(mContext,AlarmActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    //TODO: add extra task to intent itself.
+                    Log.e(TAG,"HEHEHE running~");
+                    mContext.startActivity(i);
                 }
 
             }
@@ -203,9 +209,16 @@ public class SantaLogic {
         }
     }
 
+    public void onAlarmMissed(String uuid){
+        //TODO: call alarm missed when user miss the alarm
+
+        //TODO take action
+
+
+    }
     //endregion
 
-    //region JSON config
+    //region execute action
 
     /** Execute Action Section */
     public void executeAction(SantaAction action){
@@ -222,6 +235,13 @@ public class SantaLogic {
         }
 
     }
+
+
+    //endregion
+
+    //region JSON config
+
+
 
     /** JSON Section   */
 

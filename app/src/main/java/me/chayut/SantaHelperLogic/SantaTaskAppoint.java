@@ -40,19 +40,10 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
         this.timeString = timeString;
     }
 
-
     public SantaTaskAppoint() {
         mAction = new SantaAction();
         uuid = SantaUtilities.getNewUUID();
 
-    }
-
-
-
-
-    public SantaTaskAppoint(SantaAction action) {
-        mAction = action;
-        uuid = SantaUtilities.getNewUUID();
     }
 
 
@@ -118,6 +109,7 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
 
             if(tNow.compareTo(tSet) > 0){
                 //if the time has passed
+                //TODO:check that it really works
                 return true;
             }
 
