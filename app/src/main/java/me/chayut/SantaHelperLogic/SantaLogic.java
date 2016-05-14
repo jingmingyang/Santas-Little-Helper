@@ -1,5 +1,6 @@
 package me.chayut.SantaHelperLogic;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.BatteryManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 
@@ -20,6 +23,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import me.chayut.santaslittlehelper.AlarmActivity;
 import me.chayut.santaslittlehelper.R;
@@ -50,9 +57,32 @@ public class SantaLogic {
     public static final String JTAG_SANTA_TASK_LIST = "TaskList";
     public static final String JTAG_UUID = "uuid";
     private static final String TAG = "SantaLogic";
+    final Runnable periodicTask = new Runnable(){
 
-    
+        Handler mHandler = new Handler(Looper.getMainLooper());
+
+        @Override
+        public void run() {
+            try{
+                Log.d(TAG,"periodicTask.run()");
+
+                Runnable myRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+
+                        //TODO: check anything on UI thread
+                    } // This is your code
+                };
+                mHandler.post(myRunnable);
+
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    };
     Context mContext;
+    ScheduledThreadPoolExecutor sch;
     private ArrayList<EndPoint> endPoints;
     private ArrayList<SantaLocation> locationList;
     private ArrayList<SantaTask> taskList;
@@ -65,8 +95,6 @@ public class SantaLogic {
         public void onProviderDisabled(String provider) {}
     };
     private LocationManager locationManager;
-
-
     private String mLoadedEmail = "";
     private String mLoadedPassword = "";
     private boolean creadentialLoaded = false;
@@ -94,6 +122,13 @@ public class SantaLogic {
         initBattMon();
         initLocMon();
 
+        //start periodical task
+        // Create a scheduled thread pool with 5 core threads
+        sch = (ScheduledThreadPoolExecutor)
+                Executors.newScheduledThreadPool(5);
+        //TODO: set repeatiion time according to condition.
+        ScheduledFuture<?> periodicFuture = sch.scheduleAtFixedRate(periodicTask, 0, 5, TimeUnit.MINUTES);
+
     }
 
     public boolean addEndPoint (EndPoint mEP){
@@ -114,13 +149,25 @@ public class SantaLogic {
         return locationList;
     }
 
+    //region task
     public boolean addTask (SantaTask task){
 
         taskList.add(task);
+        //TODO: check if task UUID already exist, update instead
+
+
         //update config file
         writeSantaConfig();
 
         return true;
+    }
+
+    public SantaTask findTaskByUUID (String taskUUID){
+        SantaTask returnTask = null;
+        //TODO: return task from list by UUID
+
+
+        return returnTask;
     }
 
     public boolean addLocation (SantaLocation location){
@@ -137,7 +184,10 @@ public class SantaLogic {
         mLoadedPassword = ""; //TODO: set value here
         creadentialLoaded = true;
     }
+    //endregion
 
+
+    //region test
     /** Test  Section */
 
     public void sendEmailTest(String email,String password)
@@ -164,6 +214,8 @@ public class SantaLogic {
     public void onWifi (){
         SantaFunction.toggleWiFi(mContext,true);
     }
+
+    //endregion
 
     /** on received update  Section */
 
@@ -217,9 +269,9 @@ public class SantaLogic {
 
                     //issue alarm before take action
                     Intent i = new Intent(mContext,AlarmActivity.class);
+                    i.putExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT,task);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                    //TODO: add extra task to intent itself.
                     Log.e(TAG,"HEHEHE running~");
                     mContext.startActivity(i);
                 }

@@ -60,21 +60,24 @@ public class SantaUtilities {
                 myOutWriter.write(jsonObject.toString());
                 myOutWriter.close();
                 outputStream.close();
+                Log.d(TAG, "Done writing File: " + filename);
 
-                //TODO: encrypt the file after stored
+                //encrypt the file after stored
                 String filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
 
-                filePath = filePath + filename;
+
+                filePath = filePath +'/' +filename;
                 int pos = filePath.lastIndexOf('.');
-                String fileNameEnc = filePath.substring(0, pos) + "-enc." + filename;
+                String fileNameEnc = filePath.substring(0, pos) + ".enc";
 
                 DataEncryption mEncrypter = new DataEncryption();
                 mEncrypter.setBlocksize(128);
                 mEncrypter.encryptFile(fileNameEnc, filePath);
 
+                Log.d(TAG, "Encrypt to file: " + fileNameEnc);
+
                 //TODO: delete the source config file
 
-                Log.d(TAG, "Done writing File: " + filename);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -95,14 +98,18 @@ public class SantaUtilities {
 
                 String filename = "santaFile.conf";
                 String filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-                filePath = filePath + filename;
+                filePath = filePath + '/' +filename;
+
                 int pos = filePath.lastIndexOf('.');
-                String filenameEnc = filePath.substring(0, pos) + "-enc." + filename;
-                String filenameDec = filename.substring(0,pos) + "-dec." + filename.substring(pos+1);
+                String filenameEnc = filePath.substring(0, pos) + ".enc";
+                String filenameDec = filename;
+                Log.d(TAG,"decrypting file: " + filenameEnc);
 
                 DataEncryption mEncrypter = new DataEncryption();
                 mEncrypter.setBlocksize(128);
                 mEncrypter.decryptFile(filenameDec, filenameEnc);
+
+                Log.d(TAG,"Done decrpting file: " + filenameDec);
 
                 //load file
                 File file = new File(Environment.getExternalStorageDirectory(), filenameDec);
@@ -118,6 +125,8 @@ public class SantaUtilities {
                 myReader.close();
 
                 Log.d(TAG, "Done reading SD");
+
+                //TODO: delete decrypted file after reading
 
                 mObj = new JSONObject(aBuffer);
             }

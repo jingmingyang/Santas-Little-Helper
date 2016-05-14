@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -21,24 +22,47 @@ import me.chayut.SantaHelperLogic.SantaLocation;
 import me.chayut.SantaHelperLogic.SantaLogic;
 import me.chayut.SantaHelperLogic.SantaTask;
 import me.chayut.SantaHelperLogic.SantaTaskAdapter;
+import me.chayut.SantaHelperLogic.SantaTaskAppoint;
+import me.chayut.SantaHelperLogic.SantaTaskBattery;
+import me.chayut.SantaHelperLogic.SantaTaskLocation;
 
 
 public class TaskListActivity extends AppCompatActivity {
-
-    private final static String TAG = "TaskListActivity";
-
-    SantaService mService;
-    SantaLogic mLogic;
-    boolean mBound = false;
-
-    private ListView lvTasks;
-    private SantaTaskAdapter mAdapter;
-    private ArrayList<SantaTask> list = new ArrayList<SantaTask>();
 
     //request Code
     static final int REQUEST_TASK_ALARM =1;
     static final int REQUEST_TASK_LOCATION= 2;
     static final int REQUEST_TASK_BATTERY =3;
+    private final static String TAG = "TaskListActivity";
+    SantaService mService;
+    SantaLogic mLogic;
+    boolean mBound = false;
+    private ListView lvTasks;
+    private SantaTaskAdapter mAdapter;
+    private ArrayList<SantaTask> list = new ArrayList<SantaTask>();
+    /** Defines callbacks for service binding, passed to bindService() */
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            SantaService.LocalBinder binder = (SantaService.LocalBinder) service;
+            mService = binder.getService();
+            mLogic = mService.getSantaLogic();
+            mBound = true;
+
+            UIRefresh();
+
+
+            Log.d(TAG,mService.getHello());
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +91,40 @@ public class TaskListActivity extends AppCompatActivity {
                         Log.d(TAG, String.format("Choose: %d", which));
                         switch (which) {
                             case 0:
-                                //TODO: add edit
-                                //TODO: Pass object to respective activity with parcelable
+
+                                SantaTask mTask = list.get(which);
+
+                                if (mTask instanceof SantaTaskAppoint) {
+                                    Log.d(TAG,"SantaTaskAppoint");
+                                    SantaTaskAppoint task = (SantaTaskAppoint) mTask;
+
+                                    Intent startAct = new Intent(TaskListActivity.this, SetupTaskAlarmActivity.class);
+                                    startAct.putExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT,task);
+                                    startActivityForResult(startAct,REQUEST_TASK_ALARM);
+
+
+                                }
+                                else if  (mTask instanceof SantaTaskLocation){
+                                    Log.d(TAG,"SantaTaskLocation");
+                                    SantaTaskLocation task = (SantaTaskLocation) mTask;
+
+                                    Intent startAct2 = new Intent(TaskListActivity.this, SetupTaskLocationActivity.class);
+                                    startAct2.putExtra(SantaLogic.EXTRA_SANTA_TASK_LOC,task);
+                                    startActivityForResult(startAct2,REQUEST_TASK_LOCATION);
+
+                                }
+                                else if  (mTask instanceof SantaTaskBattery){
+                                    Log.d(TAG,"SantaTaskBattery");
+                                    SantaTaskBattery task = (SantaTaskBattery) mTask;
+
+                                    Intent startAct3 = new Intent(TaskListActivity.this, SetupTaskBatteryActivity.class);
+                                    startAct3.putExtra(SantaLogic.EXTRA_SANTA_TASK_BATT,task);
+                                    startActivityForResult(startAct3,REQUEST_TASK_BATTERY);
+                                }
+                                else
+                                {
+
+                                }
 
                                 break;
                             case 1:
@@ -122,32 +178,6 @@ public class TaskListActivity extends AppCompatActivity {
             mBound = false;
         }
     }
-
-
-    /** Defines callbacks for service binding, passed to bindService() */
-    private ServiceConnection mConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            SantaService.LocalBinder binder = (SantaService.LocalBinder) service;
-            mService = binder.getService();
-            mLogic = mService.getSantaLogic();
-            mBound = true;
-
-            UIRefresh();
-
-
-            Log.d(TAG,mService.getHello());
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            mBound = false;
-        }
-    };
-
 
     private void UIRefresh(){
         list = mService.getSantaLogic().getTaskList();
