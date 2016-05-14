@@ -30,6 +30,7 @@ import me.zhenning.EmailSender;
  */
 public class SantaLogic {
 
+    /** const */
     public static final String EXTRA_SANTA_TASK = "EXTRA_SANTA_TASK";
     public static final String EXTRA_SANTA_TASK_APPOINT = "EXTRA_SANTA_TASK_APPOINT";
     public static final String EXTRA_SANTA_TASK_BATT = "EXTRA_SANTA_TASK_BATT";
@@ -65,6 +66,11 @@ public class SantaLogic {
     };
     private LocationManager locationManager;
 
+
+    private String mLoadedEmail = "";
+    private String mLoadedPassword = "";
+    private boolean creadentialLoaded = false;
+
     public SantaLogic(Context context) {
 
         Log.d(TAG,"Santa Logic initiated");
@@ -77,6 +83,10 @@ public class SantaLogic {
 
         //read config on start
         readSantaConfig();
+
+        //load user credential on start
+        loadUserCredential();
+
 
         //init monitoring service
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
@@ -118,10 +128,21 @@ public class SantaLogic {
         return true;
     }
 
+    //
+    public void loadUserCredential()
+    {
+        //TODO: Zhenning -> loadUserCredential;
+
+        mLoadedEmail = ""; //TODO: set value here
+        mLoadedPassword = ""; //TODO: set value here
+        creadentialLoaded = true;
+    }
+
     /** Test  Section */
 
     public void sendEmailTest(String email,String password)
     {
+        //TODO:use loadedUserCredential
         try {
             EmailSender sender = new EmailSender(email, password);
             sender.sendMail("Test 2 ",
@@ -184,7 +205,6 @@ public class SantaLogic {
         }
 
     }
-
 
     public void onTimeUpDateReceived(String time){
 
@@ -291,10 +311,9 @@ public class SantaLogic {
 
     //endregion
 
-    public String readSantaConfig(){
+    public boolean readSantaConfig(){
 
         JSONObject mObject = SantaUtilities.readConfigFromFile();
-
 
         try {
 
@@ -312,8 +331,6 @@ public class SantaLogic {
                 String taskType = object.getString(JTAG_SANTA_TASK_TYPE);
 
                 Log.d(TAG,taskType);
-
-
 
                 if(taskType.equals(JTAG_SANTA_TASK_APPOINT)){
 
@@ -361,11 +378,18 @@ public class SantaLogic {
 
             }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            return true;
 
-        return mObject.toString();
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+
+            return false;
+        }
+        catch (NullPointerException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     //region updater

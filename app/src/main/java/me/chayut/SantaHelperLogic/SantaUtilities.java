@@ -90,20 +90,22 @@ public class SantaUtilities {
 
         if(SantaUtilities.isExternalStorageReadable()){
 
-            String filename = "santaFile.conf";
-            String filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-            filePath = filePath + filename;
-            int pos = filePath.lastIndexOf('.');
-            String filenameEnc = filePath.substring(0, pos) + "-enc." + filename;
-            String filenameDec = filename.substring(0,pos) + "-dec." + filename.substring(pos+1);
-
-            DataEncryption mEncrypter = new DataEncryption();
-            mEncrypter.setBlocksize(128);
-            mEncrypter.decryptFile(filenameDec, filenameEnc);
-
-            File file = new File(Environment.getExternalStorageDirectory(), filenameDec);
-
             try {
+                //TODO: fix decript, maybe file not found?
+
+                String filename = "santaFile.conf";
+                String filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+                filePath = filePath + filename;
+                int pos = filePath.lastIndexOf('.');
+                String filenameEnc = filePath.substring(0, pos) + "-enc." + filename;
+                String filenameDec = filename.substring(0,pos) + "-dec." + filename.substring(pos+1);
+
+                DataEncryption mEncrypter = new DataEncryption();
+                mEncrypter.setBlocksize(128);
+                mEncrypter.decryptFile(filenameDec, filenameEnc);
+
+                //load file
+                File file = new File(Environment.getExternalStorageDirectory(), filenameDec);
 
                 FileInputStream fIn = new FileInputStream(file);
                 BufferedReader myReader = new BufferedReader(new InputStreamReader(fIn));

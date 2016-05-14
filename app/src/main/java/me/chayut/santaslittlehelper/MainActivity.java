@@ -32,197 +32,8 @@ public class MainActivity extends AppCompatActivity {
     SantaLogic mLogic;
     boolean mBound = false;
 
-    Button button1,btnManageLocation,btnTestJSON,btnReadConf,btnTestAlarm;
-    Button btnSendEmail,btnSendSMS,btnManageTask,btnWifiOn;
-
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate()");
-
-        setContentView(R.layout.activity_main);
-
-        //start service
-        Intent intent = new Intent(MainActivity.this, SantaService.class);
-        startService(intent);
-
-        button1 = (Button) findViewById(R.id.btnManageEndpoints);
-        button1.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this, ManageEndpointActivity.class);
-                        startActivity(intent);
-                    }
-                }
-        );
-
-        btnSendEmail = (Button) findViewById(R.id.btnSendEmail);
-        btnSendEmail.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View v) {
-                        if(mLogic!=null) {
-                            mLogic.sendEmailTest("FOO@BAR.com", "BAR"); //test function
-                        }
-                    }
-                }
-        );
-
-
-        btnSendSMS= (Button) findViewById(R.id.buttonSendSMS);
-        btnSendSMS.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View v) {
-
-                        Log.d(TAG,"SMS Test pressed ");
-                        if(mLogic!=null) {
-                            mLogic.sendSMS("0478167509", "This is Santa's Message"); //test function
-                        }
-                    }
-                }
-        );
-
-        btnManageTask= (Button) findViewById(R.id.btnManageTask);
-        btnManageTask.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
-                        startActivity(intent);
-                    }
-                }
-        );
-
-        btnManageLocation = (Button) findViewById(R.id.btnManageLocation);
-        btnManageLocation.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this, ManageLocationActivity.class);
-                        startActivity(intent);
-                    }
-                }
-        );
-
-        btnWifiOn = (Button) findViewById(R.id.btnWifiOn);
-        btnWifiOn.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View v) {
-                        mLogic.onWifi(); //test function
-                    }
-                }
-        );
-
-        btnTestJSON = (Button) findViewById(R.id.btnJSON);
-        btnTestJSON.setOnClickListener(
-                new View.OnClickListener() {
-                    public void onClick(View v) {
-                        mLogic.writeSantaConfig();
-                    }
-                }
-        );
-
-        btnReadConf = (Button) findViewById(R.id.btnConfRead);
-        btnReadConf.setOnClickListener(
-
-                new View.OnClickListener() {
-                    public void onClick(View v) {
-                        String json =  mLogic.readSantaConfig();
-                        Toast.makeText(getBaseContext(),json,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-
-        btnTestAlarm = (Button) findViewById(R.id.btnTestAlarm);
-        btnTestAlarm.setOnClickListener(
-
-                new View.OnClickListener() {
-                    public void onClick(View v) {
-
-                        Calendar currentTime = Calendar.getInstance();
-
-                        new TimePickerDialog(MainActivity.this, 0,
-                                new TimePickerDialog.OnTimeSetListener() {
-                                    @Override
-                                    public void onTimeSet(TimePicker view,
-                                                          int hourOfDay, int minute) {
-
-                                        AlarmManager alarmManager;
-                                        PendingIntent pi;
-
-                                        Calendar currentTime = Calendar.getInstance();
-
-                                        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-                                        Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
-                                        pi = PendingIntent.getActivity(MainActivity.this, 0, intent, 0);
-
-                                        Calendar c = Calendar.getInstance();
-                                        c.setTimeInMillis(System.currentTimeMillis());
-
-                                        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                        c.set(Calendar.MINUTE, minute);
-                                        c.set(Calendar.SECOND, 0);
-                                        c.set(Calendar.MILLISECOND, 0);
-
-                                        alarmManager.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pi);
-                                        Log.e("HEHE",c.getTimeInMillis()+"");
-                                        Toast.makeText(MainActivity.this, "the alarm has been set:\n"+ c.getTime(),
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                }, currentTime.get(Calendar.HOUR_OF_DAY), currentTime
-                                .get(Calendar.MINUTE), false).show();
-                    }
-                }
-        );
-
-        findViewById(R.id.account_test).setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                Intent intent = new Intent(MainActivity.this, AccountSelectActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        findViewById(R.id.AccountInfoTest).setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Intent intent = new Intent(MainActivity.this, AccountInfoTestActivity.class);
-                startActivity(intent);
-            }
-        });
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();  // Always call the superclass method first
-        Log.d(TAG, "onResume()");
-
-
-        if(mBound){
-            Log.d(TAG,mService.getHello());
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // Bind to LocalService
-        Intent intent = new Intent(this, SantaService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-    }
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // Unbind from the service
-        if (mBound) {
-            unbindService(mConnection);
-            mBound = false;
-        }
-    }
-
+    Button btnManageLocation,btnDebug;
+    Button btnManageTask;
     /** Defines callbacks for service binding, passed to bindService() */
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -244,6 +55,80 @@ public class MainActivity extends AppCompatActivity {
             mBound = false;
         }
     };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate()");
+
+        setContentView(R.layout.activity_main);
+
+        //start service
+        Intent intent = new Intent(MainActivity.this, SantaService.class);
+        startService(intent);
+
+
+
+
+        btnManageTask= (Button) findViewById(R.id.btnManageTask);
+        btnManageTask.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+
+        btnManageLocation = (Button) findViewById(R.id.btnManageLocation);
+        btnManageLocation.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, ManageLocationActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+
+        btnDebug = (Button) findViewById(R.id.btnDebugActivity);
+        btnDebug.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, DebugActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        Log.d(TAG, "onResume()");
+
+
+        if(mBound){
+            Log.d(TAG,mService.getHello());
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Bind to LocalService
+        Intent intent = new Intent(this, SantaService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Unbind from the service
+        if (mBound) {
+            unbindService(mConnection);
+            mBound = false;
+        }
+    }
 
 
 }

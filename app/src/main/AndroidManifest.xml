@@ -11,10 +11,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <application
         android:allowBackup="true"
@@ -33,14 +32,16 @@
         <service
             android:name="me.zhenning.SantaAccountService"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator"/>
+                android:resource="@xml/authenticator" />
         </service>
+
 
         <service
             android:name=".SantaService"
@@ -66,11 +67,11 @@
         <activity android:name=".SelectActionActivity" />
         <activity android:name=".ManageLocationActivity" />
         <activity android:name=".SetupLocationActivity" />
-        <activity android:name=".AlarmActivity"></activity>
-        <activity android:name="me.zhenning.AccountSelectActivity"/>
-        <activity android:name="me.zhenning.AuthenticatorActivity"/>
-        <activity android:name="me.zhenning.AccountInfoTestActivity"/>
-        
+        <activity android:name=".AlarmActivity" />
+        <activity android:name="me.zhenning.AccountSelectActivity" />
+        <activity android:name="me.zhenning.AuthenticatorActivity" />
+        <activity android:name="me.zhenning.AccountInfoTestActivity" />
+        <activity android:name=".DebugActivity"></activity>
     </application>
 
 </manifest>
