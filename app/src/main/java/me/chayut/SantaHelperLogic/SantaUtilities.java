@@ -88,13 +88,13 @@ public class SantaUtilities {
     public static JSONObject readConfigFromFile() {
 
 
-        //TODO: decrypt the file
+        //decrypt the file
         JSONObject mObj = null;
 
         if(SantaUtilities.isExternalStorageReadable()){
 
             try {
-                //TODO: fix decript, maybe file not found?
+                //fix decript, maybe file not found?
 
                 String filename = "santaFile.conf";
                 String filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
