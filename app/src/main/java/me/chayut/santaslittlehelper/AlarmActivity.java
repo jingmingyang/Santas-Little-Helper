@@ -17,9 +17,9 @@ import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
 
 import me.chayut.SantaHelperLogic.SantaLogic;
+import me.chayut.SantaHelperLogic.SantaTaskAppoint;
 
 public class AlarmActivity extends AppCompatActivity {
 
@@ -63,8 +63,17 @@ public class AlarmActivity extends AppCompatActivity {
         mediaPlayer = mediaPlayer.create(this,R.raw.pig);
         mediaPlayer.start();
 
-        //TODO: load task extra pacellable
-        //TODO:get task UUID
+        SantaTaskAppoint mTask;
+
+        // load task extra parcelable
+
+        //Get parcelable
+        if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT))
+        {
+            mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT);
+            taskUUID = mTask.getUuid();
+        }
+
 
         Toast.makeText(getApplicationContext(), "TIME UP", Toast.LENGTH_LONG).show();
 

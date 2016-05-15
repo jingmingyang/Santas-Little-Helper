@@ -9,6 +9,7 @@ import android.widget.RadioButton;
 
 import me.chayut.SantaHelperLogic.SantaAction;
 import me.chayut.SantaHelperLogic.SantaLogic;
+import me.chayut.SantaHelperLogic.SantaTaskAppoint;
 
 public class SelectActionActivity extends AppCompatActivity {
 
@@ -22,12 +23,30 @@ public class SelectActionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_action);
 
+        if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_ACTION))
+        {
+            mAction = getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_ACTION);
+
+            //TODO: if there is parcelable, load value to UI
+
+        }
+        else
+        {
+            //if no intent parcelable, create new
+            mAction = new SantaAction();
+        }
+
+
         btnOK = (Button) findViewById(R.id.btnOK);
         btnOK.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent();
-                        intent.putExtra(SantaLogic.EXTRA_SANTA_ACTION,new SantaAction());
+
+                        //TODO[1]: update action with value in UI before return!!!
+
+
+                        intent.putExtra(SantaLogic.EXTRA_SANTA_ACTION,mAction);
                         setResult(RESULT_OK, intent);
                         finish();
                     }
@@ -55,6 +74,8 @@ public class SelectActionActivity extends AppCompatActivity {
                                          rbSMS.setChecked(true);
                                          rbEmail.setChecked(false);
                                          rbWifi.setChecked(false);
+
+
                                      }
                                  }
         );

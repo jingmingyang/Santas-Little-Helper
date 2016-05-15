@@ -32,6 +32,7 @@ public class ManageLocationActivity extends AppCompatActivity {
     private ListView lvLocations;
     private SantaLocationAdapter mAdapter;
     private ArrayList<SantaLocation> list = new ArrayList<SantaLocation>();
+
     /** Defines callbacks for service binding, passed to bindService() */
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -76,7 +77,7 @@ public class ManageLocationActivity extends AppCompatActivity {
                 // 2. Chain together various setter methods to set the dialog characteristics
                 builder.setTitle("Location: " + item.getName());
 
-                final String[] array = {"TODO", "Delete"};
+                final String[] array = {"Edit", "Delete"};
 
                 builder.setItems(array, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

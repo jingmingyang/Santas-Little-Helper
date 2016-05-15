@@ -97,14 +97,13 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
         this.mAction = mAction;
     }
 
-    public boolean isConditionMet(String time){
+    public boolean isConditionMet(){
 
         Calendar tNow = Calendar.getInstance();
         Calendar tSet = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 
         try {
-            tNow.setTime(sdf.parse(time));
             tSet.setTime(sdf.parse(timeString));
 
             if(tNow.compareTo(tSet) > 0){

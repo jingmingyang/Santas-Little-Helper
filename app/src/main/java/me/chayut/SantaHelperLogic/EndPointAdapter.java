@@ -14,6 +14,7 @@ import me.chayut.santaslittlehelper.R;
 /**
  * Created by chayut on 27/03/16.
  */
+@Deprecated
 public class EndPointAdapter  extends ArrayAdapter<EndPoint> {
 
     Context mContext;
@@ -55,7 +56,7 @@ public class EndPointAdapter  extends ArrayAdapter<EndPoint> {
             tvType.setText("Phone");
         }
 
-        //TODO: setup User endpoint interaction
+
 
         return rowView;
     }

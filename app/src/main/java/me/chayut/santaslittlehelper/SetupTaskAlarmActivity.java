@@ -14,6 +14,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -43,14 +47,20 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
 
         //TODO: Setup up
 
-        //TODO: Get parcellable
+        //Get parcellable
+        if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT))
+        {
+            mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT);
 
-        //if no intent parcellable, create new
-        mTask = new SantaTaskAppoint();
-        mTask.setAction(new SantaAction());
+            //TODO: if there is parcellable, load value to UI
 
-        //TODO: if there is parcellable, load value to UI
-
+        }
+        else
+        {
+            //if no intent parcelable, create new
+            mTask = new SantaTaskAppoint();
+            mTask.setAction(new SantaAction());
+        }
 
         btnOK = (Button) findViewById(R.id.btnOK);
         btnOK.setOnClickListener(
@@ -94,6 +104,7 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent(SetupTaskAlarmActivity.this,SelectActionActivity.class);
+                        intent.putExtra(SantaLogic.EXTRA_SANTA_ACTION,mTask.getAction());
                         startActivityForResult(intent,REQUEST_ACTION);
                     }
                 });

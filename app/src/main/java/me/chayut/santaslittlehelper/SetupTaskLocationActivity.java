@@ -12,6 +12,7 @@ import me.chayut.SantaHelperLogic.SantaAction;
 import me.chayut.SantaHelperLogic.SantaLogic;
 import me.chayut.SantaHelperLogic.SantaTask;
 import me.chayut.SantaHelperLogic.SantaTaskAppoint;
+import me.chayut.SantaHelperLogic.SantaTaskBattery;
 import me.chayut.SantaHelperLogic.SantaTaskLocation;
 
 public class SetupTaskLocationActivity extends AppCompatActivity {
@@ -31,13 +32,20 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
 
         //TODO: Setup up
 
-        //TODO: Get parcellable
+        //Get parcellable
+        if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_TASK_LOC))
+        {
+            mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_LOC);
 
-        //if no intent parcellable, create new
-        mTask = new SantaTaskLocation(new SantaAction(),43.0f,43.0f,20.2f);
+            //TODO: if there is parcellable, load value to UI
 
+        }
+        else
+        {
+            //if no intent parcelable, create new
+            mTask = new SantaTaskLocation(new SantaAction(),43.0f,43.0f,20.2f);
+        }
 
-        //TODO: if there is parcellable, load value to UI
 
 
         btnOK = (Button) findViewById(R.id.btnOK);
@@ -72,6 +80,7 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent(SetupTaskLocationActivity.this,SelectActionActivity.class);
+                        intent.putExtra(SantaLogic.EXTRA_SANTA_ACTION,mTask.getAction());
                         startActivityForResult(intent,REQUEST_ACTION);
                     }
                 });

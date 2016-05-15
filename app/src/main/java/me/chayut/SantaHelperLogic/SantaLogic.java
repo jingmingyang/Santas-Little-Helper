@@ -1,6 +1,5 @@
 package me.chayut.SantaHelperLogic;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,14 +21,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import me.chayut.santaslittlehelper.AlarmActivity;
-import me.chayut.santaslittlehelper.R;
 import me.zhenning.EmailSender;
 
 /**
@@ -57,6 +54,20 @@ public class SantaLogic {
     public static final String JTAG_SANTA_TASK_LIST = "TaskList";
     public static final String JTAG_UUID = "uuid";
     private static final String TAG = "SantaLogic";
+
+    Context mContext;
+    ScheduledThreadPoolExecutor sch;
+    private ArrayList<EndPoint> endPoints;
+    private ArrayList<SantaLocation> locationList;
+    private ArrayList<SantaTask> taskList;
+    final LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            SantaLogic.this.onLocationUpdateReceived(location);
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        public void onProviderEnabled(String provider) {}
+        public void onProviderDisabled(String provider) {}
+    };
     final Runnable periodicTask = new Runnable(){
 
         Handler mHandler = new Handler(Looper.getMainLooper());
@@ -70,6 +81,7 @@ public class SantaLogic {
                     @Override
                     public void run() {
 
+                        checkTimeOnTaskAppoint();
                         //TODO: check anything on UI thread
                     } // This is your code
                 };
@@ -80,19 +92,6 @@ public class SantaLogic {
                 e.printStackTrace();
             }
         }
-    };
-    Context mContext;
-    ScheduledThreadPoolExecutor sch;
-    private ArrayList<EndPoint> endPoints;
-    private ArrayList<SantaLocation> locationList;
-    private ArrayList<SantaTask> taskList;
-    final LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            SantaLogic.this.onLocationUpdateReceived(location);
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
-        public void onProviderEnabled(String provider) {}
-        public void onProviderDisabled(String provider) {}
     };
     private LocationManager locationManager;
     private String mLoadedEmail = "";
@@ -174,6 +173,10 @@ public class SantaLogic {
         locationList.add(location);
         return true;
     }
+    //endregion
+
+
+    //region runnable
 
     //
     public void loadUserCredential()
@@ -184,10 +187,12 @@ public class SantaLogic {
         mLoadedPassword = ""; //TODO: set value here
         creadentialLoaded = true;
     }
+
     //endregion
 
 
     //region test
+
     /** Test  Section */
 
     public void sendEmailTest(String email,String password)
@@ -258,14 +263,14 @@ public class SantaLogic {
 
     }
 
-    public void onTimeUpDateReceived(String time){
+    public void checkTimeOnTaskAppoint(){
 
         for (SantaTask mTask : taskList)
         {
             if (mTask instanceof SantaTaskBattery) {
                 SantaTaskAppoint task = (SantaTaskAppoint) mTask;
 
-                if(task.isConditionMet(time)){
+                if(task.isConditionMet()){
 
                     //issue alarm before take action
                     Intent i = new Intent(mContext,AlarmActivity.class);
@@ -290,10 +295,12 @@ public class SantaLogic {
     }
     //endregion
 
-    //region execute action
 
+    //region execute action
     /** Execute Action Section */
     public void executeAction(SantaAction action){
+
+        Log.d(TAG,"executeAction()");
 
         switch (action.getTaskType()){
             case SantaAction.ACTION_EMAIL:
