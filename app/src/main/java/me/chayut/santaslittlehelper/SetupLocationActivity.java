@@ -1,8 +1,13 @@
 package me.chayut.santaslittlehelper;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,14 +29,40 @@ public class SetupLocationActivity extends FragmentActivity implements OnMapRead
 
     static final int REQUEST_ACTION =1;
     private final static String TAG = "SetupLocationActivity";
-    Button btnOK, btnCancel;
+    Button btnOK, btnCancel,btnGetCurrentLoc;
     private GoogleMap mMap;
     private Marker hereMarker;
     private SantaLocation mLocation;
     private EditText etLocName;
 
+    private LocationManager locationManager;
 
     private boolean mLocationSelected = false;
+    final LocationListener locationListener = new LocationListener()
+    {
+        public void onLocationChanged(Location location) {
+
+            Log.d(TAG,String.format("Location: %s",location.toString()));
+
+            mMap.clear();
+            LatLng mLatLag = new LatLng(location.getLatitude(),location.getLongitude());
+            hereMarker =  mMap.addMarker(new MarkerOptions().position(mLatLag).title("This Location"));
+            mLocation.setLatitude(location.getLatitude());
+            mLocation.setLongitude(location.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLag, 10));
+
+            mLocationSelected = true;
+
+            Toast.makeText(getBaseContext(),"Current Location Acquired",
+                    Toast.LENGTH_SHORT).show();
+
+            locationManager.removeUpdates(locationListener);
+
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        public void onProviderEnabled(String provider) {}
+        public void onProviderDisabled(String provider) {}
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +71,7 @@ public class SetupLocationActivity extends FragmentActivity implements OnMapRead
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_set);
         mapFragment.getMapAsync(this);
+
 
         mLocation = new SantaLocation();
 
@@ -77,12 +109,26 @@ public class SetupLocationActivity extends FragmentActivity implements OnMapRead
                 }
         );
 
+        btnGetCurrentLoc = (Button) findViewById(R.id.btnCurrentLoc);
+        btnGetCurrentLoc.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        locationManager = (LocationManager) SetupLocationActivity.this.getSystemService(Context.LOCATION_SERVICE);
+                        try
+                        {
+                            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+                        } catch (SecurityException e){}
+                    }
+                }
+        );
+
         //prompt user
         Toast.makeText(getBaseContext(),"Click on map to Select location",
                 Toast.LENGTH_LONG).show();
 
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -91,12 +137,17 @@ public class SetupLocationActivity extends FragmentActivity implements OnMapRead
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 10));
 
         mMap.setOnMapClickListener(this);
-        mMap.setOnMapLongClickListener(this);
+        //mMap.setOnMapLongClickListener(this);
 
         if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_LOCATION))
         {
             mLocation =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_LOCATION);
             etLocName.setText(mLocation.getName());
+
+            LatLng mLatLag = new LatLng(mLocation.getLatitude(),mLocation.getLongitude());
+            hereMarker =  mMap.addMarker(new MarkerOptions().position(mLatLag).title("This Location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLag, 10));
+
             mLocationSelected = true;
         }
 
