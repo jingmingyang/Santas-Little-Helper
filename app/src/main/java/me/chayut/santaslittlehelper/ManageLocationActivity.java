@@ -29,19 +29,42 @@ public class ManageLocationActivity extends AppCompatActivity {
     SantaLogic mLogic;
     boolean mBound = false;
 
-    private ListView lvEndpoints;
+    private ListView lvLocations;
     private SantaLocationAdapter mAdapter;
     private ArrayList<SantaLocation> list = new ArrayList<SantaLocation>();
+    /** Defines callbacks for service binding, passed to bindService() */
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            SantaService.LocalBinder binder = (SantaService.LocalBinder) service;
+            mService = binder.getService();
+            mLogic = mService.getSantaLogic();
+            mBound = true;
+
+            UIRefresh();
+
+
+            Log.d(TAG,mService.getHello());
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_endpoint);
+        setContentView(R.layout.activity_manage_location);
 
         //Listview setup
-        lvEndpoints = (ListView) findViewById(R.id.listViewEndPoints);
+        lvLocations = (ListView) findViewById(R.id.listViewLocations);
 
-        lvEndpoints.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvLocations.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v, final int position, long id) {
 
@@ -60,7 +83,13 @@ public class ManageLocationActivity extends AppCompatActivity {
                         Log.d(TAG, String.format("Choose: %d", which));
                         switch (which) {
                             case 0:
-                                //TODO: add edit
+                                if(mBound){
+                                    Intent startAct2 = new Intent(ManageLocationActivity.this, SetupLocationActivity.class);
+                                    startAct2.putExtra(SantaLogic.EXTRA_SANTA_LOCATION,list.get(position));
+                                    startActivityForResult(startAct2,REQUEST_LOCATION);
+                                    UIRefresh();
+
+                                }
                                 break;
                             case 1:
                                 list.remove(position);
@@ -83,9 +112,8 @@ public class ManageLocationActivity extends AppCompatActivity {
     private void ListUpdate(){
         Log.d(TAG, String.format("Endpoints = %d", list.size()));
         mAdapter = new SantaLocationAdapter(this,R.layout.row_location,list);
-        lvEndpoints.setAdapter(mAdapter);
+        lvLocations.setAdapter(mAdapter);
     }
-
 
     @Override
     public void onResume() {
@@ -115,31 +143,6 @@ public class ManageLocationActivity extends AppCompatActivity {
             mBound = false;
         }
     }
-
-    /** Defines callbacks for service binding, passed to bindService() */
-    private ServiceConnection mConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            SantaService.LocalBinder binder = (SantaService.LocalBinder) service;
-            mService = binder.getService();
-            mLogic = mService.getSantaLogic();
-            mBound = true;
-
-            UIRefresh();
-
-
-            Log.d(TAG,mService.getHello());
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            mBound = false;
-        }
-    };
-
 
     /** Methods */
 

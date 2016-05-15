@@ -92,7 +92,7 @@ public class TaskListActivity extends AppCompatActivity {
                         switch (which) {
                             case 0:
 
-                                SantaTask mTask = list.get(which);
+                                SantaTask mTask = list.get(position);
 
                                 if (mTask instanceof SantaTaskAppoint) {
                                     Log.d(TAG,"SantaTaskAppoint");
