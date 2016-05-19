@@ -152,7 +152,7 @@ public class SantaLogic {
     public boolean addTask (SantaTask task){
 
 
-        //TODO: check if task UUID already exist, update instead
+        //check if task UUID already exist, update instead
 
         for (int n = 0; n < taskList.size() ; n++)
         {
