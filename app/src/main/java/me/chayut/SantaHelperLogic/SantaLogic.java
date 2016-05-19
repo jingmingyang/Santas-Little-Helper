@@ -1,5 +1,7 @@
 package me.chayut.SantaHelperLogic;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -53,6 +55,7 @@ public class SantaLogic {
     public static final String JTAG_SANTA_LONG = "Long";
     public static final String JTAG_SANTA_Range = "Range";
     public static final String JTAG_SANTA_TASK_LIST = "TaskList";
+    public static final String JTAG_SANTA_LOC_LIST = "locList";
     public static final String JTAG_UUID = "uuid";
     private static final String TAG = "SantaLogic";
 
@@ -154,7 +157,6 @@ public class SantaLogic {
     //region task
     public boolean addTask (SantaTask task){
 
-
         //check if task UUID already exist, update instead
 
         for (int n = 0; n < taskList.size() ; n++)
@@ -168,6 +170,7 @@ public class SantaLogic {
 
                     taskList.remove(n);
                     taskList.add(n,task);
+                    writeSantaConfig();
                     return true;
                 }
             }
@@ -176,6 +179,7 @@ public class SantaLogic {
                 if (task2.getUuid().equals(task.getUuid())) {
                     taskList.remove(n);
                     taskList.add(n,task);
+                    writeSantaConfig();
                     return true;
                 }
 
@@ -185,6 +189,7 @@ public class SantaLogic {
                 if (task2.getUuid().equals(task.getUuid())) {
                     taskList.remove(n);
                     taskList.add(n,task);
+                    writeSantaConfig();
                     return true;
                 }
             }
@@ -199,7 +204,7 @@ public class SantaLogic {
         return true;
     }
 
-    public SantaTask findTaskByUUID (String taskUUID){
+    public SantaTask getTaskByUUID (String taskUUID){
 
         for (SantaTask mTask : taskList)
         {
@@ -229,8 +234,50 @@ public class SantaLogic {
         return null;
     }
 
+    /**
+     * @param taskUUID
+     * @return true if remove success
+     */
+    public boolean removeTaskByUUID (String taskUUID){
+
+        for (int n = 0; n < taskList.size() ; n++)
+        {
+            SantaTask mTask = taskList.get(n);
+
+            if (mTask instanceof SantaTaskAppoint) {
+
+                SantaTaskAppoint task = (SantaTaskAppoint) mTask;
+                if (task.getUuid().equals(taskUUID)) {
+                    taskList.remove(n);
+                    writeSantaConfig();
+                    return true;
+                }
+            }
+            else if  (mTask instanceof SantaTaskLocation){
+                SantaTaskLocation task = (SantaTaskLocation) mTask;
+                if (task.getUuid().equals(taskUUID)) {
+                    taskList.remove(n);
+                    writeSantaConfig();
+                    return true;
+                }
+
+            }
+            else if  (mTask instanceof SantaTaskBattery){
+                SantaTaskBattery task = (SantaTaskBattery) mTask;
+                if (task.getUuid().equals(taskUUID)) {
+                    taskList.remove(n);
+                    writeSantaConfig();
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public boolean addLocation (SantaLocation location){
         locationList.add(location);
+        writeSantaConfig();
         return true;
     }
     //endregion
@@ -342,6 +389,7 @@ public class SantaLogic {
                     //execute action
                     SantaAction action = task.getAction();
                     executeAction(action);
+                    //TODO[L]:remove from list
                 }
             }
 
@@ -392,9 +440,18 @@ public class SantaLogic {
     }
 
     public void onAlarmMissed(String uuid){
-        //TODO: call this function,  alarm missed when user miss the alarm
+        //call this function,  alarm missed when user miss the alarm
+        SantaTaskAppoint task= (SantaTaskAppoint) getTaskByUUID(uuid);
 
-        //TODO take action
+        //take action
+        if(task != null ) {
+
+            SantaAction action = task.getAction();
+            executeAction(action);
+
+            //TODO[L]:remove from list
+        }
+
     }
     //endregion
 
@@ -455,6 +512,35 @@ public class SantaLogic {
 
     /** JSON Section   */
 
+    public JSONArray getLocationListJSON() throws JSONException {
+
+        JSONArray jArray = new JSONArray();
+        for (SantaLocation mLocation : locationList)
+        {
+            /*
+            if (mTask instanceof SantaTaskAppoint) {
+
+                SantaTaskAppoint task = (SantaTaskAppoint) mTask;
+                jArray.put(task.toJSONObject());
+            }
+            else if  (mTask instanceof SantaTaskLocation){
+                SantaTaskLocation task = (SantaTaskLocation) mTask;
+                jArray.put(task.toJSONObject());
+            }
+            else if  (mTask instanceof SantaTaskBattery){
+                SantaTaskBattery task = (SantaTaskBattery) mTask;
+                jArray.put(task.toJSONObject());
+            }
+            */
+            Gson gson = new Gson();
+
+            jArray.put(new JSONObject( gson.toJson(mLocation)));
+
+        }
+
+        return jArray;
+    }
+
     public JSONArray getTaskListJSON(){
 
         JSONArray jArray = new JSONArray();
@@ -488,6 +574,7 @@ public class SantaLogic {
 
         try {
             mObject.put(JTAG_SANTA_TASK_LIST, getTaskListJSON());
+            mObject.put(JTAG_SANTA_LOC_LIST, getLocationListJSON());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -533,7 +620,7 @@ public class SantaLogic {
 
                     SantaTaskAppoint newTask = new SantaTaskAppoint(timeString,action);
                     newTask.setUuid(uuid);
-                    addTask(newTask);
+                    taskList.add(newTask);
                     Log.d(TAG,taskType + " Added");
                 }
                 else if (taskType.equals(JTAG_SANTA_TASK_BATT)){
@@ -546,7 +633,7 @@ public class SantaLogic {
                     SantaAction action = gson.fromJson(actionString,SantaAction.class);
                     SantaTaskBattery newTask = new SantaTaskBattery(battPercent,action);
                     newTask.setUuid(uuid);
-                    addTask(newTask);
+                    taskList.add(newTask);
                     Log.d(TAG,taskType + " Added");
                 }
                 else if(taskType.equals(JTAG_SANTA_TASK_LOC)){
@@ -562,11 +649,22 @@ public class SantaLogic {
 
                     SantaTaskLocation newTask = new SantaTaskLocation(action,lat,longitude,range);
                     newTask.setUuid(uuid);
-                    addTask(newTask);
+                    taskList.add(newTask);
                     Log.d(TAG,taskType + " Added");
                 }
 
             }
+
+            //load json into object list
+            JSONArray locArray = mObject.getJSONArray(JTAG_SANTA_LOC_LIST);
+            for(int n = 0; n < locArray.length(); n++)
+            {
+                JSONObject object =locArray.getJSONObject(n);
+                Gson gson = new Gson();
+                SantaLocation location = gson.fromJson(object.toString(),SantaLocation.class);
+                locationList.add(location);
+            }
+
 
             return true;
 
