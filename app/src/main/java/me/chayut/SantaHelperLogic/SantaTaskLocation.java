@@ -15,8 +15,18 @@ import org.json.JSONObject;
  */
 public class SantaTaskLocation extends SantaTask implements Parcelable  {
 
-    private static final String TAG = "SantaTaskLocation";
+    public static final Creator<SantaTaskLocation> CREATOR = new Creator<SantaTaskLocation>() {
+        @Override
+        public SantaTaskLocation createFromParcel(Parcel source) {
+            return new SantaTaskLocation(source);
+        }
 
+        @Override
+        public SantaTaskLocation[] newArray(int size) {
+            return new SantaTaskLocation[size];
+        }
+    };
+    private static final String TAG = "SantaTaskLocation";
     private SantaAction mAction;
     private float latitude = 0.0f;
     private float longitude =0.0f ;
@@ -39,8 +49,17 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
         uuid = SantaUtilities.getNewUUID();
     }
 
+    protected SantaTaskLocation(Parcel in) {
+        this.mAction = in.readParcelable(SantaAction.class.getClassLoader());
+        this.latitude = in.readFloat();
+        this.longitude = in.readFloat();
+        this.mRange = in.readFloat();
+        this.uuid = in.readString();
+    }
+
     /**setter and getter */
-    
+
+    @Override
     public String getUuid() {
         return uuid;
     }
@@ -104,24 +123,4 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
         dest.writeFloat(this.mRange);
         dest.writeString(this.uuid);
     }
-
-    protected SantaTaskLocation(Parcel in) {
-        this.mAction = in.readParcelable(SantaAction.class.getClassLoader());
-        this.latitude = in.readFloat();
-        this.longitude = in.readFloat();
-        this.mRange = in.readFloat();
-        this.uuid = in.readString();
-    }
-
-    public static final Creator<SantaTaskLocation> CREATOR = new Creator<SantaTaskLocation>() {
-        @Override
-        public SantaTaskLocation createFromParcel(Parcel source) {
-            return new SantaTaskLocation(source);
-        }
-
-        @Override
-        public SantaTaskLocation[] newArray(int size) {
-            return new SantaTaskLocation[size];
-        }
-    };
 }

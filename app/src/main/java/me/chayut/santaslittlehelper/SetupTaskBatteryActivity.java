@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import me.chayut.SantaHelperLogic.SantaAction;
 import me.chayut.SantaHelperLogic.SantaLogic;
@@ -17,9 +18,9 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
 
     static final int REQUEST_ACTION =1;
     private final static String TAG = "SetupTaskBatteryAct";
-
-    Button btnOK, btnCancel,btnSetAction;
     SantaTaskBattery mTask;
+    private Button btnOK, btnCancel,btnSetAction;
+    private TextView tvActionDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,19 +28,9 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setup_task_battery);
 
 
-        //Get parcelable
-        if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_TASK_BATT))
-        {
-            mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_BATT);
+        //Setup UI
 
-            //TODO: if there is parcellable, load value to UI
-
-        }
-        else
-        {
-            //if no intent parcelable, create new
-            mTask =  new SantaTaskBattery(40,new SantaAction());
-        }
+        tvActionDetail = (TextView) findViewById(R.id.tvActionDetails);
 
 
         btnOK = (Button) findViewById(R.id.btnOK);
@@ -78,6 +69,23 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
                         startActivityForResult(intent,REQUEST_ACTION);
                     }
                 });
+
+        //Try Get parcelable
+        if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_TASK_BATT))
+        {
+            mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_BATT);
+
+            //TODO: if there is parcelable, load value to UI
+            tvActionDetail.setText(mTask.getAction().getTaskTypeString());
+
+        }
+        else
+        {
+            //if no intent parcelable, create new
+            mTask =  new SantaTaskBattery(0,new SantaAction());
+        }
+
+
     }
 
     @Override
@@ -91,7 +99,8 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
 
                     SantaAction returnAction = (SantaAction) data.getParcelableExtra(SantaLogic.EXTRA_SANTA_ACTION);
                     mTask.setAction(returnAction);
-                    //TODO: update UI according to returned action
+                    // update UI according to returned action
+                    tvActionDetail.setText(returnAction.getTaskTypeString());
                     Log.d(TAG, SantaLogic.EXTRA_SANTA_ACTION);
                     break;
                 default:

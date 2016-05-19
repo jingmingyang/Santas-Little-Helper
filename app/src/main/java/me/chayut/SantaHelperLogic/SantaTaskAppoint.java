@@ -40,18 +40,17 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
         this.timeString = timeString;
     }
 
+
     public SantaTaskAppoint() {
         mAction = new SantaAction();
         uuid = SantaUtilities.getNewUUID();
 
     }
 
-
     public SantaTaskAppoint(String timeString, SantaAction mAction) {
         this.timeString = timeString;
         this.mAction = mAction;
     }
-
     protected SantaTaskAppoint(Parcel in) {
         this.mAction = in.readParcelable(SantaAction.class.getClassLoader());
         this.uuid = in.readString();
@@ -79,11 +78,12 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
         return  mObject;
     }
 
+    /** getter setter */
+
+    @Override
     public String getUuid() {
         return uuid;
     }
-
-    /** getter setter */
 
     public void setUuid(String uuid) {
         this.uuid = uuid;

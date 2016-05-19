@@ -151,9 +151,44 @@ public class SantaLogic {
     //region task
     public boolean addTask (SantaTask task){
 
-        taskList.add(task);
+
         //TODO: check if task UUID already exist, update instead
 
+        for (int n = 0; n < taskList.size() ; n++)
+        {
+            SantaTask mTask = taskList.get(n);
+
+            if (mTask instanceof SantaTaskAppoint) {
+
+                SantaTaskAppoint task2 = (SantaTaskAppoint) mTask;
+                if (task2.getUuid().equals(task.getUuid())) {
+
+                    taskList.remove(n);
+                    taskList.add(n,task);
+                    return true;
+                }
+            }
+            else if  (mTask instanceof SantaTaskLocation){
+                SantaTaskLocation task2 = (SantaTaskLocation) mTask;
+                if (task2.getUuid().equals(task.getUuid())) {
+                    taskList.remove(n);
+                    taskList.add(n,task);
+                    return true;
+                }
+
+            }
+            else if  (mTask instanceof SantaTaskBattery){
+                SantaTaskBattery task2 = (SantaTaskBattery) mTask;
+                if (task2.getUuid().equals(task.getUuid())) {
+                    taskList.remove(n);
+                    taskList.add(n,task);
+                    return true;
+                }
+            }
+        }
+
+        //if not on the list
+        taskList.add(task);
 
         //update config file
         writeSantaConfig();
@@ -239,7 +274,7 @@ public class SantaLogic {
     //region on receive update
 
     public void onWifi (){
-        SantaFunction.toggleWiFi(mContext,true);
+        SantaFunction.setWiFiStatus(mContext,true);
     }
 
     //endregion
@@ -309,7 +344,7 @@ public class SantaLogic {
     }
 
     public void onAlarmMissed(String uuid){
-        //TODO: call alarm missed when user miss the alarm
+        //TODO: call this function,  alarm missed when user miss the alarm
 
         //TODO take action
     }
@@ -349,10 +384,12 @@ public class SantaLogic {
 
                 if(action.getWifiState())
                 {
-                    //TODO: turn on wifi
+                    //turn on wifi
+                    SantaFunction.setWiFiStatus(mContext,true);
                 }
                 else {
-                    //TODO: turn off wifi
+                    //turn off wifi
+                    SantaFunction.setWiFiStatus(mContext,false);
                 }
 
                 break;
