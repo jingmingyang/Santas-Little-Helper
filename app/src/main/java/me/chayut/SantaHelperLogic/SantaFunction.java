@@ -84,7 +84,7 @@ import android.util.Log;
     }
 
 
-    static public  void toggleWiFi(Context context, boolean status){
+    static public  void setWiFiStatus(Context context, boolean status){
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         if (status == true && !wifiManager.isWifiEnabled()){
             wifiManager.setWifiEnabled(true);
@@ -92,6 +92,10 @@ import android.util.Log;
             wifiManager.setWifiEnabled(false);
         }
     }
+
+
+
+
 
     static public void setBrightness (Context context,int brightness) {
         Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);  //this will set the manual mode (set the automatic mode off)

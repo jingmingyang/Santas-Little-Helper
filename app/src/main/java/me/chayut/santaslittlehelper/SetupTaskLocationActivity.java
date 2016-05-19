@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import me.chayut.SantaHelperLogic.SantaAction;
 import me.chayut.SantaHelperLogic.SantaLogic;
@@ -19,10 +20,9 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
 
     static final int REQUEST_ACTION =1;
     private final static String TAG = "SetupTaskLocationAct";
-
-    Button btnOK, btnCancel,btnSetAction;
     SantaTaskLocation mTask;
-
+    private Button btnOK, btnCancel,btnSetAction;
+    private TextView tvActionDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,23 +30,8 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setup_task_location);
 
 
-        //Setup up
-
-        //Get parcelable
-        if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_TASK_LOC))
-        {
-            mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_LOC);
-
-            //TODO: if there is parcellable, load value to UI
-
-        }
-        else
-        {
-            //if no intent parcelable, create new
-            mTask = new SantaTaskLocation(new SantaAction(),43.0f,43.0f,20.2f);
-        }
-
-
+        //Setup UI
+        tvActionDetail = (TextView) findViewById(R.id.tvActionDetails);
 
         btnOK = (Button) findViewById(R.id.btnOK);
         btnOK.setOnClickListener(
@@ -85,6 +70,23 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
                     }
                 });
 
+
+        //Try Get parcelable
+        if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_TASK_LOC))
+        {
+            mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_LOC);
+
+            //TODO: if there is parcelable, load value to UI
+            tvActionDetail.setText(mTask.getAction().getTaskTypeString());
+
+        }
+        else
+        {
+            //if no intent parcelable, create new
+            mTask = new SantaTaskLocation(new SantaAction(),43.0f,43.0f,20.2f);
+        }
+
+
     }
 
 
@@ -100,7 +102,8 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
                     SantaAction returnAction = (SantaAction) data.getParcelableExtra(SantaLogic.EXTRA_SANTA_ACTION);
                     mTask.setAction(returnAction);
 
-                    //TODO: update UI according to returned action
+                    // update UI according to returned action
+                    tvActionDetail.setText(returnAction.getTaskTypeString());
                     Log.d(TAG, SantaLogic.EXTRA_SANTA_ACTION);
                     break;
                 default:

@@ -38,7 +38,10 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
     SantaTaskAppoint mTask;
     private Button btn_set_time;
     private Button btn_set_date;
+    private TextView tvActionDetail;
+
     private boolean isSet = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,20 +50,9 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
 
         //TODO: Setup up
 
-        //Get parcellable
-        if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT))
-        {
-            mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT);
 
-            //TODO: if there is parcellable, load value to UI
-
-        }
-        else
-        {
-            //if no intent parcelable, create new
-            mTask = new SantaTaskAppoint();
-            mTask.setAction(new SantaAction());
-        }
+        //setup UI comp
+        tvActionDetail = (TextView) findViewById(R.id.tvActionDetails);
 
         btnOK = (Button) findViewById(R.id.btnOK);
         btnOK.setOnClickListener(
@@ -114,6 +106,24 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
         btn_set_date = (Button) findViewById(R.id.btn_set_date);
         btn_set_time.setOnClickListener(this);
         btn_set_date.setOnClickListener(this);
+
+
+        //Get parcelable
+        if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT))
+        {
+            mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT);
+
+            //TODO: if there is parcelable, load value to UI
+
+
+
+        }
+        else
+        {
+            //if no intent parcelable, create new
+            mTask = new SantaTaskAppoint();
+            mTask.setAction(new SantaAction());
+        }
 
     }
 
@@ -172,7 +182,9 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
                     SantaAction returnAction = (SantaAction) data.getParcelableExtra(SantaLogic.EXTRA_SANTA_ACTION);
                     mTask.setAction(returnAction);
 
-                    //TODO: update UI according to returned action
+                    //update UI according to returned action
+                    tvActionDetail.setText(returnAction.getTaskTypeString());
+
                     Log.d(TAG, SantaLogic.EXTRA_SANTA_ACTION);
                     break;
                 default:

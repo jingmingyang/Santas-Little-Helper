@@ -23,20 +23,6 @@ public class SelectActionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_action);
 
-        if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_ACTION))
-        {
-            mAction = getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_ACTION);
-
-            //TODO: if there is parcelable, load value to UI
-
-        }
-        else
-        {
-            //if no intent parcelable, create new
-            mAction = new SantaAction();
-        }
-
-
         btnOK = (Button) findViewById(R.id.btnOK);
         btnOK.setOnClickListener(
                 new View.OnClickListener() {
@@ -45,6 +31,17 @@ public class SelectActionActivity extends AppCompatActivity {
 
                         //TODO[1]: update action with value in UI before return!!!
 
+                        if(rbEmail.isChecked())
+                        {
+                            mAction.setTaskType(SantaAction.ACTION_EMAIL);
+                        }
+                        else if(rbSMS.isChecked())
+                        {
+                            mAction.setTaskType(SantaAction.ACTION_SMS);
+                        }
+                        else if (rbWifi.isChecked()) {
+                            mAction.setTaskType(SantaAction.ACTION_WIFI);
+                        }
 
                         intent.putExtra(SantaLogic.EXTRA_SANTA_ACTION,mAction);
                         setResult(RESULT_OK, intent);
@@ -97,6 +94,40 @@ public class SelectActionActivity extends AppCompatActivity {
                                      }
                                  }
         );
+
+
+        //try to get parcelable
+        if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_ACTION))
+        {
+            mAction = getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_ACTION);
+
+            //TODO: if there is parcelable, load value to UI
+
+            //if no intent parcelable, create new
+
+
+            switch (mAction.getTaskType()){
+                case SantaAction.ACTION_EMAIL:
+                    rbEmail.callOnClick();
+                    //TODO:setup UI
+                    break;
+                case SantaAction.ACTION_SMS:
+                    rbSMS.callOnClick();
+                    //TODO:setup UI
+                    break;
+                case SantaAction.ACTION_WIFI:
+                    rbWifi.callOnClick();
+                    //TODO:setup UI
+                    break;
+                case SantaAction.ACTION_NULL:
+                    break;
+            }
+
+        }
+        else
+        {
+            mAction = new SantaAction();
+        }
 
 
     }

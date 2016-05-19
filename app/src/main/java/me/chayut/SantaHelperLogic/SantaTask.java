@@ -10,4 +10,8 @@ public class SantaTask {
 
     public JSONObject toJSONObject (){return null;}
 
+    public String getUuid() {
+        return null;
+    }
+
 }
