@@ -30,9 +30,9 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setup_task_location);
 
 
-        //TODO: Setup up
+        //Setup up
 
-        //Get parcellable
+        //Get parcelable
         if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_TASK_LOC))
         {
             mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_LOC);
