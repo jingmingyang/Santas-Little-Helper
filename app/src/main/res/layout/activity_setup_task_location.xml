@@ -10,62 +10,70 @@
     tools:context="me.chayut.santaslittlehelper.SetupTaskLocationActivity">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:orientation="horizontal"
         android:weightSum = "1.0">
 
         <Button
+            android:id="@+id/btnCancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:id="@+id/btnCancel"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5"
+            android:text="Cancel"/>
 
         <Button
+            android:id="@+id/btnOK"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="OK"
-            android:id="@+id/btnOK"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5"
+            android:text="OK"/>
     </LinearLayout>
 
     <TextView
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Location Setup"
-        android:id="@+id/textView6"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:text="Location Setup"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Set Action"
         android:id="@+id/btnSetAction"
-        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/linearLayout"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/linearLayout" />
+        android:layout_centerVertical="true"
+        android:text="Set Action" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Action:"
         android:id="@+id/textView7"
-        android:layout_below="@+id/btnSetAction"
-        android:layout_alignParentStart="true" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="&lt;action details>"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnSetAction"
+        android:text="Action:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
         android:id="@+id/tvActionDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/textView7"
-        android:layout_alignParentStart="true" />
+        android:text="&lt;action details>"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/btnChooseLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView6"
+        android:text="Choose Location" />
 
 </RelativeLayout>

@@ -34,10 +34,19 @@ public class SelectActionActivity extends AppCompatActivity {
                         if(rbEmail.isChecked())
                         {
                             mAction.setTaskType(SantaAction.ACTION_EMAIL);
+
+                            //TODO set value here
+                            mAction.setEmail("hello@gmail.com");
+                            mAction.setMessage("message");
+
                         }
                         else if(rbSMS.isChecked())
                         {
                             mAction.setTaskType(SantaAction.ACTION_SMS);
+
+                            //TODO set value here
+                            mAction.setPhoneNumber("810874081");
+                            mAction.setMessage("message");
                         }
                         else if (rbWifi.isChecked()) {
                             mAction.setTaskType(SantaAction.ACTION_WIFI);
