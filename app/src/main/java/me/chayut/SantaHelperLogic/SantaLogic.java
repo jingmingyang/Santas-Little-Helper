@@ -1,7 +1,11 @@
 package me.chayut.SantaHelperLogic;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Location;
@@ -12,6 +16,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
@@ -27,6 +33,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import me.chayut.santaslittlehelper.AlarmActivity;
+import me.zhenning.AccountGeneral;
 import me.zhenning.EmailSender;
 
 /**
@@ -97,6 +104,7 @@ public class SantaLogic {
     private String mLoadedEmail = "";
     private String mLoadedPassword = "";
     private boolean creadentialLoaded = false;
+    private Account mAccountSelected;
 
     public SantaLogic(Context context) {
 
@@ -181,10 +189,36 @@ public class SantaLogic {
     //
     public void loadUserCredential()
     {
-        //TODO: Zhenning -> loadUserCredential;
+        AccountManager mAccountManager;
+        AlertDialog mAlertDialog;
 
-        mLoadedEmail = ""; //TODO: set value here
-        mLoadedPassword = ""; //TODO: set value here
+        mAccountManager  = AccountManager.get(mContext);
+        final Account availableAccounts[] = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
+        if (availableAccounts.length == 0) {
+            Toast.makeText(mContext, "No account added", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            String name[] = new String[availableAccounts.length];
+            for (int i = 0; i < availableAccounts.length; i++) {
+                name[i] = availableAccounts[i].name;
+            }
+
+            // Account picker
+            mAlertDialog = new AlertDialog.Builder(mContext).setTitle("Pick A Account").setAdapter(
+                    new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, name),
+                    new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mAccountSelected = availableAccounts[which];
+                }
+            }).create();
+
+            mAlertDialog.show();
+        }
+
+        //TODO: Future: Maybe decrypt users' password
+        mLoadedEmail = mAccountSelected.name;
+        mLoadedPassword = mAccountManager.getPassword(mAccountSelected);
         creadentialLoaded = true;
     }
 
@@ -200,6 +234,20 @@ public class SantaLogic {
         //TODO:use loadedUserCredential
         try {
             EmailSender sender = new EmailSender(email, password);
+            sender.sendMail("Test 2 ",
+                    "Test 2",
+                    "nonesecure@gmail.com",
+                    "chayut_o@hotmail.com");
+        } catch (Exception e) {
+            Log.e("SendMail", e.getMessage(), e);
+        }
+    }
+
+    public void sendEmail()
+    {
+        //TODO:use loadedUserCredential
+        try {
+            EmailSender sender = new EmailSender(mLoadedEmail, mLoadedPassword);
             sender.sendMail("Test 2 ",
                     "Test 2",
                     "nonesecure@gmail.com",
