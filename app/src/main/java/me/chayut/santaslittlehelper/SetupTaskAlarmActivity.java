@@ -48,7 +48,7 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_task_alarm);
 
-        //TODO: Setup up
+
 
 
         //setup UI comp
@@ -113,9 +113,11 @@ public class SetupTaskAlarmActivity extends AppCompatActivity implements View.On
         {
             mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT);
 
-            //TODO: if there is parcelable, load value to UI
+            //if there is parcelable, load value to UI
 
+            String DateTime = mTask.getTimeString();//TODO[UI]:load this onto UI
 
+            tvActionDetail.setText(mTask.getAction().getTaskTypeString());
 
         }
         else

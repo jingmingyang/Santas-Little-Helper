@@ -29,7 +29,6 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_task_location);
 
-
         //Setup UI
         tvActionDetail = (TextView) findViewById(R.id.tvActionDetails);
 
@@ -39,9 +38,9 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent();
 
-                        //TODO: read value from UI before return
+                        //TODO[UI]: read value from UI before return
 
-                        //TODO: verify the the user input is valid
+                        //TODO[UI]: verify the the user input is valid
 
                         intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_LOC,mTask);
                         setResult(RESULT_OK, intent);
@@ -76,7 +75,16 @@ public class SetupTaskLocationActivity extends AppCompatActivity {
         {
             mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_LOC);
 
-            //TODO: if there is parcelable, load value to UI
+            //if there is parcelable, load value to UI
+
+            //TODO[UI], load this value to UI
+
+            //dont need convert back to SantaLocation object, simpler
+            double latitude = mTask.getLatitude();
+            double longitude = mTask.getLongitude();
+            double range = mTask.getRange();
+
+
             tvActionDetail.setText(mTask.getAction().getTaskTypeString());
 
         }

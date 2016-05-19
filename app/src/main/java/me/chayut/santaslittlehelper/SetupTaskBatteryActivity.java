@@ -39,9 +39,9 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent();
 
-                        //TODO: read value from UI before return
+                        //TODO[UI]: read value from UI before return
 
-                        //TODO: verify the the user input is valid
+                        //TODO[UI]: verify the the user input is valid
 
                         intent.putExtra(SantaLogic.EXTRA_SANTA_TASK_BATT,mTask);
                         setResult(RESULT_OK, intent);
@@ -75,7 +75,10 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
         {
             mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_BATT);
 
-            //TODO: if there is parcelable, load value to UI
+            // if there is parcelable, load value to UI
+
+            int batt = mTask.getmBattPercentage(); //TODO[UI], display this on UI
+
             tvActionDetail.setText(mTask.getAction().getTaskTypeString());
 
         }

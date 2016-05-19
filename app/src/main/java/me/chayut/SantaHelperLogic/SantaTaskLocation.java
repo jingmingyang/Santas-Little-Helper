@@ -29,6 +29,10 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
     private static final String TAG = "SantaTaskLocation";
     private SantaAction mAction;
     private float latitude = 0.0f;
+
+
+
+
     private float longitude =0.0f ;
     private float mRange = 0.0f;
     private String uuid;
@@ -91,6 +95,31 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
     }
 
     /** Setter and Getter */
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
+    public float getRange() {
+        return mRange;
+    }
+
+    public void setRange(float mRange) {
+        this.mRange = mRange;
+    }
+
     public SantaAction getAction() {
         return mAction;
     }
@@ -98,6 +127,9 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
     public void setAction(SantaAction mAction) {
         this.mAction = mAction;
     }
+
+
+
 
     public boolean isConditionMet(Location loc){
 
