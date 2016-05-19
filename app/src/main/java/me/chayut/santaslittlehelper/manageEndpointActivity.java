@@ -21,6 +21,7 @@ import me.chayut.SantaHelperLogic.EndPoint;
 import me.chayut.SantaHelperLogic.EndPointAdapter;
 import me.chayut.SantaHelperLogic.SantaLogic;
 
+@Deprecated
 public class ManageEndpointActivity extends AppCompatActivity {
 
 
@@ -33,8 +34,29 @@ public class ManageEndpointActivity extends AppCompatActivity {
     private ListView lvEndpoints;
     private EndPointAdapter mAdapter;
     private ArrayList<EndPoint> list = new ArrayList<EndPoint>();
+    /** Defines callbacks for service binding, passed to bindService() */
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            SantaService.LocalBinder binder = (SantaService.LocalBinder) service;
+            mService = binder.getService();
+            mLogic = mService.getSantaLogic();
+            mBound = true;
+
+            UIRefresh();
 
 
+            Log.d(TAG,mService.getHello());
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +111,6 @@ public class ManageEndpointActivity extends AppCompatActivity {
         lvEndpoints.setAdapter(mAdapter);
     }
 
-
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
@@ -118,31 +139,6 @@ public class ManageEndpointActivity extends AppCompatActivity {
             mBound = false;
         }
     }
-
-    /** Defines callbacks for service binding, passed to bindService() */
-    private ServiceConnection mConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
-            SantaService.LocalBinder binder = (SantaService.LocalBinder) service;
-            mService = binder.getService();
-            mLogic = mService.getSantaLogic();
-            mBound = true;
-
-            UIRefresh();
-
-
-            Log.d(TAG,mService.getHello());
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            mBound = false;
-        }
-    };
-
 
     /** Methods */
 

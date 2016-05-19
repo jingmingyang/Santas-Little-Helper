@@ -152,7 +152,7 @@ public class ManageLocationActivity extends AppCompatActivity {
 
         if(mBound){
 
-            //TODO: setup UI before add
+            //add new location
             Intent startAct2 = new Intent(ManageLocationActivity.this, SetupLocationActivity.class);
             startActivityForResult(startAct2,REQUEST_LOCATION);
             UIRefresh();

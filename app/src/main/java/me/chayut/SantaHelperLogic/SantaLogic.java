@@ -170,11 +170,33 @@ public class SantaLogic {
     }
 
     public SantaTask findTaskByUUID (String taskUUID){
-        SantaTask returnTask = null;
-        //TODO: return task from list by UUID
 
+        for (SantaTask mTask : taskList)
+        {
 
-        return returnTask;
+            if (mTask instanceof SantaTaskAppoint) {
+
+                SantaTaskAppoint task = (SantaTaskAppoint) mTask;
+                if (task.getUuid().equals(taskUUID)) {
+                    return mTask;
+                }
+            }
+            else if  (mTask instanceof SantaTaskLocation){
+                SantaTaskLocation task = (SantaTaskLocation) mTask;
+                if (task.getUuid().equals(taskUUID)) {
+                    return mTask;
+                }
+
+            }
+            else if  (mTask instanceof SantaTaskBattery){
+                SantaTaskBattery task = (SantaTaskBattery) mTask;
+                if (task.getUuid().equals(taskUUID)) {
+                    return mTask;
+                }
+            }
+        }
+
+        return null;
     }
 
     public boolean addLocation (SantaLocation location){
@@ -352,11 +374,37 @@ public class SantaLogic {
 
         switch (action.getTaskType()){
             case SantaAction.ACTION_EMAIL:
-                //TODO get info and send email
+                String email = action.getEmail();
+                String message = action.getMessage();
+
+                //TODO: zhenning -> send email
+
+                break;
+
+
             case SantaAction.ACTION_SMS:
-                //TODO: get info send sms
+
+                //get info
+                String phonenumber = action.getPhoneNumber();
+                String sms = action.getMessage();
+
+                //send sms
+                SantaFunction.sendSMS(mContext,phonenumber,sms);
+
+                break;
+
             case SantaAction.ACTION_WIFI:
-                //TODO: turn on/off wifi
+
+                action.getWifiState();
+
+                if(action.getWifiState())
+                {
+                    //TODO: turn on wifi
+                }
+                else {
+                    //TODO: turn off wifi
+                }
+
                 break;
             default:
         }

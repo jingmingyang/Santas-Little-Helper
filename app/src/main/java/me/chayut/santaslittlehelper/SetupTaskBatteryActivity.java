@@ -26,10 +26,8 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_task_battery);
 
-        //TODO: Setup up
 
-
-        //Get parcellable
+        //Get parcelable
         if(getIntent().hasExtra(SantaLogic.EXTRA_SANTA_TASK_BATT))
         {
             mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_BATT);
