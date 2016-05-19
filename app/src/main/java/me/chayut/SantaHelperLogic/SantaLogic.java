@@ -104,6 +104,7 @@ public class SantaLogic {
     private String mLoadedEmail = "";
     private String mLoadedPassword = "";
     private boolean creadentialLoaded = false;
+    private int mAccountNumber = 0;
     private Account mAccountSelected;
 
     public SantaLogic(Context context) {
@@ -247,20 +248,24 @@ public class SantaLogic {
     public void loadUserCredential()
     {
         AccountManager mAccountManager;
-        AlertDialog mAlertDialog;
 
         mAccountManager  = AccountManager.get(mContext);
         final Account availableAccounts[] = mAccountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE);
         if (availableAccounts.length == 0) {
-            Toast.makeText(mContext, "No account added", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(mContext, "No account added", Toast.LENGTH_SHORT).show();
+            creadentialLoaded = false;
+            return;
         }
         else {
             String name[] = new String[availableAccounts.length];
             for (int i = 0; i < availableAccounts.length; i++) {
                 name[i] = availableAccounts[i].name;
+
+                mAccountSelected = availableAccounts[0]; //TODO: just selected account
             }
 
             // Account picker
+            /*
             mAlertDialog = new AlertDialog.Builder(mContext).setTitle("Pick A Account").setAdapter(
                     new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, name),
                     new DialogInterface.OnClickListener() {
@@ -271,6 +276,7 @@ public class SantaLogic {
             }).create();
 
             mAlertDialog.show();
+            */
         }
 
         //TODO: Future: Maybe decrypt users' password
