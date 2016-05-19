@@ -1,11 +1,7 @@
 package me.chayut.SantaHelperLogic;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Location;
@@ -16,8 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 
 import com.google.gson.Gson;
@@ -134,7 +128,7 @@ public class SantaLogic {
         // Create a scheduled thread pool with 5 core threads
         sch = (ScheduledThreadPoolExecutor)
                 Executors.newScheduledThreadPool(5);
-        //TODO: set repeatiion time according to condition.
+        //TODO: set repetition time according to condition.
         ScheduledFuture<?> periodicFuture = sch.scheduleAtFixedRate(periodicTask, 0, 5, TimeUnit.MINUTES);
 
     }
@@ -401,8 +395,6 @@ public class SantaLogic {
         //TODO: call this function,  alarm missed when user miss the alarm
 
         //TODO take action
-
-
     }
     //endregion
 
