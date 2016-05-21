@@ -10,98 +10,111 @@
     tools:context="me.chayut.santaslittlehelper.SelectActionActivity">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:orientation="horizontal"
         android:weightSum = "1.0">
 
         <Button
+            android:id="@+id/btnCancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:id="@+id/btnCancel"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5"
+            android:text="Cancel"/>
 
         <Button
+            android:id="@+id/btnOK"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="OK"
-            android:id="@+id/btnOK"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5"
+            android:text="OK"/>
     </LinearLayout>
 
     <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send SMS"
         android:id="@+id/rbSMS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:checked="false" />
+        android:checked="false"
+        android:text="Send SMS" />
 
     <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send E-Mail"
         android:id="@+id/rbEmail"
-        android:layout_below="@+id/textView12"
-        android:layout_alignParentStart="true"
-        android:checked="false" />
-
-    <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Wifi"
-        android:id="@+id/rbWifi"
-        android:layout_below="@+id/textView10"
         android:layout_alignParentStart="true"
-        android:checked="false" />
+        android:layout_below="@+id/edit_SMS_content"
+        android:checked="false"
+        android:text="Send E-Mail" />
+
+    <RadioButton
+        android:id="@+id/rbWifi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edit_email_content"
+        android:checked="false"
+        android:text="Wifi" />
 
     <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="On/Off"
         android:id="@+id/switch1"
-        android:layout_below="@+id/rbWifi"
-        android:layout_alignParentStart="true" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Email:"
-        android:id="@+id/textView9"
-        android:layout_below="@+id/rbEmail"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Message:"
-        android:id="@+id/textView10"
-        android:layout_below="@+id/textView9"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Email:"
-        android:id="@+id/textView11"
-        android:layout_below="@+id/rbSMS"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Message:"
-        android:id="@+id/textView12"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView11"
-        android:layout_alignParentLeft="true" />
+        android:layout_below="@+id/rbWifi"
+        android:text="On/Off" />
+
+    <EditText
+        android:id="@+id/edit_email_recipient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rbEmail"
+        android:hint="Enter your email recipient here!"
+        android:inputType="textEmailAddress"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/edit_email_subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edit_email_recipient"
+        android:hint="Enter your email subject here!"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/edit_email_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edit_email_subject"
+        android:hint="Enter your email content here!"
+        android:lines="3"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/edit_SMS_recipient"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rbSMS"
+        android:hint="Enter your SMS recipient here!"
+        android:inputType="phone"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/edit_SMS_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edit_SMS_recipient"
+        android:hint="Type your message here!"
+        android:lines="2"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
 </RelativeLayout>
