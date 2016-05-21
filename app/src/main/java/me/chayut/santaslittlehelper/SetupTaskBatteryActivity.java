@@ -21,7 +21,8 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
     SantaTaskBattery mTask;
     private Button btnOK, btnCancel,btnSetAction;
     private TextView tvActionDetail;
-
+    private SeekBar volumeControl = null;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +30,27 @@ public class SetupTaskBatteryActivity extends AppCompatActivity {
 
 
         //Setup UI
+    volumeControl = (SeekBar)findViewById(R.id.seek1);
+    tvActionDetail = (TextView) findViewById(R.id.tvActionDetails);
+    volumeControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+    int progressChanged = 0;
 
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        progressChanged = progress;
+        mTask.setmBattPercentage(progressChanged);
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        Toast.makeText(SetupTaskBatteryActivity.this,"The Battery Volume: "+progressChanged,Toast.LENGTH_LONG).show();
+    }
+});
         tvActionDetail = (TextView) findViewById(R.id.tvActionDetails);
 
 
