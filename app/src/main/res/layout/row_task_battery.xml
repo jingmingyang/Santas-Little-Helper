@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Trigger Batt % : "
-        android:id="@+id/textView2" />
+        android:id="@+id/batteryvolume" />
 
     <TextView
         android:layout_width="wrap_content"
