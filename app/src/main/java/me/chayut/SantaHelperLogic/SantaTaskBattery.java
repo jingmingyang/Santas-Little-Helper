@@ -27,8 +27,7 @@ public class SantaTaskBattery extends SantaTask implements Parcelable {
     };
     private static final String TAG = "SantaTaskBattery";
     private int mBattPercentage = 0;
-    private String uuid;
-    private SantaAction mAction;
+
 
 
     public SantaTaskBattery(int thresholdPercentage,SantaAction action){
@@ -43,14 +42,6 @@ public class SantaTaskBattery extends SantaTask implements Parcelable {
         this.mAction = in.readParcelable(SantaAction.class.getClassLoader());
     }
 
-    @Override
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
 
     public int getmBattPercentage() {
         return mBattPercentage;
@@ -60,13 +51,6 @@ public class SantaTaskBattery extends SantaTask implements Parcelable {
         this.mBattPercentage = mBattPercentage;
     }
 
-    public SantaAction getAction() {
-        return mAction;
-    }
-
-    public void setAction(SantaAction mAction) {
-        this.mAction = mAction;
-    }
 
     @Override
     public JSONObject toJSONObject (){

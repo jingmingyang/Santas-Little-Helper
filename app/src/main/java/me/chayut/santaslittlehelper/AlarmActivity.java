@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.IBinder;
@@ -58,6 +59,7 @@ public class AlarmActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
         mediaPlayer = mediaPlayer.create(this,R.raw.pig);
@@ -72,8 +74,19 @@ public class AlarmActivity extends AppCompatActivity {
         {
             mTask =getIntent().getParcelableExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT);
             taskUUID = mTask.getUuid();
+            Log.d(TAG,"parcelable for:" + taskUUID);
         }
 
+        //set volume to max
+        AudioManager am =
+                (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+        final int origionalVolume = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+        am.setStreamVolume(
+                AudioManager.STREAM_MUSIC,
+                am.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
+                0);
 
         Toast.makeText(getApplicationContext(), "TIME UP", Toast.LENGTH_LONG).show();
 
@@ -82,8 +95,6 @@ public class AlarmActivity extends AppCompatActivity {
                 switch (msg.what) {
                     case 1:
                         if(ButtonCancel_clicked==0) {
-                            mediaPlayer.stop();
-                            AlarmActivity.this.finish();
 
                             Toast.makeText(getApplicationContext(), "Sorry, No One Heard the Alarm ", Toast.LENGTH_LONG).show();
 
@@ -95,6 +106,21 @@ public class AlarmActivity extends AppCompatActivity {
                                 Toast.makeText(getBaseContext(),"communication with logic error",
                                         Toast.LENGTH_SHORT).show();
                             }
+
+                            mediaPlayer.stop();
+
+                            //return volume to original
+                            AudioManager am =
+                                    (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+                            am.setStreamVolume(
+                                    AudioManager.STREAM_MUSIC,
+                                    origionalVolume,
+                                    0);
+
+
+                            AlarmActivity.this.finish();
+
                             break;
 
                         }
@@ -102,6 +128,7 @@ public class AlarmActivity extends AppCompatActivity {
                 super.handleMessage(msg);
             }
         };
+
         TimerTask task = new TimerTask(){
             public void run() {
                 Message message = new Message();
@@ -109,9 +136,10 @@ public class AlarmActivity extends AppCompatActivity {
                 handler.sendMessage(message);
             }
         };
+
         Timer timer;
         timer = new Timer(true);
-        timer.schedule(task, 1000 * 5);  //  Delay 1000ms *5    5s
+        timer.schedule(task, 1000 * 1 * 60);  //  Delay 1000ms *5    5s
 
         new AlertDialog.Builder(AlarmActivity.this).setTitle("alarm").setMessage("time up ~")
                 .setPositiveButton("close alarm", new DialogInterface.OnClickListener() {
@@ -119,7 +147,19 @@ public class AlarmActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         ButtonCancel_clicked = 1;
                         mediaPlayer.stop();
+
+                        //return volume to original
+                        AudioManager am =
+                                (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+                        am.setStreamVolume(
+                                AudioManager.STREAM_MUSIC,
+                                origionalVolume,
+                                0);
+
                         AlarmActivity.this.finish();
+
+
                     }
                 }).show();
     }
@@ -129,18 +169,25 @@ public class AlarmActivity extends AppCompatActivity {
         super.onResume();  // Always call the superclass method first
         Log.d(TAG, "onResume()");
 
-
         if(mBound){
             Log.d(TAG,mService.getHello());
+        }
+        else
+        {
+            // Bind to LocalService
+            Intent intent = new Intent(this, SantaService.class);
+            bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
         // Bind to LocalService
         Intent intent = new Intent(this, SantaService.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
     }
 
     @Override

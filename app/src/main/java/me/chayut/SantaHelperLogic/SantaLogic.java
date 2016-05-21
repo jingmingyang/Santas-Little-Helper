@@ -85,6 +85,7 @@ public class SantaLogic {
                     @Override
                     public void run() {
 
+
                         checkTimeOnTaskAppoint();
                         //TODO: check anything on UI thread
                     } // This is your code
@@ -132,7 +133,7 @@ public class SantaLogic {
         sch = (ScheduledThreadPoolExecutor)
                 Executors.newScheduledThreadPool(5);
         //TODO: set repetition time according to condition.
-        ScheduledFuture<?> periodicFuture = sch.scheduleAtFixedRate(periodicTask, 0, 5, TimeUnit.MINUTES);
+        ScheduledFuture<?> periodicFuture = sch.scheduleAtFixedRate(periodicTask, 0, 1, TimeUnit.MINUTES);
 
     }
 
@@ -335,7 +336,7 @@ public class SantaLogic {
 
     public void sendEmailTest(String email,String password)
     {
-        //TODO:use loadedUserCredential
+
         try {
             EmailSender sender = new EmailSender(email, password);
             sender.sendMail("Test 2 ",
@@ -418,9 +419,11 @@ public class SantaLogic {
 
     public void checkTimeOnTaskAppoint(){
 
+        Log.d(TAG,"checkTimeOnTaskAppoint()");
+
         for (SantaTask mTask : taskList)
         {
-            if (mTask instanceof SantaTaskBattery) {
+            if (mTask instanceof SantaTaskAppoint) {
                 SantaTaskAppoint task = (SantaTaskAppoint) mTask;
 
                 if(task.isConditionMet()){
@@ -430,8 +433,10 @@ public class SantaLogic {
                     i.putExtra(SantaLogic.EXTRA_SANTA_TASK_APPOINT,task);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                    Log.e(TAG,"HEHEHE running~");
+                    Log.d(TAG,"HEHEHE running~");
                     mContext.startActivity(i);
+
+                    removeTaskByUUID(mTask.uuid);
                 }
 
             }
@@ -440,6 +445,7 @@ public class SantaLogic {
     }
 
     public void onAlarmMissed(String uuid){
+        Log.d(TAG,"onAlarmMissed()");
         //call this function,  alarm missed when user miss the alarm
         SantaTaskAppoint task= (SantaTaskAppoint) getTaskByUUID(uuid);
 

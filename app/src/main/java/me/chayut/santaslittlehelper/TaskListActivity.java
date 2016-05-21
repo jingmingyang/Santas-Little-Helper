@@ -128,7 +128,8 @@ public class TaskListActivity extends AppCompatActivity {
 
                                 break;
                             case 1:
-                                list.remove(position);
+                                SantaTask mTask2 = list.get(position);
+                                mLogic.removeTaskByUUID(mTask2.getUuid());
                                 UIRefresh();
                                 break;
                         }

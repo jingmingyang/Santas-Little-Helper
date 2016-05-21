@@ -30,8 +30,6 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
         }
     };
     private static final String TAG = "SantaTaskAppoint";
-    private SantaAction mAction;
-    private String uuid;
     private String timeString  = "" ;
 
     public SantaTaskAppoint(SantaAction mAction, String uuid, String timeString) {
@@ -80,22 +78,15 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
 
     /** getter setter */
 
-    @Override
-    public String getUuid() {
-        return uuid;
+    public String getTimeString() {
+        return timeString;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setTimeString(String timeString) {
+        this.timeString = timeString;
     }
 
-    public SantaAction getAction() {
-        return mAction;
-    }
 
-    public void setAction(SantaAction mAction) {
-        this.mAction = mAction;
-    }
 
     public boolean isConditionMet(){
 
@@ -119,13 +110,7 @@ public class SantaTaskAppoint extends SantaTask implements Parcelable {
         return false;
     }
 
-    public String getTimeString() {
-        return timeString;
-    }
 
-    public void setTimeString(String timeString) {
-        this.timeString = timeString;
-    }
 
     @Override
     public int describeContents() {

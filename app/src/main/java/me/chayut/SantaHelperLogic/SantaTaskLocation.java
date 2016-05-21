@@ -27,7 +27,6 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
         }
     };
     private static final String TAG = "SantaTaskLocation";
-    private SantaAction mAction;
     private float latitude = 0.0f;
 
 
@@ -35,7 +34,6 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
 
     private float longitude =0.0f ;
     private float mRange = 0.0f;
-    private String uuid;
 
     public SantaTaskLocation(SantaAction mAction, float latitude, float longitude, float mRange) {
         this.mAction = mAction;
@@ -120,13 +118,7 @@ public class SantaTaskLocation extends SantaTask implements Parcelable  {
         this.mRange = mRange;
     }
 
-    public SantaAction getAction() {
-        return mAction;
-    }
 
-    public void setAction(SantaAction mAction) {
-        this.mAction = mAction;
-    }
 
 
 
