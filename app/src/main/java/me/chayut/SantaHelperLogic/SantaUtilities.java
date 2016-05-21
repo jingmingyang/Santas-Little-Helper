@@ -76,8 +76,9 @@ public class SantaUtilities {
 
                 Log.d(TAG, "Encrypt to file: " + fileNameEnc);
 
+                //remove
                 // delete the source config file
-                boolean isDeleted  = file.delete();
+                 boolean isDeleted  = file.delete();
                 Log.d(TAG, "Configure file deleted? "+Boolean.toString(isDeleted));
 
             } catch (Exception e) {
@@ -104,17 +105,17 @@ public class SantaUtilities {
 
                 int pos = filePath.lastIndexOf('.');
                 String filenameEnc = filePath.substring(0, pos) + ".enc";
-                String filenameDec = filename;
-                Log.d(TAG,"decrypting file: " + filenameEnc);
+                String filenameDec = filePath;
+                Log.d(TAG,"decrypting from file: " + filenameEnc);
 
                 DataEncryption mEncrypter = new DataEncryption();
                 mEncrypter.setBlocksize(128);
                 mEncrypter.decryptFile(filenameDec, filenameEnc);
 
-                Log.d(TAG,"Done decrpting file: " + filenameDec);
+                Log.d(TAG,"Done decrpting to file: " + filenameDec);
 
                 //load file
-                File file = new File(Environment.getExternalStorageDirectory(), filenameDec);
+                File file = new File(Environment.getExternalStorageDirectory(), filename);
 
                 FileInputStream fIn = new FileInputStream(file);
                 BufferedReader myReader = new BufferedReader(new InputStreamReader(fIn));

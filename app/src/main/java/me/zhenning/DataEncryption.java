@@ -1,5 +1,6 @@
 package me.zhenning;
 
+import android.util.Base64;
 import android.util.Log;
 
 import java.io.File;
@@ -17,6 +18,8 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
 /**
  * Created by user on 2016/4/12.
  */
@@ -30,10 +33,21 @@ public class DataEncryption {
         KeyGenerator kgen;
         mKey = null;
         try {
+
+            byte[] encodedKey     = Base64.decode("r1GqRCkvIk3zKDOz5CoLy8PegwutVgQ3", Base64.DEFAULT);
+            SecretKey originalKey = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
+
+            mKey = originalKey;
+
+            /*
             kgen = KeyGenerator.getInstance("AES");
             mKey = kgen.generateKey();
+            String stringKey = Base64.encodeToString(mKey.getEncoded(), Base64.DEFAULT);
 
-        } catch (NoSuchAlgorithmException e) {
+            Log.d(TAG,"Key:" + stringKey);
+            */
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
