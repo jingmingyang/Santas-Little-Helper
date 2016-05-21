@@ -67,7 +67,8 @@ public class SantaTaskAdapter extends ArrayAdapter<SantaTask>  {
             Log.d(TAG,"SantaTaskBattery");
             rowView = inflater.inflate(R.layout.row_task_battery, parent, false);
             SantaTaskBattery task = (SantaTaskBattery) mTask;
-
+            TextView batteryvolume = (TextView)rowView.findViewById(R.id.batteryvolume);
+            batteryvolume.setText("Trigger Batt "+task.getmBattPercentage()+" %");
             TextView tvActionSummary = (TextView) rowView.findViewById(R.id.tvTaskSummary);
             tvActionSummary.setText("Action: " + task.getAction().getTaskTypeString() );
         }
