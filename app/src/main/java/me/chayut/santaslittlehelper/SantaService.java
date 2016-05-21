@@ -19,33 +19,19 @@ import me.chayut.SantaHelperLogic.SantaLogic;
 public class SantaService extends Service {
 
     private final static String TAG = "SantaService";
-
+    // Binder given to clients
+    private final IBinder mBinder = new LocalBinder();
     private SantaLogic mSantaLogic;
     private boolean mLogicInitialized = false;
 
-    // Binder given to clients
-    private final IBinder mBinder = new LocalBinder();
-
     /** Constructor */
     public SantaService() {
-    }
-
-    /**
-     * Class used for the client Binder.  Because we know this service always
-     * runs in the same process as its clients, we don't need to deal with IPC.
-     */
-    public class LocalBinder extends Binder {
-        SantaService getService() {
-            // Return this instance of LocalService so clients can call public methods
-            return SantaService.this;
-        }
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
     }
-
 
     public void onCreate() {
         Log.i(TAG, "Service onCreate()");
@@ -56,16 +42,12 @@ public class SantaService extends Service {
 
         Log.i(TAG, "onStartCommand()");
 
-        if (intent.hasExtra("Extra")){
-            Log.i(TAG, "Has Extra");
-        }
-
         if(!mLogicInitialized) {
             mSantaLogic = new SantaLogic(this);
             mLogicInitialized = true;
         }
 
-        return 0;
+        return 1;
     }
 
     /** method for clients */
@@ -84,6 +66,17 @@ public class SantaService extends Service {
 
         }
         return mSantaLogic;
+    }
+
+    /**
+     * Class used for the client Binder.  Because we know this service always
+     * runs in the same process as its clients, we don't need to deal with IPC.
+     */
+    public class LocalBinder extends Binder {
+        SantaService getService() {
+            // Return this instance of LocalService so clients can call public methods
+            return SantaService.this;
+        }
     }
 
 

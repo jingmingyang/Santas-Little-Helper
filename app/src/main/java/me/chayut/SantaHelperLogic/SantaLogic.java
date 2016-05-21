@@ -72,6 +72,9 @@ public class SantaLogic {
         public void onProviderEnabled(String provider) {}
         public void onProviderDisabled(String provider) {}
     };
+    //location
+    private LocationManager locationManager;
+    private boolean isLocationListenerRegistered = false;
     final Runnable periodicTask = new Runnable(){
 
         Handler mHandler = new Handler(Looper.getMainLooper());
@@ -86,8 +89,30 @@ public class SantaLogic {
                     public void run() {
 
 
+                        //This section will run every minute
+
+                        //check list for time
                         checkTimeOnTaskAppoint();
+
+
                         //TODO: check anything on UI thread
+
+                        //location monitoring stuff
+                        if(hasLocationTask()) {
+                            if (!isLocationListenerRegistered) {
+                                initLocMon();
+                            }
+                        }
+                        else
+                        {
+                            //there is no task about location
+                            if(isLocationListenerRegistered)
+                            {
+                                stopLocMon();
+                            }
+                        }
+
+
                     } // This is your code
                 };
                 mHandler.post(myRunnable);
@@ -98,7 +123,7 @@ public class SantaLogic {
             }
         }
     };
-    private LocationManager locationManager;
+    private int mBattPercentage = 50;
     private String mLoadedEmail = "";
     private String mLoadedPassword = "";
     private boolean creadentialLoaded = false;
@@ -129,12 +154,24 @@ public class SantaLogic {
         initLocMon();
 
         //start periodical task
-        // Create a scheduled thread pool with 5 core threads
+        // Create a scheduled thread pool with 3 core threads
         sch = (ScheduledThreadPoolExecutor)
-                Executors.newScheduledThreadPool(5);
+                Executors.newScheduledThreadPool(3);
         //TODO: set repetition time according to condition.
         ScheduledFuture<?> periodicFuture = sch.scheduleAtFixedRate(periodicTask, 0, 1, TimeUnit.MINUTES);
 
+    }
+
+    public boolean hasLocationTask()
+    {
+        for (SantaTask mTask : taskList)
+        {
+            if (mTask instanceof SantaTaskLocation) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public boolean addEndPoint (EndPoint mEP){
@@ -400,6 +437,8 @@ public class SantaLogic {
     public void onBatteryPercentageReceived(int percentage){
         Log.d(TAG,String.format("Batt: %d",percentage));
 
+        mBattPercentage = percentage; //keep track of the batt for location optimization
+
         for (SantaTask mTask : taskList)
         {
             if (mTask instanceof SantaTaskBattery) {
@@ -414,7 +453,6 @@ public class SantaLogic {
             }
 
         }
-
     }
 
     public void checkTimeOnTaskAppoint(){
@@ -454,7 +492,6 @@ public class SantaLogic {
 
             SantaAction action = task.getAction();
             executeAction(action);
-
             //TODO[L]:remove from list
         }
 
@@ -508,13 +545,9 @@ public class SantaLogic {
         }
 
     }
-
-
     //endregion
 
     //region JSON config
-
-
 
     /** JSON Section   */
 
@@ -720,6 +753,12 @@ public class SantaLogic {
         catch (SecurityException e) {
             e.printStackTrace();
         }
+    }
+
+    private void stopLocMon(){
+
+        locationManager.removeUpdates(locationListener);
+
     }
 
     //endregion

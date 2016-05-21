@@ -139,7 +139,7 @@ public class AlarmActivity extends AppCompatActivity {
 
         Timer timer;
         timer = new Timer(true);
-        timer.schedule(task, 1000 * 1 * 60);  //  Delay 1000ms *5    5s
+        timer.schedule(task, 1000 * 1 * 15);  //  Delay 1000ms *5    5s
 
         new AlertDialog.Builder(AlarmActivity.this).setTitle("alarm").setMessage("time up ~")
                 .setPositiveButton("close alarm", new DialogInterface.OnClickListener() {
