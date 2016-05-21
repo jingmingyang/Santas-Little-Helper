@@ -89,13 +89,12 @@ public class SantaLogic {
                     public void run() {
 
 
-                        //This section will run every minute
+                        //TODO[note]:This section will run every minute
+                        //check anything on UI thread
 
                         //check list for time
                         checkTimeOnTaskAppoint();
 
-
-                        //TODO: check anything on UI thread
 
                         //location monitoring stuff
                         if(hasLocationTask()) {
@@ -113,7 +112,7 @@ public class SantaLogic {
                         }
 
 
-                    } // This is your code
+                    }
                 };
                 mHandler.post(myRunnable);
 
